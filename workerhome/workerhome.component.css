@@ -1,0 +1,63 @@
+body{
+	background-image: url("../../assets/imgs/barn3.jpg");
+	background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+#navbar{
+	background-color: rgba(0,0,0,0.8);
+}
+
+#navbar a{
+	color:white;
+	font-weight: bold;
+}
+
+#navbar a:hover{
+	color: white;
+	text-decoration: underline;
+}
+
+.navbar-toggler{
+	background-color: white;
+}
+
+.pending{
+	width: 100%;
+}
+
+.priority{
+	width: 100%;
+}
+
+.row{
+	background-color: rgba(0,0,0,0.5);
+	height: 100%;
+	color: white;
+}
+
+table tr td{
+	text-align: center;
+	color: white;
+}
+
+ul{
+	list-style-type: none;
+}
+
+.xxx{
+	color: white;
+	padding: auto;
+	color: red;
+}
+
+.yyy{
+	color: green;
+}
+
+h1{
+	text-align: center;
+	margin-top: 30px;
+	margin-bottom: 20px;
+}

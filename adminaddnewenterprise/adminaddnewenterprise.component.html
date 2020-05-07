@@ -1,0 +1,67 @@
+<body>
+	<nav id="navbar" class="navbar navbar-expand-sm navbar-light">
+		<a class="navbar-brand" routerLink ="/adminhome">Home </a>	
+		<a class="nav-link" routerLink ="/adminallclients">All clients </a>
+		<a class="nav-link" routerLink ="/adminaddnewfarmer">Add new farmer </a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <i class="fas fa-hamburger"></i>
+	  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	    </ul>
+
+	    <ul class="navbar-nav">
+	      <li class="nav-item">
+	        <a class="nav-link" routerLink="/password"> Change Password</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" routerLink="/">Log Out </a>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
+
+	<div class="container register-form">
+	    <div class="form">
+	        <div class="note">
+	            <p>Add a new enterprise</p>
+	        </div>
+
+	        <form method="POST" action="" [formGroup]="enterpriseForm">
+		        <div class="form-content">
+		            <div class="row">
+		                <div class="col-md-6">
+		                    <div class="form-group">
+		                        <input type="text" class="form-control" placeholder="Name of the enterprise" formControlName="name">
+		                    </div>
+		                    <div class="form-group">
+		                        <input type="text" class="form-control" placeholder="Abbreviation - your future username" formControlName="username">
+		                    </div>
+		                    <div class="form-group">
+		                        <input type="text" class="form-control" placeholder="Password" formControlName="password">
+		                    </div>
+		                    <div class="form-group">
+		                        <input type="text" class="form-control" placeholder="Confirm password" formControlName="confirm_password">
+		                    </div>
+		                </div>
+		                <div class="col-md-6">
+		                	<div class="form-group">
+								<input placeholder="Foundation date" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="date" formControlName="foundation_date">		                    
+							</div>
+		                     <div class="form-group">
+		                        <input type="text" class="form-control" placeholder="Place of foundation" formControlName="place">
+		                    </div>
+		                     <div class="form-group">
+		                        <input type="text" class="form-control" placeholder="E-mail address" formControlName="mail">
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="button">
+		            	<button type="button" class="btnSubmit" (click)="register_enterprise()"> Submit </button>		            	
+					</div>
+		        </div>
+	        </form>
+	    </div>
+    </div>
+</body>

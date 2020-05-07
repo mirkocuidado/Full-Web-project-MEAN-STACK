@@ -1,0 +1,117 @@
+body{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("../../assets/imgs/nova1.jpg");
+    background-color: rgba(0,0,0,0.5);
+    height: 100vh;
+    font-size: 22px;
+  }
+  
+  hr{
+      border-top: 1px solid #000 !important;
+  }
+  
+  .row{
+      margin-right: 0px;
+      margin-left: 0px;
+  }
+  
+  .comment{
+      margin-right: 20px;
+      margin-left: 20px; 
+      margin-bottom: 30px;
+  }
+  
+  .head{
+      margin-bottom: 10px;
+  }
+  
+  .user{
+      margin-right: 10px;
+      color: yellowgreen;
+      font-size: 20px;
+  }
+  
+  #navbar{
+    background-color: rgba(0,0,0,0.7);
+  }
+  
+  #navbar a{
+    color:white;
+    font-weight: bold;
+  }
+  
+  #navbar a:hover{
+    color: white;
+    text-decoration: underline;
+  }
+  
+  .navbar-toggler{
+    background-color: white;
+  }
+  
+  hr{
+      border-top: 1px solid #ffffff !important;
+      width: 100%;
+  }
+  
+  .row{
+      margin-right: 0px;
+      margin-left: 0px;
+      
+  }
+  
+  .main{
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      height: 100%;
+      padding-top: 30px;
+  }
+  
+  .comment{
+      margin-right: 20px;
+      margin-left: 20px; 
+      margin-bottom: 30px;
+  }
+  
+  .head{
+      margin-bottom: 10px;
+  }
+  
+  .user{
+      margin-right: 10px;
+      font-size: 15px;
+  }
+  
+  h1, h2, h3, h4{
+      text-align: center;
+  }
+  
+  table tr td{
+      text-align: center;
+      color: white;
+  }
+  
+  .prName{
+      margin-bottom: 32px;
+  }
+  
+  .comment_class{
+      margin-top: 70px;
+  }
+
+  .prOstalo{
+      display: none;
+  }
+
+  .ovaKlasa{
+      display: block;
+  }
+
+  .area{
+      width: 100%;
+  }
+
+  p{
+      font-size: 20px;
+  }

@@ -1,0 +1,141 @@
+<body>
+
+	<nav id="navbar" class="navbar navbar-expand-sm navbar-light">
+	  <a class="navbar-brand" routerLink="../../workerhome/{{name}}">Home</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <i class="fas fa-hamburger"></i>
+	  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	    </ul>
+
+	    <ul class="navbar-nav">
+	      <li class="nav-item">
+	        <a class="nav-link" routerLink="/password"> Change Password</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" routerLink="">Log Out </a>
+	      </li>
+	    </ul>
+	  </div>
+  </nav>
+  
+ <div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-lg-8 ha">
+            <h1> All your companies products </h1>
+            <table class="table">
+                <tr>
+                    <td> Name </td>
+                    <td> Price </td>
+                    <td> Available </td>
+                    <td> Withdraw </td>
+                    <td> More details</td>
+                </tr>
+                <tr *ngFor="let o of offers">
+                    <td> {{o.name}} </td>
+                    <td> {{o.price}} </td>
+                    <td> {{o.qAvailable}} </td>
+                    <td> <i class="fas fa-arrow-left" (click)="vrati(o.name)"></i> </td>
+                    <td> <i class="fas fa-comment-dots" routerLink="../../comments/{{name}}/{{o.name}}/{{name}}"> </i></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-12 col-lg-4 haha">
+
+            <h1> Add to the store </h1>
+            <mat-vertical-stepper linear #stepper class="mat">
+                <mat-step [stepControl]="firstFormGroup"[completed]="false">
+                  <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Name of the product</ng-template>
+                    <mat-form-field>
+                      <input matInput formControlName="firstCtrl" placeholder="______________________" required>
+                    </mat-form-field>
+                    <br>
+                    <div>
+                      <button class="btn btn-info" mat-button matStepperNext>Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="secondFormGroup" [completed]="false">
+                  <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Price of the product</ng-template>
+                    <mat-form-field>
+                            <input matInput formControlName="secondCtrl" placeholder="______________________" required>
+                        </mat-form-field>
+                        <br>
+                    <div>
+                      <button class="btn btn-danger" mat-button matStepperPrevious>Back</button> &nbsp;
+                      <button class="btn btn-info" mat-button matStepperNext>Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="thirdFormGroup" [completed]="false">
+                    <form [formGroup]="thirdFormGroup">
+                      <ng-template matStepLabel>How many are you adding?</ng-template>
+                      <mat-form-field>
+                              <input matInput formControlName="thirdCtrl" placeholder="____________________" required>
+                          </mat-form-field>
+                         <br>
+                      <div>
+                        <button class="btn btn-danger" mat-button matStepperPrevious>Back</button> &nbsp;
+                        <button class="btn btn-info" mat-button matStepperNext>Next</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step [stepControl]="fourthFormGroup" [completed]="false">
+                    <form [formGroup]="fourthFormGroup">
+                      <ng-template matStepLabel>Plant or Product?</ng-template>
+                      <mat-form-field>
+                        <input matInput formControlName="fourthCtrl" placeholder="____________________" required>
+                          </mat-form-field>
+                          <br>                      
+                          <div>
+                        <button class="btn btn-danger" mat-button matStepperPrevious>Back</button> &nbsp;
+                        <button class="btn btn-info" mat-button matStepperNext>Next</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                  <mat-step [stepControl]="fifthFormGroup" [completed]="false">
+                    <form [formGroup]="fifthFormGroup">
+                      <ng-template matStepLabel> Speed </ng-template>
+                      <mat-form-field>
+                        <input matInput formControlName="fifthCtrl" placeholder="____________________" required>
+                          </mat-form-field>
+                          <br>                      
+                          <div>
+                        <button class="btn btn-danger" mat-button matStepperPrevious>Back</button> &nbsp;
+                        <button class="btn btn-info" mat-button matStepperNext>Next</button>
+                      </div>
+                    </form>
+                  </mat-step>
+                <mat-step>
+                  <ng-template matStepLabel>Done</ng-template>
+                  <p>You are now done.</p>
+                  <div>
+                    <button class="btn btn-danger" mat-button matStepperPrevious>Edit</button> &nbsp;
+                    <button class="btn btn-info" mat-button (click)="submit()">Submit</button>
+                  </div>
+                </mat-step>
+              </mat-vertical-stepper>
+
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>

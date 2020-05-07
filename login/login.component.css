@@ -1,0 +1,73 @@
+body{
+    background-image: url('../../assets/imgs/polje.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    font-family: 'Numans', sans-serif;
+}
+
+.container{
+    height: 100%;
+    align-content: center;
+    padding-top: 100px;
+}
+
+.card{
+    height: 370px;
+    width: 500px;
+    background-color: rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.card-header h3{
+    color: white;
+}
+
+#side-icon{
+    width: 40px;
+    background-color: #1163cf;
+    color: black;
+    border:0;
+}
+
+.remember{
+    color: white;
+}
+
+.remember input{
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+
+.login_btn{
+    color: black;
+    background-color: white;
+    width: 100px;
+    padding-bottom: 2px;
+}
+
+.login_btn:hover{
+    color: black;
+    background-color: white;
+}
+
+.signup{
+    color:white;
+    text-align: center;
+}
+
+.signup{
+    text-align: center;    
+}
+
+.signup a{
+    color: white;
+    margin-left: 4px;
+}
+
+.forgot a{
+    color:white;
+}
+

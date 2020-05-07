@@ -1,0 +1,99 @@
+<body>
+    <nav id="navbar" class="navbar navbar-expand-sm navbar-light">
+        <a class="navbar-brand" routerLink={{linkHome}}>Home</a>
+        <a class="nav-link" routerLink={{linkSto}}> Storage </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-hamburger"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+            <a class="nav-link" routerLink="/password"> Change Password</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" routerLink="">Log Out </a>
+            </li>
+        </ul>
+        </div>
+  </nav>
+
+  <div class="row row1">
+    <div class="col-sm-8 offer" > 
+      <div class="row" *ngFor="let pr of enterprises; let p = index" >
+        <div class="col-sm-3 offer-company" *ngIf="svi[p]!=0">
+          <table class="table company-table">
+            <tr>
+              <td id="company-name"> {{enterprises[p].name}} </td>
+            </tr>
+            <tr>
+              <td> {{enterprises[p].place}} </td>
+            </tr>
+            <tr>
+              <td> {{enterprises[p].mail}} </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-sm-9 offer-table" *ngIf="svi[p]!=0">
+          <table class="table tablee">
+            <tr>
+              <td> Name </td>
+              <td> Type </td>
+              <td> Price </td>
+              <td> Available </td>
+              <td> Average grade </td>
+              <td> Order </td>
+            </tr>
+            <tr *ngFor="let proizvod of svi[p]">
+              <td> <a routerLink="/../../comments/{{username}}/{{proizvod.name}}/{{proizvod.enterprise}}"> {{proizvod.name}} </a> </td>
+              <td *ngIf="proizvod.tip=='pl'"> Seedling </td> <td *ngIf="proizvod.tip=='pr'"> Product </td>
+              <td> {{proizvod.price}}</td>
+              <td> {{proizvod.qAvailable}} </td>
+              <td *ngIf="proizvod.numOfGrades!=0"> {{ ( proizvod.grade/proizvod.numOfGrades) }} </td>
+              <td *ngIf="proizvod.numOfGrades==0"> 0 </td>
+              <td> <i class="fas fa-shopping-cart" (click)="add(proizvod.name, proizvod.price, enterprises[p].abb)"></i> </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+            
+    <div class="col-sm-4 order">
+      <h2> Your order </h2>
+      <table class="table table-orders">
+        <tr>
+          <td> Name </td>
+          <td> Quantity </td>
+          <td> Price </td>
+          <td> Cancel </td>
+        </tr>
+        <tr *ngFor="let p of orderList; let q = index">
+            <td *ngIf="p.quantity!=0"> {{p.name}} </td>
+            <td *ngIf="p.quantity!=0"> {{p.quantity}} </td>
+            <td *ngIf="p.quantity!=0"> {{p.price }}</td>
+            <td *ngIf="p.quantity!=0"> <i class="fas fa-times X" (click)="delete(q)"></i> </td>
+        </tr>
+        <br>
+      </table>
+      <div class="help">
+            Total amount: <span> {{amount}} </span>
+            <button type="button" class="btn btn-success btnSubmit orderbtn" (click)="order()" > Order </button>   
+    </div>
+    
+    
+    <div class="haha" [class.show]='a===1'>
+        <form method="POST">
+            
+            How many would you like? 
+            <input type="number" class="form-control" placeholder="Insert the quantity here" name="num" [(ngModel)]="num">
+                    
+            <button type="button" class="btn btn-success btnSubmit" (click)="submit()"> Add </button>
+        </form>
+    </div>
+    </div>
+  </div>
+</body>

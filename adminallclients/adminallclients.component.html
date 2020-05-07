@@ -1,0 +1,80 @@
+<body>
+
+	<nav id="navbar" class="navbar navbar-expand-sm navbar-light">
+	  <a class="navbar-brand" routerLink ="/adminhome"> Home </a>	
+	  <a class="nav-link" routerLink ="/adminaddnewfarmer">Add new farmer </a>
+	  <a class="nav-link" routerLink ="/adminaddnewenterprise">Add new enterprise </a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <i class="fas fa-hamburger"></i>
+	  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	    </ul>
+
+	    <ul class="navbar-nav">
+	      <li class="nav-item">
+	        <a class="nav-link" routerLink="/password"> Change Password</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" routerLink="/">Log Out </a>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
+
+	<div id="heading_admin">
+		<h2> Here is the list of all the clients in the system </h2>
+	</div>
+
+	<div class="container">
+
+		<div class="row">
+			<div class=" col-lg-6 col-md-6 col-sm-6">
+				<div id="tablee" style="overflow-x:auto;">
+					<table class="table">
+					  <thead id="pom">
+					    <tr>
+					      <th> Client's first name </th>
+					      <th> Client's username </th>
+					      <th> Decision </th>
+					    </tr>
+					  </thead>
+					  <tbody *ngFor = "let f of farmers">
+					    <tr>
+					      <td>{{f.first_name}}</td>
+					      <td>{{f.username}}</td>
+					      <td>  <button class="btn btn-info decision" (click)="edit_farmer(f.username)"> <i class="fas fa-pen"></i> </button>
+					      		<button class="btn btn-danger decision" (click)="remove_farmer(f.username)"> <i class="fas fa-times"></i> </button> 
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+			
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<div id="tablee" style="overflow-x:auto;">
+					<table class="table">
+					  <thead id="pom">
+					    <tr>
+					      <th> Name of the enterprise </th>
+					      <th> Username </th>
+					      <th> Desicion</th>
+					    </tr>
+					  </thead>
+					  <tbody *ngFor = "let e of enterprises">
+					    <tr>
+					      <td>{{e.name}}</td>
+					      <td>{{e.username}}</td>
+					      <td> <button class="btn btn-info decision" (click)="edit_enterprise(e.username)"> <i class="fas fa-pen"></i></button>
+					      		<button class="btn btn-danger decision"  (click)="remove_enterprise(e.username)"> <i class="fas fa-times"></i> </button> 
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+        </div>
+    </div>
+</body>

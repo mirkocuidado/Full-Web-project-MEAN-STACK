@@ -1,0 +1,68 @@
+.note{
+    text-align: center;
+    height: 80px;
+    background-color: rgba(0,0,0,0.5) !important;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 80px;
+}
+
+body{
+	background-image: url("../../assets/imgs/zreliji kukuruz.jpeg");
+	background-size: cover;
+	background-repeat: no-repeat;
+    padding-top: 100px;
+    font-family: 'Numans', sans-serif;
+    height: 100vh;
+}
+
+.form-content{
+    padding: 5%;
+    padding-top: 15px;
+    border: 1px solid #ced4da;
+    margin-bottom: 2%;
+    background-color: rgba(0,0,0,0.5);
+    border: 0px;
+}
+
+.form-control{
+    border-radius:1.5rem;
+}
+
+.btnSubmit{
+    border:none;
+    border-radius:1.5rem;
+    padding: 1%;
+    width: 20%;
+    background: #fff;
+    color: #000;
+}
+
+#check{
+    margin-left: 10px;
+    width: 15px;
+    height: 15px;
+}
+
+.check-me{
+    color: white;
+    font-size: 18px;
+}
+
+.button{
+	padding-top: 20px;
+    text-align: center;
+    font-size: 19px;
+}
+
+.already{
+    text-align: center;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.already a{
+    color: white;
+}
+

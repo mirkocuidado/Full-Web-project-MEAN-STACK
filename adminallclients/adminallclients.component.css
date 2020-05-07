@@ -1,0 +1,108 @@
+body{
+	background-image: url("../../assets/imgs/people.jpeg");
+	background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+#navbar{
+	background-color: rgba(0,0,0,0.5);
+}
+
+#navbar a{
+	color:white;
+	font-weight: bold;
+}
+
+#navbar a:hover{
+	color: white;
+	text-decoration: underline;
+}
+
+.navbar-toggler{
+	background-color: white;
+}
+
+i{
+	width: 20px;
+}
+
+a{
+	color: white;
+}
+
+a:hover{
+	color: white;
+	text-decoration: underline;
+}
+
+#heading_admin{
+	margin-top: 20px;
+}
+
+.container{
+	margin-top: 20px;
+	padding-right: 35px;
+	padding-left: 0px;
+	background-color: white;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.row{
+	padding-left: 20px;
+	padding-right: 10px;
+}
+
+h3, h2{
+	text-align: center;
+	padding-bottom: 10px;
+	color: white;
+}
+
+table tr td, table tr th{
+	text-align: center;
+	color: white;
+	font-weight: bold;
+}
+
+table tr th{
+	font-size: 16px;
+}
+
+table tr td{
+	font-size: 18px;
+}
+
+tr{
+	border-bottom: 1px solid #dee2e6;
+}
+
+#pom th{
+	border-top: 0px;
+}
+
+.center {
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  margin-left: 30px;
+}
+
+.btnSubmit{
+    border:none;
+    border-radius:1.5rem;
+    padding: 1%;
+    width: 70%;
+    color: #fff;
+    height:40px;
+    margin-bottom: 20px;
+}
+
+.decision{
+	height: 30px;
+	width: 30px;
+	text-align: center;
+	margin: auto;
+	padding: 0;
+}

@@ -1,0 +1,208 @@
+body{
+	background-image: url("../../assets/imgs/nova4.jpg");
+	background-color: white;
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: white;
+}
+
+#navbar{
+	background-color: rgba(0,0,0,0.5);
+}
+
+#navbar a{
+	color:white;
+	font-weight: bold;
+}
+
+#navbar a:hover{
+	color: white;
+	text-decoration: underline;
+}
+
+.navbar-toggler{
+	background-color: white;
+}
+
+h1{
+	text-align: center;
+}
+
+.a, .b, .c{
+	height: 100vh;
+}
+
+.c{
+    padding: 0;
+}
+
+.a{
+	padding: 0;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.b{
+	background-color: rgba(0,0,0,0.5);
+}
+
+.crna{
+	background-color: black;
+}
+    
+.center1{
+    width: 100%;
+    height: 70%;
+	border: none;
+  	margin: 0;
+  	position: absolute;
+  	top: 50%;
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+
+.right1{
+    width: 100%;
+	border: none;
+  	margin: 0;
+  	position: absolute;
+  	top: 50%;
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+
+.levo1{
+    color: white;
+    width: 100%;
+	border: none;
+  	position: absolute;
+  	top: 50%;
+  	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	background-color: rgba(0,0,0,0.5);
+	margin-left:15px;
+	height:30%;
+    width: 95%;
+}
+
+.ovaKlasa0{
+    display: none;
+}
+
+.ovaKlasa1{
+	display: block;
+}
+
+.ovaKlasa2{
+	display: block;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.tabelDiv{
+	background-color: rgba(0,0,0,0.5);
+}
+
+#down{
+    height: 50vh;
+	text-align: center;
+	background-color: rgba(0,0,0,0.5);
+}
+
+#down-up{
+	height: 33%;
+	padding-top: 20px;
+}
+
+#down-down{
+	height: 50%;
+	padding: auto;
+	padding-top: 20px;
+}
+
+.addW{
+	margin-top: 10px;
+}
+
+.dugmeX{
+	margin-left:15px;
+	float:left;
+}
+
+.levolevo{
+	text-align: center;
+	padding-left: 20px;
+	padding-right: 10px;
+}
+
+form{
+	margin-top: 30px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.row{
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 56px;
+}
+
+h3{
+	padding-top: 10px;
+	text-align: center;
+	padding-bottom: 10px;
+	color: white;
+}
+
+.btnSubmit{
+    border:none;
+    border-radius:1.5rem;
+    padding: 1%;
+    width: 70%;
+    color: #fff;
+    height:40px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+.up{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#up{
+    padding-top: 50px;
+    height: 50vh;
+	text-align: center;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.prod {
+	text-align: center;
+	color: white;
+}
+
+h2{
+	color: red;
+}
+
+.my-custom-scrollbar {
+	position: relative;
+	height: 200px;
+	overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+	display: block;
+}
+
+.prod tr{
+	border-bottom: 1px solid white;
+}
+
+p{
+	font-weight: bold;
+}
+
+footer{
+	background-color: rgba(0,0,0,0.5);
+	text-align: right;
+}

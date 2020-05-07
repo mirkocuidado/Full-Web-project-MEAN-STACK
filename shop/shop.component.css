@@ -1,0 +1,108 @@
+body{
+    background-image: url("../../assets/imgs/povrce1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+  }
+  
+  .row1{
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+  }
+
+  #navbar{
+    background-color: rgba(0,0,0,0.8);
+  }
+  
+  #navbar a{
+    color:white;
+    font-weight: bold;
+  }
+  
+  #navbar a:hover{
+    color: white;
+    text-decoration: underline;
+  }
+  
+  .navbar-toggler{
+    background-color: white;
+  }
+  
+  .offer{
+    color: white;
+    text-align: center;
+    background-color: rgba(0,0,0,0.5);
+  }
+  
+  .offer-table{
+    color: white;
+    padding-top: 80px;
+  }
+  
+  .offer-company{
+    color: white;
+    padding-top: 50px;
+  }
+  
+  .company-table{
+    border: 0px;
+    color: white;
+  }
+  
+  .order{
+    color: white;
+    height: 100vh;
+    padding-top: 30px;
+    background-color: rgba(0,0,0,0.5);
+  }
+  
+  .tablee{
+    width: 90%;
+    margin: auto;
+    color: white;
+  }
+  
+  #company-name{
+    padding-left: 10px;
+    float: left;
+  }
+  
+  table tr td{
+    text-align: center;
+  }
+  
+  h2{
+    text-align: center;
+  }
+  
+  .table-orders{
+    width: 100%;
+    color: white;
+  }
+
+  .X{
+      color: red;
+  }
+
+  .haha{
+      display: none;
+  }
+
+  .show{
+      margin-top:70px;
+      display: block;
+  }
+
+  .help{
+      width: 100%;
+      text-align: center;
+  }
+
+  .orderbtn{
+      margin-left: 70px;
+      width:100px;
+  }
+
+  a{
+    color:white;
+  }
