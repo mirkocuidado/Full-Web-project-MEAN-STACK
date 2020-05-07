@@ -52,7 +52,7 @@
 				  <th scope="col"> Price per item </th>
 				  <th scope="col"> Total price</th>
 				  <th scope="col"> Accepted </th>
-			      <th scope="col"> Cancel </th>
+			      <th scope="col"> Action </th>
 			    </tr>
 			  </thead>
 			  <tbody>
@@ -63,9 +63,11 @@
 			      <td><ul *ngFor="let nn of n"> {{nn.enterprise}} </ul> </td>
 				  <td><ul *ngFor="let nn of n"> {{nn.price}} </ul></td>
 				  <td> {{cene[i]}} </td>
-				  <td *ngIf="orders[i].flag===true">Yes</td> <td *ngIf="orders[i].flag===false">Not yet</td>
-			      <td> <button class="btn btn-danger"> <i class="fas fa-times" (click)="delete(i)"> </i> </button> </td>
-			    </tr>
+				  <td *ngIf="orders[i].flag===2 || orders[i].flag===3">Yes</td> <td *ngIf="orders[i].flag===1">Not yet</td><td *ngIf="orders[i].flag===4">Claim</td>
+				  <td *ngIf="orders[i].flag===1"> <button class="btn btn-danger"> <i class="fas fa-times" (click)="delete(i)"> </i> </button> </td>
+				  <td *ngIf="orders[i].flag===2 || orders[i].flag===3"> <button class="btn btn-info"> <i class="fas fa-clock"> </i> </button> </td>
+				  <td *ngIf="orders[i].flag===4"> <button class="btn btn-success"> <i class="fas fa-check" (click)="claim(i)"> </i> </button> </td>
+				</tr>
 			  </tbody>
 			</table>
 		</div>

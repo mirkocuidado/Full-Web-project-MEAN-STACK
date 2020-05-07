@@ -26,6 +26,9 @@ let EnterpriseREQ = new Schema({
     },
     mail: {
         type: String
+    },
+    postman: {
+        type: Number
     }
 });
 

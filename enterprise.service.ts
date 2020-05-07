@@ -61,7 +61,8 @@ export class EnterpriseService {
       confirm_password: confirm_password,
       foundation_date: foundation_date,
       mail: mail,
-      place: place
+      place: place,
+      postman: ["", "", "", "", ""]
     };
 
     // Adding new farmer with the post request to this link
@@ -77,10 +78,9 @@ export class EnterpriseService {
       confirm_password: confirm_password,
       foundation_date: foundation_date,
       mail: mail,
-      place: place
+      place: place,
+      postman: ["", "", "", "", ""]
     };
-    console.log("PRE add");
-    // Adding new farmer with the post request to this link
     return this.http.post(`${this.uri}/enterprises/add` , enterprise);
   }
 
@@ -104,10 +104,14 @@ export class EnterpriseService {
     return this.http.get(`${this.uri}/orders/delete/${username}/${amount}/1`);
   }
 
-  updateOrder(username, amount, b){
-    return this.http.post(`${this.uri}/orders/update/${username}/${amount}/1`, b).subscribe( () => { location.reload(); });
+  updateOrder(time, b){
+    return this.http.post(`${this.uri}/orders/update/${time}/1`, b).subscribe( () => { });
   }
 
+  // POSTMAN FROM HERE DOWN
+  updatePostman(username, postman, time, b, date){
+    return this.http.post(`${this.uri}/postman/update/${username}/${postman}/${time}/${date}`, b).subscribe( () => { location.reload(); });
+  }
 
 
 

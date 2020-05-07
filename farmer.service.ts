@@ -250,11 +250,30 @@ export class FarmerService {
 
   updateProducts(username, name, a){
     return this.http.post(`${this.uri}/products/update/${username}/${name}`,a).subscribe( () => {
-      /*if(a.qHave == 0){
-        this.http.get(`${this.uri}/products/delete/${username}/${name}`).subscribe( () => {
-          location.reload();
-        });
-      }*/
+    });
+  }
+
+  addProduct(name, enterprise, OwnerUsername, speed, qHave, price, tip){
+    const pom = {
+      name: name,
+      enterprise: enterprise,
+      ownerUsername : OwnerUsername, 
+      speed: speed,
+      qHave: qHave,
+      price: price,
+      tip: tip,
+      given: 0,
+      grade: 0, 
+      numOfGrades: 0, 
+      flag: true
+    };
+
+    return this.http.post(`${this.uri}/products/add`, pom);
+
+  }
+
+  updateProductsQ(username, name, quant,  a){
+    return this.http.post(`${this.uri}/products/update/${username}/${name}/${quant}`,a).subscribe( () => {
     });
   }
 
@@ -310,7 +329,7 @@ export class FarmerService {
 
   addOrder(username, items, amount, name, time, f){
     const o = {
-      name: name,
+      name: name+items[0].enterprise,
       username: username,
       items: items,
       amount: amount,
@@ -321,8 +340,8 @@ export class FarmerService {
     return this.http.post(`${this.uri}/orders/add` , o);
   }
 
-  updateOrder(username, amount, b){
-    return this.http.post(`${this.uri}/orders/update/${username}/${amount}`, b).subscribe( () => { location.reload(); });
+  updateOrder(time, b){
+    return this.http.post(`${this.uri}/orders/update/${time}`, b).subscribe( () => { });
   }
 
   // COMMENTS FROM HERE DOWN

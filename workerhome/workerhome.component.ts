@@ -1,7 +1,11 @@
+/// <reference types="@types/googlemaps" />
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FarmerService } from '../farmer.service';
 import { Order } from '../../../../backend/models/Order';
+import { Enterprise } from '../../../../backend/models/Enterprise';
+import { Farmer } from '../../../../backend/models/Farmer';
 import { EnterpriseService } from '../enterprise.service';
 
 @Component({
@@ -17,6 +21,8 @@ export class WorkerhomeComponent implements OnInit {
 
   niz: any [] = [];
   cene: any[] = [];
+
+  matrix;
 
   sortF(a,b):number{
     if(a<b) return -1;
@@ -46,22 +52,108 @@ export class WorkerhomeComponent implements OnInit {
        location.reload();});
     }
     else if(b==1){
-       this.enterpriseService.updateOrder(this.route.snapshot.paramMap.get('username'), this.cene[a], this.orders[a]);
+      console.log(this.postman);
+      if(this.postman<5){
+        this.farmerService.getFarmerByUsername(this.orders[a].username).subscribe( (pom: Farmer) => {
+          this.matrix.getDistanceMatrix({
+            origins: [`${this.place}, Srbija`],
+            destinations: [ `${pom.place}, Srbija`],
+            travelMode: 'DRIVING',
+            unitSystem: google.maps.UnitSystem.METRIC
+          }, (response, status)=>{
+            if(status!=='OK')
+              console.log(status);
+            else{
+              console.log(response);
+              
+              let time = response.rows[0].elements[0].duration.value;
+              
+              this.postman = this.postman + 1;
+              this.farmerService.updateOrder(this.orders[a].time, this.orders[a]); //flag = 2
+              this.enterpriseService.updatePostman(this.username, this.postman, time, this.nizz, this.orders[a].time);
+              location.reload();
+            }
+          }
+          );
+        });
+      }
+      else{
+        this.enterpriseService.updateOrder(this.orders[a].time, this.orders[a]); // flag = 3
+        location.reload();
+      }
     }
   }
 
   username: String;
+  place: String;
+
+  postman: number;
+  nizz: number[] = [];
   
   ngOnInit(): void {
     this.username = this.route.snapshot.paramMap.get('username');
+
+    this.enterpriseService.getEnterpriseByUsername(this.username).subscribe( (pom: Enterprise) => {
+      this.place = pom.place;
+    });
+
+    this.matrix = new google.maps.DistanceMatrixService();
+
     this.enterpriseService.getOrders(this.route.snapshot.paramMap.get('username')).subscribe( (pom: Order[]) => {
       this.orders = pom;
       for(let i=0; i<this.orders.length; i++){
         this.niz.push(this.orders[i].items);
         this.cene.push(this.orders[i].amount);
       }
+      console.log(this.orders);
+      
+      this.enterpriseService.getEnterpriseByUsername(this.username).subscribe( (pom: Enterprise) => {
+        this.postman = pom.postman;
+        for(let i=0; i<this.postman; i++)
+          this.nizz[i]=1;
+
+          for(let i=0; i<this.orders.length; i++){
+            console.log(this.orders[i].flag);
+            console.log(this.postman);
+            if(this.orders[i].flag===3){
+              if(this.postman<5){
+                this.farmerService.getFarmerByUsername(this.orders[i].username).subscribe( (pom: Farmer) => {
+                  this.matrix.getDistanceMatrix({
+                    origins: [`${this.place}, Srbija`],
+                    destinations: [ `${pom.place}, Srbija`],
+                    travelMode: 'DRIVING',
+                    unitSystem: google.maps.UnitSystem.METRIC
+                  }, (response, status)=>{
+                    if(status!=='OK')
+                      console.log(status);
+                    else{
+                      console.log(response);
+                      
+                      let time = response.rows[0].elements[0].duration.value;
+                      
+                      this.postman = this.postman + 1;
+                      this.farmerService.updateOrder(this.orders[i].time, this.orders[i]); //flag = 2
+                      this.enterpriseService.updatePostman(this.username, this.postman, time, this.nizz, this.orders[i].time);
+                    }
+                  }
+                  );
+                });
+              }
+            }
+          }
+      });
+
+      
+      
     });
+    
+    
     this.toggle=0;
+
+    
+
+
+
   }
 
 }

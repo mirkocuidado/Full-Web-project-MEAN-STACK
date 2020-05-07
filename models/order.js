@@ -22,7 +22,7 @@ let Order = new Schema({
         type: String
     },
     flag: {
-        type: Boolean
+        type: Number
     }
 });
 

@@ -29,6 +29,9 @@ let Enterprise = new Schema({
     mail: {
         type: String,
         unique: true
+    },
+    postman: {
+        type: Number
     }
 });
 

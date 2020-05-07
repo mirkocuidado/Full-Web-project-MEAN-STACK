@@ -54,7 +54,7 @@
               <td> {{proizvod.qAvailable}} </td>
               <td *ngIf="proizvod.numOfGrades!=0"> {{ ( proizvod.grade/proizvod.numOfGrades) }} </td>
               <td *ngIf="proizvod.numOfGrades==0"> 0 </td>
-              <td> <i class="fas fa-shopping-cart" (click)="add(proizvod.name, proizvod.price, enterprises[p].abb)"></i> </td>
+              <td> <i class="fas fa-shopping-cart" (click)="add(proizvod.name, proizvod.price, enterprises[p].abb, proizvod.tip, proizvod.speed, proizvod.enterprise)"></i> </td>
             </tr>
           </table>
         </div>

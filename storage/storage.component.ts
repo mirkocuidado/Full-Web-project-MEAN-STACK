@@ -8,6 +8,7 @@ import {OrderLine} from '../shop/shop.component';
 import {ViewChild} from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { EnterpriseService } from '../enterprise.service';
 
 @Component({
   selector: 'app-storage',
@@ -16,7 +17,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class StorageComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private farmerService: FarmerService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
 
   products: Product[] = [];
   orders: Order[] = [];
@@ -105,5 +106,35 @@ export class StorageComponent implements OnInit {
     });
     
   }
+
+  claim(a): void{
+    let items = this.orders[a].items;
+    
+    let check = 0;
+
+    for(let i=0; i<items.length; i++){
+      for(let j=0; j<this.products.length; j++){
+        console.log(items);
+        console.log(items[i].name);
+        console.log(this.products[j].name);
+        if(this.products[j].name === items[i].name && this.products[j].enterprise === items[i].enterprise){
+          this.farmerService.updateProductsQ(this.route.snapshot.paramMap.get('username'), items[i].name, items[i].quantity, items[i]);
+          this.farmerService.deleteOrder(this.orders[a].username, this.orders[a].amount).subscribe( () => {});
+          check = 1;
+          break;
+        }
+        if(check===0){
+          this.farmerService.addProduct(items[i].name, items[i].enterprise, this.route.snapshot.paramMap.get('username'), items[i].speed, items[i].quantity, items[i].price, items[i].tip).subscribe(
+            () => {
+              this.farmerService.deleteOrder(this.orders[a].username, this.orders[a].amount).subscribe( () => {});
+            }
+          );
+        }
+      }
+    }
+    location.reload();
+  }
+
+
 
 }

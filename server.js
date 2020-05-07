@@ -439,13 +439,32 @@ router.route('/seedlings/update/:username/:name').post((req, res) => {
 
 router.route('/seedlings/delete/:nursery/:x/:y').get((req, res) => {
     setTimeout( () => {
-        Seedling.deleteOne({NurseryName: req.params.nursery, x: req.params.x, y: req.params.y}, (err, seed) => {
-        if (err)
-            res.json(err);
-        else
-            res.json('Remove successfully');
-        });
-    },86400000);
+
+        Seedling.findOne({NurseryName: req.params.nursery, x: req.params.x, y: req.params.y}, (err, seed) => {
+            if (err)
+                console.log(err);
+
+                Seedling.deleteOne({NurseryName: req.params.nursery, x: req.params.x, y: req.params.y}, (err, ss) => {
+                    if (err)
+                        console.log(err);
+
+                        Nursery.findOne( {username:seed.OwnerUsername , name: seed.NurseryName}, (err, nurse) => {
+                            if (!nurse){
+                                console.log(err);
+                            }
+                            else {
+                                nurse.placeTaken = nurse.placeTaken - 1;
+                                nurse.save().then(nurse => {
+                                    res.json('Update done');
+                                }).catch(err => {
+                                    res.status(400).send('Update failed');
+                                });
+                            }
+                        });
+
+                    });
+            });
+    },10000/*86400000*/);
 });
 // WARNINGS FROM HERE DOWN
 
@@ -527,6 +546,24 @@ router.route('/products/update/:username/:name').post((req, res) => {
             
             product.qHave = req.body.qHave;
             product.given = req.body.given;
+
+            product.save().then(product => {
+                res.json('Update done');
+            }).catch(err => {
+                res.status(400).send('Update failed');
+            });
+        }
+    });
+});
+
+router.route('/products/update/:username/:name/:quantity').post((req, res) => {
+    Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}`}, (err, product) => {
+        if (!product){
+            console.log(err);
+        }
+        else {
+            
+            product.qHave += parseInt(req.params.quantity);
 
             product.save().then(product => {
                 res.json('Update done');
@@ -657,14 +694,14 @@ router.route('/orders/delete/:username/:amount').get((req, res) => {
     });
 });
 
-router.route('/orders/update/:username/:amount').post((req, res) => {
-    Order.findOne( {username: req.params.username, amount: req.params.amount}, (err, o) => {
+router.route('/orders/update/:time').post((req, res) => {
+    Order.findOne( {time: req.params.time}, (err, o) => {
         if (!o){
             console.log(err);
         }
         else {
             
-            o.flag = true;
+            o.flag = 2;
 
             o.save().then(o => {
                 res.json('Update done');
@@ -675,15 +712,14 @@ router.route('/orders/update/:username/:amount').post((req, res) => {
     });
 });
 
-router.route('/orders/update/:username/:amount/1').post((req, res) => {
-    let aaa = "ORDER-" + `${req.params.username}`;
-    Order.findOne( {name: aaa, amount: req.params.amount}, (err, o) => {
+router.route('/orders/update/:time/1').post((req, res) => {
+    Order.findOne( {time: req.params.time}, (err, o) => {
         if (!o){
             console.log(err);
         }
         else {
             
-            o.flag = true;
+            o.flag = 3;
 
             o.save().then(o => {
                 res.json('Update done');
@@ -734,6 +770,68 @@ router.route('/comments/add').post((req, res) => {
             res.status(400).send('Failed to create new record');
         });
 });
+
+// POSTMAN FROM HERE DOWN
+
+router.route('/postman/update/:username/:postman/:time/:date').post((req, res) => {
+    console.log("POSTMAN!");
+    Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
+        if (!enter){
+            console.log(err);
+        }
+        else {
+
+            enter.postman = enter.postman+1;
+
+            enter.save().then(enter => {}).catch(err => {console.log(err);});
+
+            console.log("SAVED?");
+
+            setTimeout( () => {
+                Order.findOne( {time: `${req.params.date}`}, (err, o) => {
+                    if (!o){
+                        console.log(err);
+                    }
+                    else {
+                        o.flag = 4;
+                        let d = new Date();
+                         console.log(d);
+                         console.log("A");
+                        o.save().then(o => {
+                        }).catch(err => {
+                            console.log(err);
+                        });
+                    }
+                });
+
+            }, 60000 /*req.params.time*/);
+
+            setTimeout( () => {
+                Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
+                    if (!enter){
+                        console.log(err);
+                    }
+                    else {
+                enter.postman = enter.postman - 1;
+                if(enter.postman<0) enter.postman=0;
+
+                let d = new Date();
+                console.log(d);
+                console.log("B");
+
+                enter.save().then(enter => {
+                }).catch(err => {
+                    console.log(err);
+                });
+
+            }});
+            }, 120000 /*(2*req.params.time)*/);
+        }
+    });
+});
+
+
+
 
 app.use('/', router);
 

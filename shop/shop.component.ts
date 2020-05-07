@@ -10,7 +10,9 @@ export interface OrderLine{
   name: String,
   quantity: number,
   price: number,
-  enterprise: String
+  enterprise: String,
+  tip: String,
+  speed: number
 };
 
 @Component({
@@ -31,6 +33,8 @@ export class ShopComponent implements OnInit {
 
   orderList: OrderLine[] = [];
   s:string = "";
+
+  enterprisesForOrderList: String[] = [];
 
   orderListList: OrderLine[][]=[];
   cene: number[] = [];
@@ -98,7 +102,6 @@ export class ShopComponent implements OnInit {
     this.a = 0;
 
     let bla = this.orderList.pop();
-    console.log(bla);
 
     for(let i =0; i<this.orderList.length; i++){
       if(this.orderList[i].name == this.s){
@@ -116,7 +119,7 @@ export class ShopComponent implements OnInit {
     localStorage.setItem("order", JSON.stringify(this.orderList));
   }
 
-  add(aa,b,c):void{
+  add(aa,b,c,d,e,f):void{
     this.a = 1;
     this.s = aa;
 
@@ -124,10 +127,15 @@ export class ShopComponent implements OnInit {
       name : aa,
       enterprise : c,
       price : b,
-      quantity: 0
+      quantity: 0,
+      tip: d,
+      speed: e
     };
 
     this.orderList.push(p);
+
+    this.enterprisesForOrderList.push(f);
+    console.log(this.enterprisesForOrderList);
   }
 
   delete(a):void{
@@ -148,8 +156,6 @@ export class ShopComponent implements OnInit {
       }
     }
 
-    //console.log(this.orderListList);
-
     for(let i=0; i<this.orderListList.length; i++)
       if(this.orderListList[i].length!=0)
         for(let j=0; j<this.orderListList[i].length; j++){
@@ -158,13 +164,9 @@ export class ShopComponent implements OnInit {
 
     for(let i=0; i<this.orderListList.length; i++){
       if(this.orderListList[i].length!=0){
-        //console.log(this.orderListList[i]);
-        this.farmerService.addOrder(this.route.snapshot.paramMap.get('username'), this.orderListList[i], this.cene[i], "ORDER", d, false).subscribe( ()=> {
-          
-          
-          
+        let a = "ORDER-";
+        this.farmerService.addOrder(this.route.snapshot.paramMap.get('username'), this.orderListList[i], this.cene[i], a, d, 1).subscribe( ()=> {
           for(let j=0; j<this.orderListList[i].length; j++){
-            //console.log(this.orderListList[i]);
             this.farmerService.updateOffers(this.orderListList[i][j].enterprise, this.orderListList[i][j].name, this.orderListList[i][j].quantity, this.orderListList[i][j]);
           }
         });
