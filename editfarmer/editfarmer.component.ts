@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {Farmer} from '../../../../backend/models/Farmer';
 import { Enterprise } from '../../../../backend/models/Enterprise';
 import { EnterpriseService } from '../enterprise.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-editfarmer',
@@ -29,7 +30,7 @@ export class EditfarmerComponent implements OnInit {
   enterprises: Enterprise [] = [];
   flagg: number;
 
-  constructor(private farmerService: FarmerService, private router: Router, private route: ActivatedRoute, private enterpriseService: EnterpriseService) { }
+  constructor(private farmerService: FarmerService, private router: Router, private user: UserService, private enterpriseService: EnterpriseService) { }
   
   register_farmer(){
     this.farmerService.addFarmer(this.first_name, this.last_name,this.username2, this.password, this.confirm_password, this.date, this.place, this.mobile, this.mail).subscribe(()=>{
@@ -108,7 +109,7 @@ export class EditfarmerComponent implements OnInit {
       this.enterprises = pom;
     });
 
-    this.username1 = this.route.snapshot.paramMap.get('username');
+    this.username1 = localStorage.getItem("edit");
     this.farmerService.getFarmerByUsername(this.username1).subscribe( (pomFarmer: Farmer) => {
       this.first_name = pomFarmer.first_name;
       this.last_name = pomFarmer.last_name;

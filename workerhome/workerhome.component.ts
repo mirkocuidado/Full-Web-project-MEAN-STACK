@@ -15,7 +15,7 @@ import { EnterpriseService } from '../enterprise.service';
 })
 export class WorkerhomeComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
+  constructor(private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
 
   orders:Order[] = [];
 
@@ -48,7 +48,7 @@ export class WorkerhomeComponent implements OnInit {
       for(let i =0; i<this.niz[a].length; i++){
         this.farmerService.updateOffers(this.niz[a][i].enterprise, this.niz[a][i].name, -this.niz[a][i].quantity, this.niz[a][i]);
       }
-      this.enterpriseService.deleteOrder(this.route.snapshot.paramMap.get('username'), this.cene[a]).subscribe( () => { 
+      this.enterpriseService.deleteOrder(this.username, this.cene[a]).subscribe( () => { 
        location.reload();});
     }
     else if(b==1){
@@ -91,7 +91,7 @@ export class WorkerhomeComponent implements OnInit {
   nizz: number[] = [];
   
   ngOnInit(): void {
-    this.username = this.route.snapshot.paramMap.get('username');
+    this.username = localStorage.getItem("logged");
 
     this.enterpriseService.getEnterpriseByUsername(this.username).subscribe( (pom: Enterprise) => {
       this.place = pom.place;
@@ -99,7 +99,7 @@ export class WorkerhomeComponent implements OnInit {
 
     this.matrix = new google.maps.DistanceMatrixService();
 
-    this.enterpriseService.getOrders(this.route.snapshot.paramMap.get('username')).subscribe( (pom: Order[]) => {
+    this.enterpriseService.getOrders(this.username).subscribe( (pom: Order[]) => {
       this.orders = pom;
       for(let i=0; i<this.orders.length; i++){
         this.niz.push(this.orders[i].items);

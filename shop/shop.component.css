@@ -106,3 +106,17 @@ body{
   a{
     color:white;
   }
+
+  .container{
+    max-width: inherit;
+  }
+
+  #warnings{
+    text-align: center;
+    color: red;
+    background-color: rgba(0,0,0,0.5);
+  }
+  
+  h1{
+    margin-bottom: 0px;
+  }

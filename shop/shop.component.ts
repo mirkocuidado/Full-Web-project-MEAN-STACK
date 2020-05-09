@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FarmerService } from '../farmer.service';
 import { Offer } from '../../../../backend/models/Offers';
 import { Enterprise } from '../../../../backend/models/Enterprise';
+import { Warning } from '../../../../backend/models/Warning';
 import { EnterpriseService } from '../enterprise.service';
+import { UserService } from '../user.service';
 
 
 export interface OrderLine{
@@ -23,7 +25,9 @@ export interface OrderLine{
 
 export class ShopComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
+  constructor(private user: UserService, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
+
+  username: String;
 
   num: number;
   a: number;
@@ -43,6 +47,8 @@ export class ShopComponent implements OnInit {
   amount: number;
 
   svi: any []= [];
+
+  warnings: Warning[] = [];
 
   popuni():void{
     for(let i=0; i<this.products.length; i++){
@@ -76,14 +82,17 @@ export class ShopComponent implements OnInit {
   }
   linkHome: String;
   linkSto: String;
-  username: String;
 
   ngOnInit(): void {
-    this.username = this.route.snapshot.paramMap.get('username');
+    this.username = localStorage.getItem("logged");
 
     this.linkHome = "../../farmerhome/"+this.username;
     this.linkSto = "../../storage/"+this.username;
 
+    this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
+      this.warnings = pom;
+    });
+    
     this.get();
     this.a=0;
     if(localStorage.getItem("order")==null)
@@ -135,7 +144,6 @@ export class ShopComponent implements OnInit {
     this.orderList.push(p);
 
     this.enterprisesForOrderList.push(f);
-    console.log(this.enterprisesForOrderList);
   }
 
   delete(a):void{
@@ -165,7 +173,7 @@ export class ShopComponent implements OnInit {
     for(let i=0; i<this.orderListList.length; i++){
       if(this.orderListList[i].length!=0){
         let a = "ORDER-";
-        this.farmerService.addOrder(this.route.snapshot.paramMap.get('username'), this.orderListList[i], this.cene[i], a, d, 1).subscribe( ()=> {
+        this.farmerService.addOrder(this.username, this.orderListList[i], this.cene[i], a, d, 1).subscribe( ()=> {
           for(let j=0; j<this.orderListList[i].length; j++){
             this.farmerService.updateOffers(this.orderListList[i][j].enterprise, this.orderListList[i][j].name, this.orderListList[i][j].quantity, this.orderListList[i][j]);
           }
@@ -176,5 +184,11 @@ export class ShopComponent implements OnInit {
     localStorage.removeItem('order');
     location.reload();
 
+  }
+
+  postavi(a,b,c){
+    localStorage.setItem("logged",a);
+    localStorage.setItem("product",b);
+    localStorage.setItem("enterprise",c);
   }
 }

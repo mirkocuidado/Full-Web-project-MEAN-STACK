@@ -3,6 +3,7 @@ import { FarmerService } from '../farmer.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EnterpriseService } from '../enterprise.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { EnterpriseService } from '../enterprise.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private farmerService: FarmerService,private enterpriseService: EnterpriseService, private router: Router) { }
+  constructor(private farmerService: FarmerService,private enterpriseService: EnterpriseService, private router: Router, private user: UserService) { }
 
   farmerForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -22,6 +23,8 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    this.user.setLogged(this.farmerForm.value.username);
+    localStorage.setItem("logged", this.farmerForm.value.username);
     this.farmerService.getFarmerById(this.farmerForm.value.username, this.farmerForm.value.password);
   }
 

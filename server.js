@@ -15,6 +15,7 @@ import Warning from './models/Warning';
 import Offer from './models/Offers';
 import Order from './models/Order';
 import Comment from './models/Comment';
+import Business from './models/Business';
 
 const app = express();
 const router = express.Router();
@@ -32,7 +33,26 @@ setInterval( () => {
         else{
             nurse.forEach(element => {
                 //element.water = element.water - 1;
-                //element.temperature = element.temperature - 0.5; SKLONITI KOMENTARE NA KRAJU
+                //element.temperature = element.temperature - 0.5; //SKLONITI KOMENTARE NA KRAJU
+
+                Seedling.find( {OwnerUsername:element.username , NurseryName: element.name} , (err,seedling)=>{
+                    if(err)
+                        console.log(err);
+                    else{
+                        seedling.forEach(seed =>{
+                            seed.progress = seed.progress + 1;
+
+                            seed.save()
+                                .then(seed => {
+                                    //console.log("YAY");
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                            });
+                        })
+                    }
+                    
+                });
 
                 if(element.temperature <= 12){ //treba 200 za vodu i 12 za temperaturu
                     
@@ -50,10 +70,10 @@ setInterval( () => {
                             
                             warning.save()
                                 .then(warning => {
-                                    res.status(200).json({'warning': 'Added successfully'});
+                                    //console.log("YAY");
                                 })
                                 .catch(err => {
-                                    res.status(400).send('Failed to create new record');
+                                    console.log(err);
                             });
 
                             /*let transporter = nodemailer.createTransport({
@@ -804,7 +824,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                     }
                 });
 
-            }, 60000 /*req.params.time*/);
+            }, 10000 /*req.params.time*/);
 
             setTimeout( () => {
                 Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
@@ -825,11 +845,33 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                 });
 
             }});
-            }, 120000 /*(2*req.params.time)*/);
+            }, 15000 /*(2*req.params.time)*/);
         }
     });
 });
 
+// BUSINESS FROM HERE DOWN
+
+router.route('/business/add').post((req, res) => {
+    console.log(req.body);
+    let b = new Business(req.body);
+    b.save()
+        .then(b => {
+            res.status(200).json({'b': 'Added successfully'});
+        })
+        .catch(err => {
+            res.status(400).send('Failed to create new record');
+        });
+});
+
+router.route('/business/:enterprise').get((req, res) => {
+    Business.find({ enterprise: `${req.params.enterprise}`}, (err, com) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(com);
+    });
+});
 
 
 

@@ -1,8 +1,8 @@
 <body>
 
 	<nav id="navbar" class="navbar navbar-expand-sm navbar-light">
-	  <a class="navbar-brand" routerLink={{linkHome}}>Home</a>
-	  <a class="nav-link" routerLink={{linkShop}}> Online Shop </a>
+	  <a class="navbar-brand" routerLink="/farmerhome">Home</a>
+	  <a class="nav-link" routerLink="/shop"> Online Shop </a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <i class="fas fa-hamburger"></i>
 	  </button>
@@ -22,56 +22,62 @@
 	  </div>
 	</nav>
 
-	<div class="row">
-		<div class="col-sm-8 col-md-6">
-			<h2> Products and seedlings </h2>
-			<table class="table">
+	<div id="warnings" *ngIf="warnings"> 
+		<h1 *ngFor="let w of warnings"> {{w.text}} </h1>
+	</div>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-8 col-md-6">
+				<h2> Products and seedlings </h2>
+				<table class="table">
+					<thead>
+						<tr>
+						<th scope="col" (click)="sortName()"> Name </th>
+						<th scope="col" (click)="sortManufacturer()"> Manufacturer </th>
+						<th scope="col" (click)="sortQuantity()"> Available </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let p of products">
+							<td> {{p.name}} </td>
+							<td> {{p.enterprise}} </td>
+							<td> {{p.qHave}} </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-sm-4 col-md-6">
+				<h2> Ordered </h2>
+				<table class="table">
 				<thead>
 					<tr>
-					  <th scope="col" (click)="sortName()"> Name </th>
-					  <th scope="col" (click)="sortManufacturer()"> Manufacturer </th>
-					  <th scope="col" (click)="sortQuantity()"> Available </th>
+					<th scope="col"> Name </th>
+					<th scope="col"> Manufacturer </th>
+					<th scope="col"> Price per item </th>
+					<th scope="col"> Total price</th>
+					<th scope="col"> Accepted </th>
+					<th scope="col"> Action </th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let p of products">
-						<td> {{p.name}} </td>
-						<td> {{p.enterprise}} </td>
-						<td> {{p.qHave}} </td>
+					<tr *ngFor="let n of niz; let i = index">
+					<td>
+						<ul *ngFor="let nn of n"> {{nn.name}} </ul>
+					</td>
+					<td><ul *ngFor="let nn of n"> {{nn.enterprise}} </ul> </td>
+					<td><ul *ngFor="let nn of n"> {{nn.price}} </ul></td>
+					<td> {{cene[i]}} </td>
+					<td *ngIf="orders[i].flag===2 || orders[i].flag===3">Yes</td> <td *ngIf="orders[i].flag===1">Not yet</td><td *ngIf="orders[i].flag===4">Claim</td>
+					<td *ngIf="orders[i].flag===1"> <button class="btn btn-danger"> <i class="fas fa-times" (click)="delete(i)"> </i> </button> </td>
+					<td *ngIf="orders[i].flag===2 || orders[i].flag===3"> <button class="btn btn-info"> <i class="fas fa-clock"> </i> </button> </td>
+					<td *ngIf="orders[i].flag===4"> <button class="btn btn-success"> <i class="fas fa-check" (click)="claim(i)"> </i> </button> </td>
 					</tr>
 				</tbody>
-			</table>
+				</table>
+			</div>
 		</div>
-		<div class="col-sm-4 col-md-6">
-			<h2> Ordered </h2>
-			<table class="table">
-			  <thead>
-			    <tr>
-			      <th scope="col"> Name </th>
-			      <th scope="col"> Manufacturer </th>
-				  <th scope="col"> Price per item </th>
-				  <th scope="col"> Total price</th>
-				  <th scope="col"> Accepted </th>
-			      <th scope="col"> Action </th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr *ngFor="let n of niz; let i = index">
-			      <td>
-					  <ul *ngFor="let nn of n"> {{nn.name}} </ul>
-				  </td>
-			      <td><ul *ngFor="let nn of n"> {{nn.enterprise}} </ul> </td>
-				  <td><ul *ngFor="let nn of n"> {{nn.price}} </ul></td>
-				  <td> {{cene[i]}} </td>
-				  <td *ngIf="orders[i].flag===2 || orders[i].flag===3">Yes</td> <td *ngIf="orders[i].flag===1">Not yet</td><td *ngIf="orders[i].flag===4">Claim</td>
-				  <td *ngIf="orders[i].flag===1"> <button class="btn btn-danger"> <i class="fas fa-times" (click)="delete(i)"> </i> </button> </td>
-				  <td *ngIf="orders[i].flag===2 || orders[i].flag===3"> <button class="btn btn-info"> <i class="fas fa-clock"> </i> </button> </td>
-				  <td *ngIf="orders[i].flag===4"> <button class="btn btn-success"> <i class="fas fa-check" (click)="claim(i)"> </i> </button> </td>
-				</tr>
-			  </tbody>
-			</table>
-		</div>
-    </div>
+	</div>
 </body>
 
 

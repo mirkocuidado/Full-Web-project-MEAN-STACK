@@ -11,7 +11,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class WorkerallproductsComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private farmerService: FarmerService, private router: Router, private _formBuilder: FormBuilder) { }
+  constructor(private farmerService: FarmerService, private router: Router, private _formBuilder: FormBuilder) { }
 
   offers:Offer[] = [];
 
@@ -59,12 +59,17 @@ export class WorkerallproductsComponent implements OnInit {
     });
   }
 
+  user: String;
+
   ngOnInit(): void {
-    this.farmerService.getOffersEnterprise(this.route.snapshot.paramMap.get('username')).subscribe( (pom: Offer[] )=>{
+
+    this.user = localStorage.getItem("logged");
+
+    this.farmerService.getOffersEnterprise(this.user).subscribe( (pom: Offer[] )=>{
       this.offers = pom;
     });
 
-    this.name = this.route.snapshot.paramMap.get('username');
+    this.name = this.user;
 
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]

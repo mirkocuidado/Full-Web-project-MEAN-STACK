@@ -7,6 +7,11 @@ body{
     font-size: 22px;
   }
   
+  .container{
+      max-width: inherit;
+      padding: 0px;
+  }
+
   hr{
       border-top: 1px solid #000 !important;
   }
@@ -29,7 +34,7 @@ body{
   .user{
       margin-right: 10px;
       color: yellowgreen;
-      font-size: 20px;
+      font-size: 30px !important;
   }
   
   #navbar{
@@ -97,7 +102,7 @@ body{
   }
   
   .comment_class{
-      margin-top: 70px;
+      margin-top: 50px;
   }
 
   .prOstalo{
@@ -113,5 +118,5 @@ body{
   }
 
   p{
-      font-size: 20px;
+      font-size: 30px;
   }

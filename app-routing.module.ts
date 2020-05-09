@@ -17,26 +17,28 @@ import { ShopComponent } from './shop/shop.component';
 import { CommentsComponent } from './comments/comments.component';
 import { WorkerhomeComponent } from './workerhome/workerhome.component';
 import { WorkerallproductsComponent } from './workerallproducts/workerallproducts.component';
+import { BusinessComponent } from './business/business.component';
 
 
 const routes: Routes = [
   {path:'' , component: LoginComponent},
   {path:'signupfarmer' , component: SignupfarmerComponent},
   {path:'signupenterprise' , component: SignupenterpriseComponent},
-  {path:'farmerhome/:username' , component: FarmerhomeComponent},
+  {path:'farmerhome' , component: FarmerhomeComponent},
   {path:'password' , component: PasswordchangeComponent},
   {path:'adminhome', component: AdminhomeComponent},
   {path:'adminallclients', component: AdminallclientsComponent},
   {path:'adminaddnewfarmer', component: AdminaddnewfarmerComponent},
   {path:'adminaddnewenterprise', component: AdminaddnewenterpriseComponent},
-  {path:'editfarmer/:username', component: EditfarmerComponent},
-  {path:'editenterprise/:username', component: EditenterpriseComponent},
-  {path:'nurseries/:username/:nurseryname', component: SeedlingComponent},
-  {path:'storage/:username', component: StorageComponent},
-  {path:'shop/:username', component: ShopComponent},
-  {path:'comments/:username/:name/:enterprise' , component: CommentsComponent},
-  {path:'workerhome/:username' , component: WorkerhomeComponent},
-  {path:'workerallproducts/:username' , component: WorkerallproductsComponent}
+  {path:'editfarmer', component: EditfarmerComponent},
+  {path:'editenterprise', component: EditenterpriseComponent},
+  {path:'nurseries', component: SeedlingComponent},
+  {path:'storage', component: StorageComponent},
+  {path:'shop', component: ShopComponent},
+  {path:'comments' , component: CommentsComponent},
+  {path:'workerhome' , component: WorkerhomeComponent},
+  {path:'workerallproducts' , component: WorkerallproductsComponent},
+  {path:'business' , component: BusinessComponent}
 ];
 
 @NgModule({

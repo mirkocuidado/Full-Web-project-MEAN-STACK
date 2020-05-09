@@ -53,7 +53,6 @@ export class FarmerService {
     }); 
   }
 
-  //OVDE JOS PRMENITI ZA ENTERPRISEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
   getFarmerById(username, password){ //send HTTP get request to the following URL
     
     this.http.get(`${this.uri}/admin/${username}`).subscribe( (pomAdmin: Admin) => {
@@ -63,12 +62,12 @@ export class FarmerService {
       else{
         this.http.get(`${this.uri}/farmers/${username}`).subscribe( (pomFarmer:Farmer) => {
           if( pomFarmer !== null && pomFarmer.password === password){
-            this.router.navigate([`/farmerhome/${username}`]);
+            this.router.navigate([`/farmerhome`]);
           }
           else{
             this.http.get(`${this.uri}/enterprises/${username}`).subscribe( (pomEnterprise:Enterprise) => {
               if( pomEnterprise !== null && pomEnterprise.password === password){
-                this.router.navigate([`/workerhome/${username}`]);
+                this.router.navigate([`/workerhome`]);
               }
               else{
                 console.log("Invalid parameters!");

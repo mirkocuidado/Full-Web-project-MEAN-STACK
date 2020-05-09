@@ -1,7 +1,8 @@
 <body>
 
 	<nav id="navbar" class="navbar navbar-expand-sm navbar-light">
-	  <a class="navbar-brand" routerLink="../../workerhome/{{username}}">Home</a>
+	  <a class="navbar-brand" routerLink="/workerallproducts">Products</a>
+	  <a class="navbar-brand" routerLink="/business">Business</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <i class="fas fa-hamburger"></i>
 	  </button>
@@ -21,79 +22,80 @@
 	  </div>
 	</nav>
 
-	<div class="row ">
-		<div class="col-sm-4 trucks2"></div>
-		<div class="col-sm-4 trucks">
-			<ul class="ull">
-				<li class="lii" *ngFor="let p of nizz"> <i class="fas fa-truck trtrtrw" *ngIf=" p===1 "> </i> <i class="fas fa-truck trtrtr" *ngIf=" p!==1 "> </i> </li>
-			  </ul>
+	<div class="container">
+		<div class="row ">
+			<div class="col-sm-4 trucks2"></div>
+			<div class="col-sm-4 trucks">
+				<ul class="ull">
+					<li class="lii" *ngFor="let p of nizz"> <i class="fas fa-truck trtrtrw" *ngIf=" p===1 "> </i> <i class="fas fa-truck trtrtr" *ngIf=" p!==1 "> </i> </li>
+				</ul>
+			</div>
+			<div class="col-sm-4 trucks2"></div>
 		</div>
-		<div class="col-sm-4 trucks2"></div>
-	</div>
 
-	<div class="row row2">
-		<div class="col-sm-12 col-lg-6 pending">
-			<h1 (click)="sort()"> Pending orders </h1>
-			<table class="table">
-				<tr> 
-					<td> Name </td>
-					<td> For  </td>
-					<td> Amount </td>
-					<td> Name </td>
-					<td> Quantity</td>
-					<td> Cancel </td>
-					<td> Accept </td>
-				</tr>
-				<tr *ngFor="let o of orders, let i = index">
-					<td *ngIf="o.flag === 1"> {{o.name}} </td>
-					<td *ngIf="o.flag === 1"> {{o.username}} </td>
-					<td *ngIf="o.flag === 1"> {{o.amount}}</td>
-					<td *ngIf="o.flag === 1">
-						<ul *ngFor=" let item of o.items">
-							<li> {{item.name}} </li>
-						</ul>
-					</td>
-					<td *ngIf="o.flag == 1">
-						<ul *ngFor=" let item of o.items">
-							<li> {{item.quantity}} </li>
-						</ul>
-					</td>
-					<td *ngIf="o.flag == 1" (click)="process_Order(0,i)"> <i class="fas fa-times xxx"> </i></td>
-					<td *ngIf="o.flag == 1" (click)="process_Order(1,i)"> <i class="fas fa-check" > </i></td>
-				</tr>
-			</table>
-		</div>
-		<div class="col-sm-12 col-lg-6 priority">
-			<h1> Accepted orders </h1>
-			<table class="table">
-				<tr> 
-					<td> Name </td>
-					<td> For  </td>
-					<td> Amount </td>
-					<td> Name </td>
-					<td> Quantity</td>
-					<td> Cancel </td>
-				</tr>
-				<tr *ngFor="let o of orders">
-					<td *ngIf="o.flag == 3"> {{o.name}} </td>
-					<td *ngIf="o.flag == 3"> {{o.username}} </td>
-					<td *ngIf="o.flag == 3"> {{o.amount}}</td>
-					<td *ngIf="o.flag == 3">
-						<ul *ngFor=" let item of o.items">
-							<li> {{item.name}} </li>
-						</ul>
-					</td>
-					<td *ngIf="o.flag == 3">
-						<ul *ngFor=" let item of o.items">
-							<li> {{item.quantity}} </li>
-						</ul>
-					</td>
-					<td *ngIf="o.flag == 3"> <i class="fas fa-times xxx"> </i></td>
-				</tr>
-			</table>
+		<div class="row row2">
+			<div class="col-sm-12 col-lg-6 pending">
+				<h1 (click)="sort()"> Pending orders </h1>
+				<table class="table">
+					<tr> 
+						<td> Name </td>
+						<td> For  </td>
+						<td> Amount </td>
+						<td> Name </td>
+						<td> Quantity</td>
+						<td> Cancel </td>
+						<td> Accept </td>
+					</tr>
+					<tr *ngFor="let o of orders, let i = index">
+						<td *ngIf="o.flag === 1"> {{o.name}} </td>
+						<td *ngIf="o.flag === 1"> {{o.username}} </td>
+						<td *ngIf="o.flag === 1"> {{o.amount}}</td>
+						<td *ngIf="o.flag === 1">
+							<ul *ngFor=" let item of o.items">
+								<li> {{item.name}} </li>
+							</ul>
+						</td>
+						<td *ngIf="o.flag == 1">
+							<ul *ngFor=" let item of o.items">
+								<li> {{item.quantity}} </li>
+							</ul>
+						</td>
+						<td *ngIf="o.flag == 1" (click)="process_Order(0,i)"> <i class="fas fa-times xxx"> </i></td>
+						<td *ngIf="o.flag == 1" (click)="process_Order(1,i)"> <i class="fas fa-check" > </i></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-sm-12 col-lg-6 priority">
+				<h1> Accepted orders </h1>
+				<table class="table">
+					<tr> 
+						<td> Name </td>
+						<td> For  </td>
+						<td> Amount </td>
+						<td> Name </td>
+						<td> Quantity</td>
+						<td> Cancel </td>
+					</tr>
+					<tr *ngFor="let o of orders">
+						<td *ngIf="o.flag == 3"> {{o.name}} </td>
+						<td *ngIf="o.flag == 3"> {{o.username}} </td>
+						<td *ngIf="o.flag == 3"> {{o.amount}}</td>
+						<td *ngIf="o.flag == 3">
+							<ul *ngFor=" let item of o.items">
+								<li> {{item.name}} </li>
+							</ul>
+						</td>
+						<td *ngIf="o.flag == 3">
+							<ul *ngFor=" let item of o.items">
+								<li> {{item.quantity}} </li>
+							</ul>
+						</td>
+						<td *ngIf="o.flag == 3"> <i class="fas fa-times xxx"> </i></td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
-
 
 
 

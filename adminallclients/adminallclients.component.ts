@@ -4,6 +4,7 @@ import { Enterprise } from '../enterprise.model';
 import { FarmerService } from '../farmer.service';
 import { EnterpriseService } from '../enterprise.service';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-adminallclients',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AdminallclientsComponent implements OnInit {
 
-  constructor(private farmerService: FarmerService, private enterpriseService: EnterpriseService, private router: Router) { }
+  constructor(private farmerService: FarmerService, private enterpriseService: EnterpriseService, private router: Router, private user:UserService) { }
 
   farmers : Farmer [];
   enterprises : Enterprise[];
@@ -40,11 +41,13 @@ export class AdminallclientsComponent implements OnInit {
   }
 
   edit_farmer(username){
-    this.router.navigate(["/editfarmer/" + username ]);
+    localStorage.setItem("edit", username);
+    this.router.navigate(["/editfarmer"]);
   }
 
   edit_enterprise(username){
-    this.router.navigate(["/editenterprise/" + username ]);
+    localStorage.setItem("edit", username);
+    this.router.navigate(["/editenterprise"]);
   }
 
   ngOnInit(): void {

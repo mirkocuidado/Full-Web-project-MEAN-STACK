@@ -6,6 +6,10 @@ body{
 	color: white;
 }
 
+::-webkit-scrollbar {
+	display: none;
+}
+
 #navbar{
 	background-color: rgba(0,0,0,0.5);
 }
@@ -194,6 +198,10 @@ h2{
 	display: block;
 }
 
+.prod{
+	overflow-y: scroll;
+}
+
 .prod tr{
 	border-bottom: 1px solid white;
 }
@@ -205,4 +213,8 @@ p{
 footer{
 	background-color: rgba(0,0,0,0.5);
 	text-align: right;
+}
+
+.container{
+	max-width: inherit;
 }

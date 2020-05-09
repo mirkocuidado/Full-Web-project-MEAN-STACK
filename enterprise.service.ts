@@ -62,7 +62,7 @@ export class EnterpriseService {
       foundation_date: foundation_date,
       mail: mail,
       place: place,
-      postman: ["", "", "", "", ""]
+      postman: 0
     };
 
     // Adding new farmer with the post request to this link
@@ -79,7 +79,7 @@ export class EnterpriseService {
       foundation_date: foundation_date,
       mail: mail,
       place: place,
-      postman: ["", "", "", "", ""]
+      postman: 0
     };
     return this.http.post(`${this.uri}/enterprises/add` , enterprise);
   }
@@ -113,9 +113,21 @@ export class EnterpriseService {
     return this.http.post(`${this.uri}/postman/update/${username}/${postman}/${time}/${date}`, b).subscribe( () => { location.reload(); });
   }
 
+  // BUSINESS FROM HERE DOWN
 
+  getBusiness(enterprise){
+    return this.http.get(`${this.uri}/business/${enterprise}`);
+  }
 
-
+  addBusiness(username,enterprise, amount, date){
+    const business = {
+      username: username,
+      enterprise: enterprise,
+      amount: amount,
+      date: date
+    };
+    return this.http.post(`${this.uri}/business/add` , business);
+  }
 
 
 

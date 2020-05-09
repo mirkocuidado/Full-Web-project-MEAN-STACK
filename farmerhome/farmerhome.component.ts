@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FarmerService } from '../farmer.service';
 import {Nursery} from '../../../../backend/models/Nursery';
 import {Warning} from '../../../../backend/models/Warning';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-farmerhome',
@@ -12,9 +13,9 @@ import {Warning} from '../../../../backend/models/Warning';
 })
 export class FarmerhomeComponent implements OnInit {
 
-  constructor(private farmerService: FarmerService, private route:ActivatedRoute) { }
+  constructor(private farmerService: FarmerService, private user: UserService) { }
 
-  username: string;
+  username: String;
   nurseries: Nursery[] = [];
 
   warnings: Warning[] = [];
@@ -41,12 +42,20 @@ export class FarmerhomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.username = this.route.snapshot.paramMap.get('username');
+    this.username = localStorage.getItem("logged");
     this.get();
 
     this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
       this.warnings = pom;
     });
+  }
+
+  logOut(){
+    this.user.setLogged("");
+  }
+
+  postavi(a,b){
+    localStorage.setItem("nursery",b);
   }
 
 }

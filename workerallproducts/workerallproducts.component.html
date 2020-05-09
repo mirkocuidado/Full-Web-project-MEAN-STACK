@@ -1,7 +1,7 @@
 <body>
 
 	<nav id="navbar" class="navbar navbar-expand-sm navbar-light">
-	  <a class="navbar-brand" routerLink="../../workerhome/{{name}}">Home</a>
+	  <a class="navbar-brand" routerLink="/workerhome">Home</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <i class="fas fa-hamburger"></i>
 	  </button>
@@ -38,7 +38,7 @@
                     <td> {{o.price}} </td>
                     <td> {{o.qAvailable}} </td>
                     <td> <i class="fas fa-arrow-left" (click)="vrati(o.name)"></i> </td>
-                    <td> <i class="fas fa-comment-dots" routerLink="../../comments/{{name}}/{{o.name}}/{{name}}"> </i></td>
+                    <td> <i class="fas fa-comment-dots" routerLink="/comments"> </i></td>
                 </tr>
             </table>
         </div>

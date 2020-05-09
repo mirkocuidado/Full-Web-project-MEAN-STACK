@@ -1,5 +1,5 @@
 body{
-	background-image: url("../../assets/imgs/barn3.jpg");
+	background-image: url("../../assets/imgs/ajsad2.jpeg");
 	background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;
@@ -67,7 +67,7 @@ h1{
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	background-color: #333333;
+	background-color: rgba(0,0,0,0.5)
   }
   
 .lii {
@@ -84,11 +84,15 @@ h1{
 }
 
 .trucks{
-	background-color: white;
 	margin: 0px;
 	padding: 0px;
 }
 
 .trucks2{
 	background-color: rgba(0,0,0,0.5);
+}
+
+.container{
+	max-width: inherit;
+	max-height: 100vh;
 }

@@ -7,6 +7,7 @@ import Product from '../../../../backend/models/Product';
 import Farmer from '../../../../backend/models/Farmer';
 import {Warning} from '../../../../backend/models/Warning';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-seedling',
@@ -15,9 +16,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class SeedlingComponent implements OnInit {
 
-  constructor(private farmerService: FarmerService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private farmerService: FarmerService, private router: Router, private user:UserService) { }
 
   username: String;
+  nurseryName: String;
+
   link1: String;
   link2: String;
   
@@ -78,32 +81,28 @@ export class SeedlingComponent implements OnInit {
     }
 
     if(changeW.water<75 || changeW.temperature <12){
-      this.farmerService.addWarning(this.route.snapshot.paramMap.get('username'), this.route.snapshot.paramMap.get('nurseryname')).subscribe( ()=> {});
+      this.farmerService.addWarning(this.username, this.nurseryName).subscribe( ()=> {});
     }
 
     if(this.warnings.length!=0){
       if(changeW.water>=75 && changeW.temperature >=12){
-        this.farmerService.deleteWarning(this.route.snapshot.paramMap.get('username'), this.route.snapshot.paramMap.get('nurseryname')).subscribe( () => {});
+        this.farmerService.deleteWarning(this.username, this.nurseryName).subscribe( () => {});
       }
     }
 
     this.farmerService.updateNursery(changeW.username, changeW.name, changeW);
   }
 
-  addClasses(){
-
-  }
-
   pom: Product;
 
   submit(){
     let name = this.nurseryForm.value.name + this.i + this.j;
-    this.farmerService.getProductForFarmer(this.route.snapshot.paramMap.get('username'), this.nurseryForm.value.name).subscribe( (p:Product)=>{
+    this.farmerService.getProductForFarmer(this.username, this.nurseryForm.value.name).subscribe( (p:Product)=>{
       this.pom = p;
-      this.farmerService.addSeedling(this.route.snapshot.paramMap.get('username'), this.route.snapshot.paramMap.get('nurseryname'), this.pom.enterprise , name, this.i, this.j, this.pom.speed).subscribe( ()=> { 
-        this.farmerService.updateNurseryNum(this.route.snapshot.paramMap.get('username'), this.route.snapshot.paramMap.get('nurseryname'), "NISTA BITNO");
+      this.farmerService.addSeedling(this.username, this.nurseryName, this.pom.enterprise , name, this.i, this.j, this.pom.speed).subscribe( ()=> { 
+        this.farmerService.updateNurseryNum(this.username, this.nurseryName, "NISTA BITNO");
         this.pom.qHave = this.pom.qHave - 1;
-        this.farmerService.updateProducts(this.route.snapshot.paramMap.get('username'), this.nurseryForm.value.name, this.pom);
+        this.farmerService.updateProducts(this.username, this.nurseryForm.value.name, this.pom);
         location.reload(); });
     });
   }
@@ -119,28 +118,25 @@ export class SeedlingComponent implements OnInit {
       }
     }
 
-    console.log(this.chosen);
-
     this.p = this.chosen;
     this.p.qHave = this.p.qHave - 1;
 
     this.pomm = this.hoveredSeedling;
     this.pomm.progress = this.pomm.progress + this.p.speed;
 
-    this.farmerService.updateSeedling(this.route.snapshot.paramMap.get('username'), this.hoveredSeedling.name, this.pomm);
+    this.farmerService.updateSeedling(this.username, this.hoveredSeedling.name, this.pomm);
 
-    console.log(this.pomm);
-    console.log(this.p);
-
-    this.farmerService.updateProducts(this.route.snapshot.paramMap.get('username'), this.p.name, this.p);
+    this.farmerService.updateProducts(this.username, this.p.name, this.p);
   }
 
+  preparati: any[] = [];
+  biljke: any[] = [];
+  
   ngOnInit(): void {
-    this.username = this.route.snapshot.paramMap.get('username');
-    this.link1="../../../farmerhome/"+this.username;
-    this.link2="../../../storage/"+this.username;
+    this.username = localStorage.getItem("logged");
+    this.nurseryName = localStorage.getItem("nursery");
     
-    this.farmerService.getNurseryByUsernameAndName(this.username, this.route.snapshot.paramMap.get('nurseryname')).subscribe( (pom: Nursery) => {
+    this.farmerService.getNurseryByUsernameAndName(this.username, this.nurseryName).subscribe( (pom: Nursery) => {
       this.nursery = pom;
       this.temperature = pom.temperature;
       this.water = pom.water;
@@ -155,7 +151,7 @@ export class SeedlingComponent implements OnInit {
       } 
     });
 
-    this.farmerService.getSeedlingByUsernameAndName(this.username, this.route.snapshot.paramMap.get('nurseryname')).subscribe( (pom:Seedling) => {
+    this.farmerService.getSeedlingByUsernameAndName(this.username, this.nurseryName).subscribe( (pom:Seedling) => {
       this.seedlings = pom;
       for(let i=0; i<this.seedlings.length; i++){
         this.matrix[this.seedlings[i].x][this.seedlings[i].y]=1;
@@ -166,6 +162,12 @@ export class SeedlingComponent implements OnInit {
     
     this.farmerService.getProductsForFarmer(this.username).subscribe( (pom: Product[])=>{
       this.products = pom;
+      for(let i=0; i<this.products.length; i++){
+        if(this.products[i].tip=="pr")
+          this.preparati.push(this.products[i]);
+        else 
+          this.biljke.push(this.products[i]);
+      }
     });
 
     this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
@@ -174,7 +176,7 @@ export class SeedlingComponent implements OnInit {
   }
 
   vadiMe(a,b):void{
-      this.farmerService.deleteSeedling(this.route.snapshot.paramMap.get('nurseryname'), a , b).subscribe( ()=> {
+      this.farmerService.deleteSeedling(this.nurseryName, a , b).subscribe( ()=> {
         location.reload();
       });
   }

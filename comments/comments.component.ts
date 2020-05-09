@@ -25,7 +25,7 @@ export class CommentsComponent implements OnInit {
 
   p: Product;
 
-  constructor(private route: ActivatedRoute, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
+  constructor(private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
 
   addComment():void{
     this.farmerService.addComment(this.name, this.username, this.enterprise, this.com, this.grade).subscribe( ()=> {
@@ -41,9 +41,9 @@ export class CommentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.username = this.route.snapshot.paramMap.get('username');
-    this.name = this.route.snapshot.paramMap.get('name');
-    this.enterprise = this.route.snapshot.paramMap.get('enterprise');
+    this.username = localStorage.getItem("logged");
+    this.name = localStorage.getItem("product");
+    this.enterprise = localStorage.getItem("enterprise");
 
     this.farmerService.getComments(this.name, this.enterprise).subscribe( (pom: Comment[]) => {
       this.comments = pom;

@@ -1,8 +1,8 @@
 <body>
 	<nav id="navbar" class="navbar navbar-expand-sm navbar-light fixed-top">
-		<a class="navbar-brand" routerLink={{link1}}>Home</a>
-		<a class="nav-link" routerLink="../../../shop/{{username}}">Online Shop</a>
-		<a class="nav-link" routerLink={{link2}}> Storage </a>
+		<a class="navbar-brand" routerLink="/farmerhome">Home</a>
+		<a class="nav-link" routerLink="/shop">Online Shop</a>
+		<a class="nav-link" routerLink="/storage"> Storage </a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		  <i class="fas fa-hamburger"></i>
 		</button>
@@ -21,112 +21,117 @@
 		  </ul>
 		</div>
 	  </nav>
-  
-	  <div class="row">
-		  <div class="col-sm-3 a [class.crna]='a===1' || 'a===2'" >
-			  <div [class.ovaKlasa1]='a===1' [class.ovaKlasa0]='a===0'>
-					<button class="dugmeX" (click)="exit()"> X </button> 
-					<div class="tabelDiv" [class.ovaKlasa1]='a===1' [class.ovaKlasa0]='a===0 || a===2'>
-						<table class="levo1">
-							<tr>
-								<td *ngIf="hoveredSeedling"> Naziv sadnice: {{hoveredSeedling.name}} </td>
-							</tr>
-							<tr>
-							  <td *ngIf="hoveredSeedling"> Proizvodjac: {{hoveredSeedling.ManufName}} </td>
-							</tr>
-							<tr>
-								<td *ngIf="hoveredSeedling && hoveredSeedling.progress===hoveredSeedling.progressFinish"> 
-									<button class="btn btn-danger" (click)="vadiMe(hoveredSeedling.x , hoveredSeedling.y)"> TAKE OUT </button>
-								</td>
-								<td *ngIf="hoveredSeedling && hoveredSeedling.progress!=hoveredSeedling.progressFinish"> Progres bar: {{hoveredSeedling.progress}}/{{hoveredSeedling.progressFinish}} </td>							  
-							</tr>
-							<tr>
-								<td *ngIf="hoveredSeedling"> Pozicija: {{hoveredSeedling.x}} , {{hoveredSeedling.y}} </td>
-							</tr>
-							<tr>
-								<td *ngIf="hoveredSeedling"> <progress max="{{hoveredSeedling.progressFinish}}" value="{{hoveredSeedling.progress}}"></progress> </td>
-							</tr>
-							<tr>
-								<td>
-									<select name="select" [(ngModel)]="product" id=""> 
-										<option value="" *ngFor="let p of products" [value]="p.name">{{p.name}} </option>
+	  
+	  <div class="container">
+		<div class="row">
+			<div class="col-sm-3 a [class.crna]='a===1' || 'a===2'" >
+				<div [class.ovaKlasa1]='a===1' [class.ovaKlasa0]='a===0'>
+						<button class="dugmeX" (click)="exit()"> X </button> 
+						<div class="tabelDiv" [class.ovaKlasa1]='a===1' [class.ovaKlasa0]='a===0 || a===2'>
+							<table class="levo1">
+								<tr>
+									<td *ngIf="hoveredSeedling"> Naziv sadnice: {{hoveredSeedling.name}} </td>
+								</tr>
+								<tr>
+								<td *ngIf="hoveredSeedling"> Proizvodjac: {{hoveredSeedling.ManufName}} </td>
+								</tr>
+								<tr>
+									<td *ngIf="hoveredSeedling && hoveredSeedling.progress===hoveredSeedling.progressFinish"> 
+										<button class="btn btn-danger" (click)="vadiMe(hoveredSeedling.x , hoveredSeedling.y)"> TAKE OUT </button>
+									</td>
+									<td *ngIf="hoveredSeedling && hoveredSeedling.progress!=hoveredSeedling.progressFinish"> Progres bar: {{hoveredSeedling.progress}}/{{hoveredSeedling.progressFinish}} </td>							  
+								</tr>
+								<tr>
+									<td *ngIf="hoveredSeedling"> Pozicija: {{hoveredSeedling.x}} , {{hoveredSeedling.y}} </td>
+								</tr>
+								<tr>
+									<td *ngIf="hoveredSeedling"> <progress max="{{hoveredSeedling.progressFinish}}" value="{{hoveredSeedling.progress}}"></progress> </td>
+								</tr>
+								<tr>
+									<td>
+										<select name="select" [(ngModel)]="product" id=""> 
+											<option value="" *ngFor="let p of preparati" [value]="p.name">{{p.name}} </option>
+										</select>
+									</td>
+									<td>
+										<button class="btn btn-success" (click)="addMe()"> ADD PRODUCT</button>
+									</td>
+								</tr>
+							</table>
+						</div>
+				</div>
+
+				<div class="levolevo levo1" [class.ovaKlasa2]='a===2' [class.ovaKlasa0]='a===0 || a===1'>
+
+					<form method="POST" [formGroup]="nurseryForm">
+						<h3> Add new nursery </h3>	
+								<div class="input-group form-group">
+									<span id="side-icon" class="input-group-text"> <i class="fas fa-tree"> </i> </span>
+									
+									<select name="select2" class="form-control" formControlName="name" id=""> 
+										<option value="" *ngFor="let p of biljke" [value]="p.name">{{p.name}} </option>
 									</select>
-								</td>
-								<td>
-									<button class="btn btn-success" (click)="addMe()"> ADD PRODUCT</button>
-								</td>
-							</tr>
-						</table>
+								
+								<div class="input-group form-group center">
+								<button type="button" class="btn btn-success btnSubmit" (click)="submit()"> Add </button>
+								</div>	
+						</div>
+					</form>
+
+				</div>
+			</div>
+			<div class="col-sm-6 b">
+				<h1 *ngIf="nursery"> VIEW OF {{nursery.name}} NURSERY </h1>
+				<table class="center1">
+					<tr *ngFor = "let l of length; let i = index">
+						<td *ngFor = "let w of width; let j = index">  
+							<span *ngIf="matrix[i][j]===1"> <i class="fas fa-tree" (mouseenter)="blabla(i,j,1)"></i> </span>
+							<span *ngIf="matrix[i][j]===0"> <i class="fas fa-times" (mouseenter)="blabla(i,j,2)"> </i></span>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-sm-3 c">
+					<div id="up">
+						<div id="warnings" *ngIf="warnings"> 
+							<h2 *ngFor="let w of warnings"> {{w.text}} </h2>
+						</div>
+						<h3> Available from storage</h3>
+						<div class="table-wrapper-scroll-y my-custom-scrollbar">
+							<table class="table prod">
+								<tr> 
+									<td> Name </td>
+									<td> Acceleration</td>
+									<td> Quantity </td>
+								</tr>
+								<tr *ngFor = " let p of products">
+									<td *ngIf = "p.qHave!=0"> {{p.name}} </td>
+									<td *ngIf = "p.qHave!=0"> {{p.speed}} days </td>
+									<td *ngIf = "p.qHave!=0"> {{p.qHave}} </td>
+								</tr>
+							</table>
+						</div>
 					</div>
-			  </div>
-
-			  <div class="levolevo levo1" [class.ovaKlasa2]='a===2' [class.ovaKlasa0]='a===0 || a===1'>
-
-				<form method="POST" [formGroup]="nurseryForm">
-					<h3> Add new nursery </h3>	
-							<div class="input-group form-group">
-								<span id="side-icon" class="input-group-text"> <i class="fas fa-tree"> </i> </span>
-								<input type="text" class="form-control" placeholder="Insert the name here" formControlName="name">
+					<div id="down">
+						<div id="down-up">
 							
-							<div class="input-group form-group center">
-							   <button type="button" class="btn btn-success btnSubmit" (click)="submit()"> Add </button>
-							</div>	
-					</div>
-				</form>
-
-			  </div>
-		  </div>
-		  <div class="col-sm-6 b">
-			<h1 *ngIf="nursery"> VIEW OF {{nursery.name}} NURSERY </h1>
-			<table class="center1">
-				<tr *ngFor = "let l of length; let i = index">
-					<td *ngFor = "let w of width; let j = index">  
-						<span *ngIf="matrix[i][j]===1"> <i class="fas fa-tree" (mouseenter)="blabla(i,j,1)"></i> </span>
-						<span *ngIf="matrix[i][j]===0"> <i class="fas fa-times" (mouseenter)="blabla(i,j,2)"> </i></span>
-					</td>
-				</tr>
-			</table>
-		  </div>
-		  <div class="col-sm-3 c">
-				  <div id="up">
-					<div id="warnings" *ngIf="warnings"> 
-						<h2 *ngFor="let w of warnings"> {{w.text}} </h2>
-					</div>
-					<h3> Available from storage</h3>
-					<div class="table-wrapper-scroll-y my-custom-scrollbar">
-						<table class="table prod">
-							<tr> 
-								<td> Name </td>
-								<td> Acceleration</td>
-								<td> Quantity </td>
-							</tr>
-							<tr *ngFor = " let p of products">
-								<td *ngIf = "p.qHave!=0"> {{p.name}} </td>
-								<td *ngIf = "p.qHave!=0"> {{p.speed}} days </td>
-								<td *ngIf = "p.qHave!=0"> {{p.qHave}} </td>
-							</tr>
-						</table>
-					</div>
-				  </div>
-				  <div id="down">
-					  <div id="down-up">
-						
-						<p> Water left: {{water}} litres </p>
-						<button class=" addW btn btn-info" (click)="updateNursery(0)"> ADD WATER </button>
-					  </div>
-					  <div id="down-down">
-						<p> Current temperature: {{temperature}} *C </p>
-						<button class="btn btn-danger" (click)="updateNursery(1)"> INCREASE TEMPERATURE </button>
-						<br>
-						<button class="btn btn-info up" (click)="updateNursery(-1)"> DECREASE TEMPERATURE </button>
-					  </div>
-					</div>
+							<p> Water left: {{water}} litres </p>
+							<button class=" addW btn btn-info" (click)="updateNursery(0)"> ADD WATER </button>
+						</div>
+						<div id="down-down">
+							<p> Current temperature: {{temperature}} *C </p>
+							<button class="btn btn-danger" (click)="updateNursery(1)"> INCREASE TEMPERATURE </button>
+							<br>
+							<button class="btn btn-info up" (click)="updateNursery(-1)"> DECREASE TEMPERATURE </button>
+						</div>
+						</div>
+				</div>
 			</div>
+
+			<footer class="footer fixed">
+				<div id="warnings" *ngIf="warnings"> 
+					<h2 *ngFor="let w of warnings"> {{w.text}} </h2>
+				</div>
+			</footer>
 		</div>
-
-		<footer class="footer">
-			<div id="warnings" *ngIf="warnings"> 
-				<h2 *ngFor="let w of warnings"> {{w.text}} </h2>
-			</div>
-		</footer>
 </body>

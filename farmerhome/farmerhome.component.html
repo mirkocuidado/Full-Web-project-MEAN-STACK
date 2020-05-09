@@ -1,7 +1,8 @@
 <body>
 
 	<nav id="navbar" class="navbar navbar-expand-sm navbar-light">
-	  <a class="navbar-brand" href="#">Online Shop</a>
+	  <a class="navbar-brand" routerLink="/shop" >Online Shop</a>
+	  <a class="navbar-brand" routerLink="/storage" >Storage</a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <i class="fas fa-hamburger"></i>
 	  </button>
@@ -15,7 +16,7 @@
 	        <a class="nav-link" routerLink="/password"> Change Password</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" routerLink="">Log Out </a>
+	        <a class="nav-link" (click)="logOut()" routerLink="">Log Out </a>
 	      </li>
 	    </ul>
 	  </div>
@@ -85,7 +86,7 @@
 					  </thead>
 					  <tbody *ngFor="let n of nurseries">
 					    <tr>
-					      <td> <a routerLink="/nurseries/{{n.username}}/{{n.name}}"> {{n.name}} </a> </td>
+					      <td> <a (click)='postavi(n.username,n.name)' routerLink='/nurseries'> {{n.name}} </a> </td>
 					      <td> {{n.place}}</td>
 					      <td> {{n.width * n.length - n.placeTaken}} </td>
 					      <td> {{n.placeTaken}} </td>

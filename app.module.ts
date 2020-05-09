@@ -40,6 +40,7 @@ import { WorkerhomeComponent } from './workerhome/workerhome.component';
 import { WorkerallproductsComponent } from './workerallproducts/workerallproducts.component';
 
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { BusinessComponent } from './business/business.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     ShopComponent,
     CommentsComponent,
     WorkerhomeComponent,
-    WorkerallproductsComponent
+    WorkerallproductsComponent,
+    BusinessComponent
   ],
   imports: [
     BrowserModule,

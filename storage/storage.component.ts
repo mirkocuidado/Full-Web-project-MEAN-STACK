@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../../backend/models/Product';
 import { Order } from '../../../../backend/models/Order';
+import { Warning } from '../../../../backend/models/Warning';
 import { FarmerService} from '../../app/farmer.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import {OrderLine} from '../shop/shop.component';
-
-import {ViewChild} from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Router} from '@angular/router';
 import { EnterpriseService } from '../enterprise.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-storage',
@@ -17,7 +14,7 @@ import { EnterpriseService } from '../enterprise.service';
 })
 export class StorageComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
+  constructor(private user: UserService, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
 
   products: Product[] = [];
   orders: Order[] = [];
@@ -26,6 +23,8 @@ export class StorageComponent implements OnInit {
   cene: any[] = [];
 
   toggle:number;
+
+  warnings: Warning[] = [];
 
   sortName(){
     if(this.toggle==0){
@@ -78,18 +77,27 @@ export class StorageComponent implements OnInit {
     for(let i =0; i<this.niz[a].length; i++){
       this.farmerService.updateOffers(this.niz[a][i].enterprise, this.niz[a][i].name, -this.niz[a][i].quantity, this.niz[a][i]);
     }
-    this.farmerService.deleteOrder(this.route.snapshot.paramMap.get('username'), this.cene[a]).subscribe( () => { 
+    this.farmerService.deleteOrder(this.username, this.cene[a]).subscribe( () => { 
      location.reload();});
   }
 
   linkHome: String;
   linkShop: String;
 
-  ngOnInit(): void {
-    this.linkHome = "../../farmerhome/"+this.route.snapshot.paramMap.get('username');
-    this.linkShop = "../../shop/"+this.route.snapshot.paramMap.get('username');
+  username: String;
 
-    this.farmerService.getProductsForFarmer(this.route.snapshot.paramMap.get('username')).subscribe( (pom: Product[]) => {
+  ngOnInit(): void {
+
+    this.username = localStorage.getItem("logged");
+
+    this.linkHome = "../../farmerhome/"+this.username;
+    this.linkShop = "../../shop/"+this.username;
+
+    this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
+      this.warnings = pom;
+    });
+
+    this.farmerService.getProductsForFarmer(this.username).subscribe( (pom: Product[]) => {
       pom.forEach(element => {
         if(element.qHave!=0) this.products.push(element);
       });
@@ -97,7 +105,7 @@ export class StorageComponent implements OnInit {
 
     this.toggle=0;
 
-    this.farmerService.getOrders(this.route.snapshot.paramMap.get('username')).subscribe( (pom: Order[]) =>{
+    this.farmerService.getOrders(this.username).subscribe( (pom: Order[]) =>{
       this.orders = pom;
       for(let i=0; i<this.orders.length; i++){
         this.niz.push(this.orders[i].items);
@@ -113,25 +121,27 @@ export class StorageComponent implements OnInit {
     let check = 0;
 
     for(let i=0; i<items.length; i++){
+      check=0;
       for(let j=0; j<this.products.length; j++){
-        console.log(items);
-        console.log(items[i].name);
-        console.log(this.products[j].name);
         if(this.products[j].name === items[i].name && this.products[j].enterprise === items[i].enterprise){
-          this.farmerService.updateProductsQ(this.route.snapshot.paramMap.get('username'), items[i].name, items[i].quantity, items[i]);
+          this.farmerService.updateProductsQ(this.username, items[i].name, items[i].quantity, items[i]);
+          this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
           this.farmerService.deleteOrder(this.orders[a].username, this.orders[a].amount).subscribe( () => {});
-          check = 1;
-          break;
+            });
+            check = 1;
+            break;
         }
+      }
         if(check===0){
-          this.farmerService.addProduct(items[i].name, items[i].enterprise, this.route.snapshot.paramMap.get('username'), items[i].speed, items[i].quantity, items[i].price, items[i].tip).subscribe(
+          this.farmerService.addProduct(items[i].name, items[i].enterprise, this.username, items[i].speed, items[i].quantity, items[i].price, items[i].tip).subscribe(
             () => {
-              this.farmerService.deleteOrder(this.orders[a].username, this.orders[a].amount).subscribe( () => {});
+              this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].date).subscribe( () => {
+                this.farmerService.deleteOrder(this.orders[a].username, this.orders[a].amount).subscribe( () => {});
+              });
             }
           );
         }
       }
-    }
     location.reload();
   }
 

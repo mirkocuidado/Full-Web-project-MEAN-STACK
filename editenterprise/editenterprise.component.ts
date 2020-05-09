@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EnterpriseService } from '../enterprise.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Enterprise} from '../../../../backend/models/Enterprise';
+import { UserService } from '../user.service';
 @Component({
   selector: 'app-editenterprise',
   templateUrl: './editenterprise.component.html',
@@ -22,10 +23,10 @@ export class EditenterpriseComponent implements OnInit {
   place: string;
   mail: string;
 
-  constructor(private enterpriseService: EnterpriseService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private enterpriseService: EnterpriseService, private router: Router, private user: UserService) { }
 
   ngOnInit(): void {
-    this.username1 = this.route.snapshot.paramMap.get('username');
+    this.username1 = localStorage.getItem("edit");
     this.enterpriseService.getEnterpriseByUsername(this.username1).subscribe( (pomFarmer: Enterprise) => {
       this.name = pomFarmer.name;
       this.username2 = pomFarmer.username;
@@ -49,7 +50,7 @@ export class EditenterpriseComponent implements OnInit {
     });
 
     if(this.flag2 === 1){
-      this.router.navigate(["/editenterprise/"+this.username1]);
+      this.router.navigate(["/editenterprise"]);
       return;
     }
     else{
