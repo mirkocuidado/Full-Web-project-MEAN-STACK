@@ -65,12 +65,9 @@ export class BusinessComponent implements OnInit {
       }
 
       for(let i=0; i<this.d.length; i++){
-        let dd = new Date(this.d[i]);
-        let mesec = dd.getMonth()+1;
-        let dan = dd.getDay();
-
-        let zajedno = dan + "." + mesec + ".";
-        this.m[i] = zajedno;
+        let a = this.d[i].split("T");
+        let date = a[0];
+        this.m[i] = date;
       }
 
       this.chart = new Chart(this.chartRef.nativeElement,{

@@ -20,9 +20,6 @@ export class SeedlingComponent implements OnInit {
 
   username: String;
   nurseryName: String;
-
-  link1: String;
-  link2: String;
   
   nursery: Nursery;
   seedlings: Seedling[] = [];
@@ -81,7 +78,9 @@ export class SeedlingComponent implements OnInit {
     }
 
     if(changeW.water<75 || changeW.temperature <12){
-      this.farmerService.addWarning(this.username, this.nurseryName).subscribe( ()=> {});
+      this.farmerService.deleteWarning(this.username, this.nurseryName).subscribe(()=>{
+        this.farmerService.addWarning(this.username, this.nurseryName).subscribe( ()=> {});
+      });
     }
 
     if(this.warnings.length!=0){
@@ -124,7 +123,7 @@ export class SeedlingComponent implements OnInit {
     this.pomm = this.hoveredSeedling;
     this.pomm.progress = this.pomm.progress + this.p.speed;
 
-    this.farmerService.updateSeedling(this.username, this.hoveredSeedling.name, this.pomm);
+    this.farmerService.updateSeedling(this.username, this.hoveredSeedling.name, this.nurseryName, this.pomm);
 
     this.farmerService.updateProducts(this.username, this.p.name, this.p);
   }
@@ -163,9 +162,9 @@ export class SeedlingComponent implements OnInit {
     this.farmerService.getProductsForFarmer(this.username).subscribe( (pom: Product[])=>{
       this.products = pom;
       for(let i=0; i<this.products.length; i++){
-        if(this.products[i].tip=="pr")
+        if(this.products[i].tip=="pr" && this.products[i].qHave>0)
           this.preparati.push(this.products[i]);
-        else 
+        else if(this.products[i].qHave>0)
           this.biljke.push(this.products[i]);
       }
     });

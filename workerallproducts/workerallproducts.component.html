@@ -38,7 +38,7 @@
                     <td> {{o.price}} </td>
                     <td> {{o.qAvailable}} </td>
                     <td> <i class="fas fa-arrow-left" (click)="vrati(o.name)"></i> </td>
-                    <td> <i class="fas fa-comment-dots" routerLink="/comments"> </i></td>
+                    <td> <i class="fas fa-comment-dots" routerLink="/comments" (click)="postavi(o.name)"> </i></td>
                 </tr>
             </table>
         </div>

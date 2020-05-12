@@ -60,8 +60,8 @@
 								<li> {{item.quantity}} </li>
 							</ul>
 						</td>
-						<td *ngIf="o.flag == 1" (click)="process_Order(0,i)"> <i class="fas fa-times xxx"> </i></td>
-						<td *ngIf="o.flag == 1" (click)="process_Order(1,i)"> <i class="fas fa-check" > </i></td>
+						<td *ngIf="o.flag == 1"> <button class="btn btn-danger" (click)="process_Order(0,i)"><i class="fas fa-times"> </i></button></td>
+						<td *ngIf="o.flag == 1" > <button class="btn btn-success" (click)="process_Order(1,i)"><i class="fas fa-check"> </i></button></td>
 					</tr>
 				</table>
 			</div>

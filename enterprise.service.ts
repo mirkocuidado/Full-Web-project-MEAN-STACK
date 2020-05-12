@@ -104,8 +104,8 @@ export class EnterpriseService {
     return this.http.get(`${this.uri}/orders/delete/${username}/${amount}/1`);
   }
 
-  updateOrder(time, b){
-    return this.http.post(`${this.uri}/orders/update/${time}/1`, b).subscribe( () => { });
+  updateOrder(time, enterprise, b){
+    return this.http.post(`${this.uri}/orders/update/${time}/${enterprise}/1`, b).subscribe( () => { });
   }
 
   // POSTMAN FROM HERE DOWN

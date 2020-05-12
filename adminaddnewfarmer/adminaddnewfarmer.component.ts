@@ -37,12 +37,22 @@ export class AdminaddnewfarmerComponent implements OnInit {
         alert("Username already in use!");
         break;
       }
+      if(this.farmers[i].mail == this.farmerForm.value.mail){
+        this.flagg = 1;
+        alert("E-mail already in use!");
+        break;
+      }
     }
     
     for(let i=0; i<this.enterprises.length; i++){
       if(this.enterprises[i].username == this.farmerForm.value.username){
         this.flagg = 1;
         alert("Username already in use!");
+        break;
+      }
+      if(this.enterprises[i].mail == this.farmerForm.value.mail){
+        this.flagg = 1;
+        alert("E-mail already in use!");
         break;
       }
     }
@@ -54,6 +64,7 @@ export class AdminaddnewfarmerComponent implements OnInit {
       let reg4 = /\w{8}/;
       let mailCheck = /^\w+@\w+\.\w+$/;
       let passCheck2 = /[a-z]/i;
+      let phoneCheck = /06\d{8}/;
 
       if(this.farmerForm.value.password !== this.farmerForm.value.confirm_password){
         alert("Password does not match the confirmed one!");
@@ -65,6 +76,9 @@ export class AdminaddnewfarmerComponent implements OnInit {
         else{
           if(!mailCheck.test(this.farmerForm.value.mail)){
             alert("Invalid e-mail address!");
+          }
+          else if(!phoneCheck.test(this.farmerForm.value.mobile)){
+            alert("Invalid mobile phone format!");
           }
           else{
             this.farmerService.addFarmerREQ(this.farmerForm.value.first_name, this.farmerForm.value.last_name,this.farmerForm.value.username, this.farmerForm.value.password, this.farmerForm.value.confirm_password, this.farmerForm.value.date, this.farmerForm.value.place, this.farmerForm.value.mobile, this.farmerForm.value.mail).subscribe(()=>{

@@ -204,8 +204,8 @@ export class FarmerService {
     return this.http.post(`${this.uri}/seedlings/add` , seedling);
   }
 
-  updateSeedling(username, name, a){
-    return this.http.post(`${this.uri}/seedlings/update/${username}/${name}`,a).subscribe( () => {});
+  updateSeedling(username, name, nurseryName, a){
+    return this.http.post(`${this.uri}/seedlings/update/${username}/${name}/${nurseryName}`,a).subscribe( () => {});
   }
 
   deleteSeedling(nursery, x, y){
@@ -215,6 +215,10 @@ export class FarmerService {
 
   getWarningsByUsername(username){
     return this.http.get(`${this.uri}/warnings/${username}`);
+  }
+
+  getWarningsByUsernameAndNursery(username, nursery){
+    return this.http.get(`${this.uri}/warnings/${username}/${nursery}`);
   }
 
   deleteWarning(username, name){
@@ -231,6 +235,10 @@ export class FarmerService {
 
     // Adding new farmer with the post request to this link
     return this.http.post(`${this.uri}/warnings/add` , w);
+  }
+
+  updateWarning(username, name,a){
+    return this.http.post(`${this.uri}/warning/update/${username}/${name}`,a).subscribe( () => {});
   }
 
   // PRODUCTS FROM HERE DOWN
@@ -322,8 +330,8 @@ export class FarmerService {
     return this.http.get(`${this.uri}/orders/${username}`);
   }
 
-  deleteOrder(username, amount){
-    return this.http.get(`${this.uri}/orders/delete/${username}/${amount}`);
+  deleteOrder(time, amount){
+    return this.http.get(`${this.uri}/orders/delete/${time}/${amount}`);
   }
 
   addOrder(username, items, amount, name, time, f){
@@ -339,8 +347,8 @@ export class FarmerService {
     return this.http.post(`${this.uri}/orders/add` , o);
   }
 
-  updateOrder(time, b){
-    return this.http.post(`${this.uri}/orders/update/${time}`, b).subscribe( () => { });
+  updateOrder(time, enterprise, b){
+    return this.http.post(`${this.uri}/orders/update/${time}/${enterprise}`, b).subscribe( () => { });
   }
 
   // COMMENTS FROM HERE DOWN

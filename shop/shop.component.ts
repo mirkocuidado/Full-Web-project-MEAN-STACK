@@ -80,15 +80,11 @@ export class ShopComponent implements OnInit {
     });
 
   }
-  linkHome: String;
-  linkSto: String;
 
   ngOnInit(): void {
     this.username = localStorage.getItem("logged");
 
-    this.linkHome = "../../farmerhome/"+this.username;
-    this.linkSto = "../../storage/"+this.username;
-
+    console.log(this.username);
     this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
       this.warnings = pom;
     });
@@ -187,6 +183,7 @@ export class ShopComponent implements OnInit {
   }
 
   postavi(a,b,c){
+    a=this.username;
     localStorage.setItem("logged",a);
     localStorage.setItem("product",b);
     localStorage.setItem("enterprise",c);

@@ -38,12 +38,22 @@ export class AdminaddnewenterpriseComponent implements OnInit {
         alert("Username already in use!");
         break;
       }
+      if(this.farmers[i].mail == this.enterpriseForm.value.mail){
+        this.flagg = 1;
+        alert("E-mail already in use!");
+        break;
+      }
     }
     
     for(let i=0; i<this.enterprises.length; i++){
-      if(this.enterprises[i].username == this.enterpriseForm.value.username){
+      if(this.enterprises[i].mail == this.enterpriseForm.value.username){
         this.flagg = 1;
         alert("Username already in use!");
+        break;
+      }
+      if(this.enterprises[i].username == this.enterpriseForm.value.mail){
+        this.flagg = 1;
+        alert("E-mail already in use!");
         break;
       }
     }

@@ -36,10 +36,10 @@
 								<td *ngIf="hoveredSeedling"> Proizvodjac: {{hoveredSeedling.ManufName}} </td>
 								</tr>
 								<tr>
-									<td *ngIf="hoveredSeedling && hoveredSeedling.progress===hoveredSeedling.progressFinish"> 
+									<td *ngIf="hoveredSeedling && hoveredSeedling.progress>=hoveredSeedling.progressFinish"> 
 										<button class="btn btn-danger" (click)="vadiMe(hoveredSeedling.x , hoveredSeedling.y)"> TAKE OUT </button>
 									</td>
-									<td *ngIf="hoveredSeedling && hoveredSeedling.progress!=hoveredSeedling.progressFinish"> Progres bar: {{hoveredSeedling.progress}}/{{hoveredSeedling.progressFinish}} </td>							  
+									<td *ngIf="hoveredSeedling && hoveredSeedling.progress<hoveredSeedling.progressFinish"> Progres bar: {{hoveredSeedling.progress}}/{{hoveredSeedling.progressFinish}} </td>							  
 								</tr>
 								<tr>
 									<td *ngIf="hoveredSeedling"> Pozicija: {{hoveredSeedling.x}} , {{hoveredSeedling.y}} </td>
@@ -85,8 +85,8 @@
 				<table class="center1">
 					<tr *ngFor = "let l of length; let i = index">
 						<td *ngFor = "let w of width; let j = index">  
-							<span *ngIf="matrix[i][j]===1"> <i class="fas fa-tree" (mouseenter)="blabla(i,j,1)"></i> </span>
-							<span *ngIf="matrix[i][j]===0"> <i class="fas fa-times" (mouseenter)="blabla(i,j,2)"> </i></span>
+							<span *ngIf="matrix[i][j]===1"> <i class="fas fa-tree tree" (mouseenter)="blabla(i,j,1)"></i> </span>
+							<span *ngIf="matrix[i][j]===0"> <i class="fas fa-times x" (mouseenter)="blabla(i,j,2)"> </i></span>
 						</td>
 					</tr>
 				</table>
@@ -124,7 +124,7 @@
 							<br>
 							<button class="btn btn-info up" (click)="updateNursery(-1)"> DECREASE TEMPERATURE </button>
 						</div>
-						</div>
+					</div>
 				</div>
 			</div>
 

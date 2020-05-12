@@ -123,10 +123,11 @@ export class StorageComponent implements OnInit {
     for(let i=0; i<items.length; i++){
       check=0;
       for(let j=0; j<this.products.length; j++){
+
         if(this.products[j].name === items[i].name && this.products[j].enterprise === items[i].enterprise){
           this.farmerService.updateProductsQ(this.username, items[i].name, items[i].quantity, items[i]);
           this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
-          this.farmerService.deleteOrder(this.orders[a].username, this.orders[a].amount).subscribe( () => {});
+          this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => { location.reload(); });
             });
             check = 1;
             break;
@@ -135,14 +136,13 @@ export class StorageComponent implements OnInit {
         if(check===0){
           this.farmerService.addProduct(items[i].name, items[i].enterprise, this.username, items[i].speed, items[i].quantity, items[i].price, items[i].tip).subscribe(
             () => {
-              this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].date).subscribe( () => {
-                this.farmerService.deleteOrder(this.orders[a].username, this.orders[a].amount).subscribe( () => {});
+              this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
+                this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => { location.reload();});
               });
             }
           );
         }
       }
-    location.reload();
   }
 
 

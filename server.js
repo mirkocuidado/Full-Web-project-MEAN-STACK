@@ -54,6 +54,7 @@ setInterval( () => {
                     
                 });
 
+                console.log(element.temperature);
                 if(element.temperature <= 12){ //treba 200 za vodu i 12 za temperaturu
                     
                     Farmer.findOne({ username: element.username }, (err, farmer) => {
@@ -439,8 +440,8 @@ router.route('/seedlings/add').post((req, res) => {
         });
 });
 
-router.route('/seedlings/update/:username/:name').post((req, res) => {
-    Seedling.findOne( {OwnerUsername:`${req.params.username}` , name: `${req.params.name}`}, (err, seed) => {
+router.route('/seedlings/update/:username/:name/:nurseryName').post((req, res) => {
+    Seedling.findOne( {OwnerUsername:`${req.params.username}` , NurseryName: `${req.params.nurseryName}` , name: `${req.params.name}`}, (err, seed) => {
         if (!seed){
             console.log(err);
         }
@@ -448,6 +449,7 @@ router.route('/seedlings/update/:username/:name').post((req, res) => {
             
             seed.progress = req.body.progress;
 
+            console.log(seed.progress);
             seed.save().then(seed => {
                 res.json('Update done');
             }).catch(err => {
@@ -497,6 +499,16 @@ router.route('/warnings/:username').get((req, res) => {
     });
 });
 
+router.route('/warnings/:username/:nurs').get((req, res) => {
+    Warning.findOne({ username: `${req.params.username}` , NurseryName: `${req.params.nurs}` }, (err, w) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(w);
+    });
+});
+
+
 router.route('/warnings/add').post((req, res) => {
     let warning = new Warning(req.body);
     warning.save()
@@ -509,7 +521,7 @@ router.route('/warnings/add').post((req, res) => {
 });
 
 router.route('/warnings/delete/:username/:name').get((req, res) => {
-    Warning.deleteOne({username: req.params.username, nursery: req.params.name}, (err, w) => {
+    Warning.deleteMany({username: req.params.username, nursery: req.params.name}, (err, w) => {
         if (err)
             res.json(err);
         else
@@ -705,8 +717,8 @@ router.route('/orders/add').post((req, res) => {
         });
 });
 
-router.route('/orders/delete/:username/:amount').get((req, res) => {
-    Order.deleteOne({username: req.params.username, amount: req.params.amount}, (err, o) => {
+router.route('/orders/delete/:time/:amount').get((req, res) => {
+    Order.deleteOne({time: req.params.time, amount: req.params.amount}, (err, o) => {
         if (err)
             res.json(err);
         else
@@ -714,15 +726,16 @@ router.route('/orders/delete/:username/:amount').get((req, res) => {
     });
 });
 
-router.route('/orders/update/:time').post((req, res) => {
-    Order.findOne( {time: req.params.time}, (err, o) => {
+router.route('/orders/update/:time/:enterprise').post((req, res) => {
+    let a = "ORDER-"+req.params.enterprise;
+    Order.findOne( {time: req.params.time, name: a}, (err, o) => {
         if (!o){
             console.log(err);
         }
         else {
             
             o.flag = 2;
-
+            console.log(req.params.time);
             o.save().then(o => {
                 res.json('Update done');
             }).catch(err => {
@@ -732,8 +745,9 @@ router.route('/orders/update/:time').post((req, res) => {
     });
 });
 
-router.route('/orders/update/:time/1').post((req, res) => {
-    Order.findOne( {time: req.params.time}, (err, o) => {
+router.route('/orders/update/:time/:enterprise/1').post((req, res) => {
+    let a = "ORDER-"+req.params.enterprise;
+    Order.findOne( {time: req.params.time, name: a}, (err, o) => {
         if (!o){
             console.log(err);
         }
@@ -795,6 +809,7 @@ router.route('/comments/add').post((req, res) => {
 
 router.route('/postman/update/:username/:postman/:time/:date').post((req, res) => {
     console.log("POSTMAN!");
+    let a ="ORDER-" + `${req.params.username}`;
     Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
         if (!enter){
             console.log(err);
@@ -807,8 +822,10 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
 
             console.log("SAVED?");
 
+            console.log(req.params.time);
+
             setTimeout( () => {
-                Order.findOne( {time: `${req.params.date}`}, (err, o) => {
+                Order.findOne( {time: `${req.params.date}`, name:a}, (err, o) => {
                     if (!o){
                         console.log(err);
                     }
@@ -824,7 +841,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                     }
                 });
 
-            }, 10000 /*req.params.time*/);
+            }, 10000 /*req.params.time*1000*60*/);
 
             setTimeout( () => {
                 Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
@@ -845,7 +862,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                 });
 
             }});
-            }, 15000 /*(2*req.params.time)*/);
+            }, 15000 /*(2*req.params.time)*1000*60)*/);
         }
     });
 });

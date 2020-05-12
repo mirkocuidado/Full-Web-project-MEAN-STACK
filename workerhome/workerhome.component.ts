@@ -52,7 +52,6 @@ export class WorkerhomeComponent implements OnInit {
        location.reload();});
     }
     else if(b==1){
-      console.log(this.postman);
       if(this.postman<5){
         this.farmerService.getFarmerByUsername(this.orders[a].username).subscribe( (pom: Farmer) => {
           this.matrix.getDistanceMatrix({
@@ -64,12 +63,11 @@ export class WorkerhomeComponent implements OnInit {
             if(status!=='OK')
               console.log(status);
             else{
-              console.log(response);
               
               let time = response.rows[0].elements[0].duration.value;
               
               this.postman = this.postman + 1;
-              this.farmerService.updateOrder(this.orders[a].time, this.orders[a]); //flag = 2
+              this.farmerService.updateOrder(this.orders[a].time, this.username, this.orders[a]); //flag = 2
               this.enterpriseService.updatePostman(this.username, this.postman, time, this.nizz, this.orders[a].time);
               location.reload();
             }
@@ -78,7 +76,7 @@ export class WorkerhomeComponent implements OnInit {
         });
       }
       else{
-        this.enterpriseService.updateOrder(this.orders[a].time, this.orders[a]); // flag = 3
+        this.enterpriseService.updateOrder(this.orders[a].time, this.username, this.orders[a]); // flag = 3
         location.reload();
       }
     }
@@ -105,7 +103,6 @@ export class WorkerhomeComponent implements OnInit {
         this.niz.push(this.orders[i].items);
         this.cene.push(this.orders[i].amount);
       }
-      console.log(this.orders);
       
       this.enterpriseService.getEnterpriseByUsername(this.username).subscribe( (pom: Enterprise) => {
         this.postman = pom.postman;
@@ -113,8 +110,6 @@ export class WorkerhomeComponent implements OnInit {
           this.nizz[i]=1;
 
           for(let i=0; i<this.orders.length; i++){
-            console.log(this.orders[i].flag);
-            console.log(this.postman);
             if(this.orders[i].flag===3){
               if(this.postman<5){
                 this.farmerService.getFarmerByUsername(this.orders[i].username).subscribe( (pom: Farmer) => {
@@ -132,7 +127,7 @@ export class WorkerhomeComponent implements OnInit {
                       let time = response.rows[0].elements[0].duration.value;
                       
                       this.postman = this.postman + 1;
-                      this.farmerService.updateOrder(this.orders[i].time, this.orders[i]); //flag = 2
+                      this.farmerService.updateOrder(this.orders[i].time, this.username, this.orders[i]); //flag = 2
                       this.enterpriseService.updatePostman(this.username, this.postman, time, this.nizz, this.orders[i].time);
                     }
                   }

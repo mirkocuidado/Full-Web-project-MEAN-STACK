@@ -59,7 +59,7 @@ export class WorkerallproductsComponent implements OnInit {
     });
   }
 
-  user: String;
+  user: string;
 
   ngOnInit(): void {
 
@@ -89,4 +89,8 @@ export class WorkerallproductsComponent implements OnInit {
     });
   }
 
+  postavi(a){
+    localStorage.setItem("product",a);
+    localStorage.setItem("enterprise", this.user);
+  }
 }

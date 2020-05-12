@@ -45,6 +45,8 @@ export class CommentsComponent implements OnInit {
     this.name = localStorage.getItem("product");
     this.enterprise = localStorage.getItem("enterprise");
 
+    console.log(this.username);
+
     this.farmerService.getComments(this.name, this.enterprise).subscribe( (pom: Comment[]) => {
       this.comments = pom;
     });
