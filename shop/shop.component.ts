@@ -28,6 +28,7 @@ export class ShopComponent implements OnInit {
   constructor(private user: UserService, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
 
   username: String;
+  nurseryName: String;
 
   num: number;
   a: number;
@@ -83,6 +84,7 @@ export class ShopComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = localStorage.getItem("logged");
+    this.nurseryName = localStorage.getItem("nursery");
 
     console.log(this.username);
     this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
@@ -168,8 +170,10 @@ export class ShopComponent implements OnInit {
 
     for(let i=0; i<this.orderListList.length; i++){
       if(this.orderListList[i].length!=0){
+
         let a = "ORDER-";
-        this.farmerService.addOrder(this.username, this.orderListList[i], this.cene[i], a, d, 1).subscribe( ()=> {
+
+        this.farmerService.addOrder(this.username, this.orderListList[i], this.cene[i], a, d, 1, this.nurseryName).subscribe( ()=> {
           for(let j=0; j<this.orderListList[i].length; j++){
             this.farmerService.updateOffers(this.orderListList[i][j].enterprise, this.orderListList[i][j].name, this.orderListList[i][j].quantity, this.orderListList[i][j]);
           }

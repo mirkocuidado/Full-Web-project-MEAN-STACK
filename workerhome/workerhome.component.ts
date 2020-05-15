@@ -7,6 +7,7 @@ import { Order } from '../../../../backend/models/Order';
 import { Enterprise } from '../../../../backend/models/Enterprise';
 import { Farmer } from '../../../../backend/models/Farmer';
 import { EnterpriseService } from '../enterprise.service';
+import { Nursery } from '../../../../backend/models/Nursery';
 
 @Component({
   selector: 'app-workerhome',
@@ -53,7 +54,8 @@ export class WorkerhomeComponent implements OnInit {
     }
     else if(b==1){
       if(this.postman<5){
-        this.farmerService.getFarmerByUsername(this.orders[a].username).subscribe( (pom: Farmer) => {
+        let b = this.orders[a].storage;
+        this.farmerService.getNurseryByUsernameAndName(this.orders[a].username, b).subscribe( (pom: Nursery) => {
           this.matrix.getDistanceMatrix({
             origins: [`${this.place}, Srbija`],
             destinations: [ `${pom.place}, Srbija`],
@@ -112,7 +114,8 @@ export class WorkerhomeComponent implements OnInit {
           for(let i=0; i<this.orders.length; i++){
             if(this.orders[i].flag===3){
               if(this.postman<5){
-                this.farmerService.getFarmerByUsername(this.orders[i].username).subscribe( (pom: Farmer) => {
+                let b = this.orders[i].storage;
+                this.farmerService.getNurseryByUsernameAndName(this.orders[i].username, b).subscribe( (pom: Nursery) => {
                   this.matrix.getDistanceMatrix({
                     origins: [`${this.place}, Srbija`],
                     destinations: [ `${pom.place}, Srbija`],

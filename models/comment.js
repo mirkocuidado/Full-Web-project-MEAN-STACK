@@ -17,6 +17,9 @@ let Comment = new Schema({
     },
     grade:{
         type: Number
+    },
+    users:{
+        type: Array
     }
 });
 

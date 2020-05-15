@@ -1,8 +1,8 @@
 <body>
 
     <nav id="navbar" class="navbar navbar-expand-sm navbar-light">
-      <a *ngIf="username==enterprise" routerLink="/workerhome" class="navbar-brand" href="#">Home</a>
-       <a *ngIf="username!=enterprise" routerLink="/farmerhome" class="navbar-brand" href="#">Home</a>
+      <a *ngIf="username==enterprise" routerLink="/workerhome" class="navbar-brand">Home</a>
+       <a *ngIf="username!=enterprise" routerLink="/farmerhome" class="navbar-brand">Home</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-hamburger"></i>
       </button>
@@ -40,7 +40,7 @@
                 <td> <input type="number" name="grade" [(ngModel)]="grade" min="0" max="5"> </td>
               </tr>
               <tr>
-                <td colspan="2">  <div><a href="#" id="addacomment" class="btn btn-primary" (click)="addComment()">Add a coment</a> </div> </td>
+                <td colspan="2">  <div><a id="addacomment" class="btn btn-primary" (click)="addComment()">Add a coment</a> </div> </td>
               </tr>
             </table>
           </form>

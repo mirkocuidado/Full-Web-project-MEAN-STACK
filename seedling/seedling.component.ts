@@ -101,7 +101,7 @@ export class SeedlingComponent implements OnInit {
       this.farmerService.addSeedling(this.username, this.nurseryName, this.pom.enterprise , name, this.i, this.j, this.pom.speed).subscribe( ()=> { 
         this.farmerService.updateNurseryNum(this.username, this.nurseryName, "NISTA BITNO");
         this.pom.qHave = this.pom.qHave - 1;
-        this.farmerService.updateProducts(this.username, this.nurseryForm.value.name, this.pom);
+        this.farmerService.updateProductss(this.username, this.nurseryForm.value.name, this.nurseryName, -1, this.pom);
         location.reload(); });
     });
   }
@@ -125,7 +125,7 @@ export class SeedlingComponent implements OnInit {
 
     this.farmerService.updateSeedling(this.username, this.hoveredSeedling.name, this.nurseryName, this.pomm);
 
-    this.farmerService.updateProducts(this.username, this.p.name, this.p);
+    this.farmerService.updateProducts(this.username, this.p.name, this.nurseryName, this.p);
   }
 
   preparati: any[] = [];
@@ -160,7 +160,10 @@ export class SeedlingComponent implements OnInit {
     this.a=0;
     
     this.farmerService.getProductsForFarmer(this.username).subscribe( (pom: Product[])=>{
-      this.products = pom;
+      for(let i=0; i<pom.length; i++)
+        if(pom[i].storage===this.nurseryName)
+          this.products.push(pom[i]);
+          
       for(let i=0; i<this.products.length; i++){
         if(this.products[i].tip=="pr" && this.products[i].qHave>0)
           this.preparati.push(this.products[i]);

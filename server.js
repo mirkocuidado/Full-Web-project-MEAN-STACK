@@ -550,6 +550,15 @@ router.route('/products/:username/:name').get((req, res) => {
 });
 
 router.route('/products/:username/:enterprise/:name').get((req, res) => {
+    Product.find({ ownerUsername: `${req.params.username}` , name: `${req.params.name}` , enterprise: `${req.params.enterprise}` }, (err, prod) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(prod);
+    });
+});
+
+router.route('/product/:username/:enterprise/:name').get((req, res) => {
     Product.findOne({ ownerUsername: `${req.params.username}` , name: `${req.params.name}` , enterprise: `${req.params.enterprise}` }, (err, prod) => {
         if (err)
             console.log(err);
@@ -569,13 +578,13 @@ router.route('/products/add').post((req, res) => {
         });
 });
 
-router.route('/products/update/:username/:name').post((req, res) => {
-    Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}`}, (err, product) => {
+router.route('/products/update/:username/:name/:stor').post((req, res) => {
+    Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage: `${req.params.stor}`}, (err, product) => {
         if (!product){
             console.log(err);
         }
         else {
-            
+
             product.qHave = req.body.qHave;
             product.given = req.body.given;
 
@@ -588,8 +597,47 @@ router.route('/products/update/:username/:name').post((req, res) => {
     });
 });
 
-router.route('/products/update/:username/:name/:quantity').post((req, res) => {
-    Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}`}, (err, product) => {
+router.route('/products/update/:username/:name/:stor/:broj').post((req, res) => {
+    Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage: `${req.params.stor}`}, (err, product) => {
+        if (!product){
+            console.log(err);
+        }
+        else {
+
+            product.qHave = req.body.qHave-1;
+
+            product.save().then(product => {
+                res.json('Update done');
+            }).catch(err => {
+                res.status(400).send('Update failed');
+            });
+        }
+    });
+});
+
+router.route('/products/comments/comments/:username/:name/:storage').post((req, res) => {
+    Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}`, storage:`${req.params.storage}`}, (err, product) => {
+        if (!product){
+            console.log("AAA");
+        }
+        else {
+
+            product.given = 1;
+
+            product.save().then(product => {
+                res.json('Update done');
+            }).catch(err => {
+                res.status(400).send('Update failed');
+            });
+        }
+    });
+});
+
+router.route('/products/updateee/:username/:name/:quantity/:stor').post((req, res) => {
+    console.log(req.params.username);
+    console.log(req.params.name);
+    console.log(req.params.quantity);
+    Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage:`${req.params.stor}`}, (err, product) => {
         if (!product){
             console.log(err);
         }
@@ -870,7 +918,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
 // BUSINESS FROM HERE DOWN
 
 router.route('/business/add').post((req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     let b = new Business(req.body);
     b.save()
         .then(b => {

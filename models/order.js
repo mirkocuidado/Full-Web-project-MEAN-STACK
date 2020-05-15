@@ -23,6 +23,9 @@ let Order = new Schema({
     },
     flag: {
         type: Number
+    },
+    storage: {
+        type: String
     }
 });
 

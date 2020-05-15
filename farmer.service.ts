@@ -252,15 +252,32 @@ export class FarmerService {
   }
 
   getProductForFarmerEnterprise(username, enterprise, name){
+    return this.http.get(`${this.uri}/product/${username}/${enterprise}/${name}`);
+  }
+
+  getProductsForFarmerEnterprise(username, enterprise, name){
     return this.http.get(`${this.uri}/products/${username}/${enterprise}/${name}`);
   }
 
-  updateProducts(username, name, a){
-    return this.http.post(`${this.uri}/products/update/${username}/${name}`,a).subscribe( () => {
+  updateProducts(username, name, stor, a){
+    return this.http.post(`${this.uri}/products/update/${username}/${name}/${stor}`,a).subscribe( () => {
     });
   }
 
-  addProduct(name, enterprise, OwnerUsername, speed, qHave, price, tip){
+  updateProductss(username, name, stor, broj, a){
+    return this.http.post(`${this.uri}/products/update/${username}/${name}/${stor}/${broj}`,a).subscribe( () => {
+    });
+  }
+
+  updateProductsForComments(username, name, storage, a){
+    for(let i=0; i<a.length; i++){
+      let pom = a[i].storage;
+      this.http.post(`${this.uri}/products/comments/comments/${username}/${name}/${pom}`,a).subscribe( () => {});
+    }
+    return;
+  }
+
+  addProduct(name, enterprise, OwnerUsername, speed, qHave, price, tip,s,g){
     const pom = {
       name: name,
       enterprise: enterprise,
@@ -269,21 +286,22 @@ export class FarmerService {
       qHave: qHave,
       price: price,
       tip: tip,
-      given: 0,
+      given: g,
       grade: 0, 
       numOfGrades: 0, 
-      flag: true
+      flag: true,
+      storage: s
     };
 
     return this.http.post(`${this.uri}/products/add`, pom);
 
   }
 
-  updateProductsQ(username, name, quant,  a){
-    return this.http.post(`${this.uri}/products/update/${username}/${name}/${quant}`,a).subscribe( () => {
+  updateProductsQ(username, name, quant, ab, a){
+    return this.http.post(`${this.uri}/products/updateee/${username}/${name}/${quant}/${ab}`,a).subscribe( () => {
     });
   }
-
+  
   // OFFERS FROM HERE DOWN
 
   getOffers(){
@@ -334,14 +352,15 @@ export class FarmerService {
     return this.http.get(`${this.uri}/orders/delete/${time}/${amount}`);
   }
 
-  addOrder(username, items, amount, name, time, f){
+  addOrder(username, items, amount, name, time, f, storage){
     const o = {
       name: name+items[0].enterprise,
       username: username,
       items: items,
       amount: amount,
       time: time,
-      flag: f
+      flag: f,
+      storage: storage
     };
 
     return this.http.post(`${this.uri}/orders/add` , o);

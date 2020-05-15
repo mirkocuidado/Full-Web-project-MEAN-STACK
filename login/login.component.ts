@@ -19,6 +19,10 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required])
   });
 
+  nope():void{
+    alert("This is implemented on github, this version does not have it.");
+  }
+
   ngOnInit(): void {
   }
 

@@ -32,6 +32,9 @@ let Product = new Schema({
     },
     given:{
         type: Number
+    },
+    storage:{
+        type: String
     }
 });
 

@@ -17,6 +17,7 @@ export class StorageComponent implements OnInit {
   constructor(private user: UserService, private farmerService: FarmerService, private router: Router, private enterpriseService: EnterpriseService) { }
 
   products: Product[] = [];
+  products2: Product[] = [];
   orders: Order[] = [];
 
   niz: any [] = [];
@@ -85,32 +86,37 @@ export class StorageComponent implements OnInit {
   linkShop: String;
 
   username: String;
+  nurseryName: String;
 
   ngOnInit(): void {
 
     this.username = localStorage.getItem("logged");
-
-    this.linkHome = "../../farmerhome/"+this.username;
-    this.linkShop = "../../shop/"+this.username;
+    this.nurseryName = localStorage.getItem("nursery");
 
     this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
       this.warnings = pom;
     });
 
     this.farmerService.getProductsForFarmer(this.username).subscribe( (pom: Product[]) => {
+      this.products2 = pom;
       pom.forEach(element => {
-        if(element.qHave!=0) this.products.push(element);
+        if(element.qHave!=0 && element.storage===this.nurseryName) this.products.push(element);
       });
     });
 
     this.toggle=0;
 
     this.farmerService.getOrders(this.username).subscribe( (pom: Order[]) =>{
-      this.orders = pom;
-      for(let i=0; i<this.orders.length; i++){
-        this.niz.push(this.orders[i].items);
-        this.cene.push(this.orders[i].amount);
-      }
+     
+      for(let i=0; i<pom.length; i++)
+        if(pom[i].storage === this.nurseryName)
+          this.orders.push(pom[i]);
+
+        for(let i=0; i<this.orders.length; i++){
+          this.niz.push(this.orders[i].items);
+          this.cene.push(this.orders[i].amount);
+        }
+        
     });
     
   }
@@ -123,9 +129,8 @@ export class StorageComponent implements OnInit {
     for(let i=0; i<items.length; i++){
       check=0;
       for(let j=0; j<this.products.length; j++){
-
-        if(this.products[j].name === items[i].name && this.products[j].enterprise === items[i].enterprise){
-          this.farmerService.updateProductsQ(this.username, items[i].name, items[i].quantity, items[i]);
+        if(this.products[j].name === items[i].name && this.products[j].enterprise === items[i].enterprise && this.orders[a].storage === this.nurseryName){
+          this.farmerService.updateProductsQ(this.username, items[i].name, items[i].quantity, this.nurseryName, items[i]);
           this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
           this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => { location.reload(); });
             });
@@ -133,8 +138,20 @@ export class StorageComponent implements OnInit {
             break;
         }
       }
+
+      console.log(check);
+
         if(check===0){
-          this.farmerService.addProduct(items[i].name, items[i].enterprise, this.username, items[i].speed, items[i].quantity, items[i].price, items[i].tip).subscribe(
+          let given = 0;
+
+          for(let j=0; j<this.products2.length; j++){
+            if(this.products2[j].name === items[i].name && this.products2[j].enterprise === items[i].enterprise){
+              given = 1;
+              break;
+            }
+          }
+
+          this.farmerService.addProduct(items[i].name, items[i].enterprise, this.username, items[i].speed, items[i].quantity, items[i].price, items[i].tip, this.nurseryName, given).subscribe(
             () => {
               this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
                 this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => { location.reload();});

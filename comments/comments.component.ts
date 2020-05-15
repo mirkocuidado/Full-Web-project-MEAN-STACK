@@ -29,14 +29,14 @@ export class CommentsComponent implements OnInit {
 
   addComment():void{
     this.farmerService.addComment(this.name, this.username, this.enterprise, this.com, this.grade).subscribe( ()=> {
-      this.farmerService.getProductForFarmerEnterprise(this.username, this.enterprise, this.name).subscribe( (p: Product) =>{
+
+      this.farmerService.getProductsForFarmerEnterprise(this.username, this.enterprise, this.name).subscribe( (p: Product[]) =>{
         this.p = p;
-        this.p.given = 1;
-        this.farmerService.updateProducts(this.username, this.name, this.p);
+        this.farmerService.updateProductsForComments(this.username,  this.name, this.p.storage, this.p);
       });
       
       this.farmerService.updateOffersGrade(this.enterprise, this.name, this.grade, this.p);
-
+      location.reload();
     });
   }
 
