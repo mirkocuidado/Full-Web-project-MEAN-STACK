@@ -49,7 +49,7 @@ export class WorkerhomeComponent implements OnInit {
       for(let i =0; i<this.niz[a].length; i++){
         this.farmerService.updateOffers(this.niz[a][i].enterprise, this.niz[a][i].name, -this.niz[a][i].quantity, this.niz[a][i]);
       }
-      this.enterpriseService.deleteOrder(this.username, this.cene[a]).subscribe( () => { 
+      this.enterpriseService.deleteOrder2(this.username, this.orders[a].time).subscribe( () => { 
        location.reload();});
     }
     else if(b==1){
@@ -114,6 +114,7 @@ export class WorkerhomeComponent implements OnInit {
           for(let i=0; i<this.orders.length; i++){
             if(this.orders[i].flag===3){
               if(this.postman<5){
+                this.postman = this.postman + 1;
                 let b = this.orders[i].storage;
                 this.farmerService.getNurseryByUsernameAndName(this.orders[i].username, b).subscribe( (pom: Nursery) => {
                   this.matrix.getDistanceMatrix({
@@ -129,7 +130,7 @@ export class WorkerhomeComponent implements OnInit {
                       
                       let time = response.rows[0].elements[0].duration.value;
                       
-                      this.postman = this.postman + 1;
+                      
                       this.farmerService.updateOrder(this.orders[i].time, this.username, this.orders[i]); //flag = 2
                       this.enterpriseService.updatePostman(this.username, this.postman, time, this.nizz, this.orders[i].time);
                     }

@@ -78,7 +78,7 @@ export class StorageComponent implements OnInit {
     for(let i =0; i<this.niz[a].length; i++){
       this.farmerService.updateOffers(this.niz[a][i].enterprise, this.niz[a][i].name, -this.niz[a][i].quantity, this.niz[a][i]);
     }
-    this.farmerService.deleteOrder(this.username, this.cene[a]).subscribe( () => { 
+    this.farmerService.deleteOrder(this.orders[a].time, this.cene[a]).subscribe( () => { 
      location.reload();});
   }
 

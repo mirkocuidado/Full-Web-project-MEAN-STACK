@@ -104,6 +104,9 @@ export class EnterpriseService {
     return this.http.get(`${this.uri}/orders/delete/${username}/${amount}/1`);
   }
 
+  deleteOrder2(username, time){
+    return this.http.get(`${this.uri}/orders/delete/${username}/${time}/1/1`);
+  }
   updateOrder(time, enterprise, b){
     return this.http.post(`${this.uri}/orders/update/${time}/${enterprise}/1`, b).subscribe( () => { });
   }

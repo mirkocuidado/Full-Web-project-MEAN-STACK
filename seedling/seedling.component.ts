@@ -118,14 +118,14 @@ export class SeedlingComponent implements OnInit {
     }
 
     this.p = this.chosen;
-    this.p.qHave = this.p.qHave - 1;
+    /*this.p.qHave = this.p.qHave - 1;*/
 
     this.pomm = this.hoveredSeedling;
     this.pomm.progress = this.pomm.progress + this.p.speed;
 
     this.farmerService.updateSeedling(this.username, this.hoveredSeedling.name, this.nurseryName, this.pomm);
 
-    this.farmerService.updateProducts(this.username, this.p.name, this.nurseryName, this.p);
+    this.farmerService.updateProductss(this.username, this.p.name, this.nurseryName, this.p, this.pomm);
   }
 
   preparati: any[] = [];

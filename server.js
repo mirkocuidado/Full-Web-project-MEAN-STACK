@@ -578,7 +578,8 @@ router.route('/products/add').post((req, res) => {
         });
 });
 
-router.route('/products/update/:username/:name/:stor').post((req, res) => {
+/*router.route('/products/update/:username/:name/:stor').post((req, res) => {
+    console.log("AAAAAAAAAAA");
     Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage: `${req.params.stor}`}, (err, product) => {
         if (!product){
             console.log(err);
@@ -595,16 +596,17 @@ router.route('/products/update/:username/:name/:stor').post((req, res) => {
             });
         }
     });
-});
+});*/
 
 router.route('/products/update/:username/:name/:stor/:broj').post((req, res) => {
+    console.log("BBBBBBBBBB");
     Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage: `${req.params.stor}`}, (err, product) => {
         if (!product){
             console.log(err);
         }
         else {
 
-            product.qHave = req.body.qHave-1;
+            product.qHave = product.qHave - 1;
 
             product.save().then(product => {
                 res.json('Update done');
@@ -700,8 +702,10 @@ router.route('/offers/update/:enterprise/:name/:num').post((req, res) => {
             console.log(err);
         }
         else {
-            
+
+            console.log(o.qAvailable);
             o.qAvailable -= req.params.num;
+            console.log(o.qAvailable);
 
             o.save().then(o => {
                 res.json('Update done');
@@ -832,6 +836,16 @@ router.route('/orders/delete/:username/:amount/1').get((req, res) => {
     });
 });
 
+router.route('/orders/delete/:username/:time/1/1').get((req, res) => {
+    let aaa = "ORDER-" + `${req.params.username}`;
+    Order.deleteOne({name: aaa, time: req.params.time}, (err, o) => {
+        if (err)
+            res.json(err);
+        else
+            res.json('Remove successfully');
+    });
+});
+
 // COMMENTS FROM HERE DOWN
 router.route('/comments/:name/:enterprise').get((req, res) => {
     Comment.find({ name: `${req.params.name}`, enterprise: `${req.params.enterprise}` }, (err, com) => {
@@ -889,7 +903,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                     }
                 });
 
-            }, 10000 /*req.params.time*1000*60*/);
+            }, 90000 /*req.params.time*1000*60*/);
 
             setTimeout( () => {
                 Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
@@ -910,7 +924,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                 });
 
             }});
-            }, 15000 /*(2*req.params.time)*1000*60)*/);
+            }, 120000 /*(2*req.params.time)*1000*60)*/);
         }
     });
 });

@@ -177,12 +177,13 @@ export class ShopComponent implements OnInit {
           for(let j=0; j<this.orderListList[i].length; j++){
             this.farmerService.updateOffers(this.orderListList[i][j].enterprise, this.orderListList[i][j].name, this.orderListList[i][j].quantity, this.orderListList[i][j]);
           }
+          localStorage.removeItem('order');
+          location.reload();
         });
       }
     }
 
-    localStorage.removeItem('order');
-    location.reload();
+    
 
   }
 

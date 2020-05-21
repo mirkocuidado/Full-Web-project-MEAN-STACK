@@ -259,10 +259,10 @@ export class FarmerService {
     return this.http.get(`${this.uri}/products/${username}/${enterprise}/${name}`);
   }
 
-  updateProducts(username, name, stor, a){
+  /*updateProducts(username, name, stor, a){
     return this.http.post(`${this.uri}/products/update/${username}/${name}/${stor}`,a).subscribe( () => {
     });
-  }
+  }*/
 
   updateProductss(username, name, stor, broj, a){
     return this.http.post(`${this.uri}/products/update/${username}/${name}/${stor}/${broj}`,a).subscribe( () => {
