@@ -459,9 +459,8 @@ router.route('/seedlings/update/:username/:name/:nurseryName').post((req, res) =
     });
 });
 
-router.route('/seedlings/delete/:nursery/:x/:y').get((req, res) => {
+router.route('/seedlings/delete/:nursery/:x/:y/:user').get((req, res) => {
     setTimeout( () => {
-
         Seedling.findOne({NurseryName: req.params.nursery, x: req.params.x, y: req.params.y}, (err, seed) => {
             if (err)
                 console.log(err);
@@ -470,7 +469,7 @@ router.route('/seedlings/delete/:nursery/:x/:y').get((req, res) => {
                     if (err)
                         console.log(err);
 
-                        Nursery.findOne( {username:seed.OwnerUsername , name: seed.NurseryName}, (err, nurse) => {
+                        Nursery.findOne( {username:req.params.user , name: req.params.nursery}, (err, nurse) => {
                             if (!nurse){
                                 console.log(err);
                             }
@@ -599,7 +598,6 @@ router.route('/products/add').post((req, res) => {
 });*/
 
 router.route('/products/update/:username/:name/:stor/:broj').post((req, res) => {
-    console.log("BBBBBBBBBB");
     Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage: `${req.params.stor}`}, (err, product) => {
         if (!product){
             console.log(err);

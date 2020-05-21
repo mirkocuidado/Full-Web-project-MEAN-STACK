@@ -41,12 +41,27 @@ export class WorkerallproductsComponent implements OnInit {
 
       if(flag === 0){
         this.farmerService.addOffer(this.firstFormGroup.value.firstCtrl, this.name, this.fifthFormGroup.value.fifthCtrl, this.thirdFormGroup.value.thirdCtrl, this.secondFormGroup.value.secondCtrl, tip).subscribe( () => {
-          location.reload();
+          const a = {
+            name: this.firstFormGroup.value.firstCtrl,
+            enterprise: this.name,
+            speed: this.fifthFormGroup.value.fifthCtrl,
+            qAvailable : this.thirdFormGroup.value.thirdCtrl,
+            grade: 0,
+            price: this.fourthFormGroup.value.fourthCtrl,
+            numOfGrades: 0,
+            tip: tip,
+            flag: true
+          }
+          this.offers.push(a);
         });
       }
       else if(flag===1){
         this.farmerService.updateOffers(this.name, this.firstFormGroup.value.firstCtrl, -this.thirdFormGroup.value.thirdCtrl, this.name);
-        location.reload();
+        for(let i=0; i<this.offers.length; i++)
+          if(this.offers[i].name === this.firstFormGroup.value.firstCtrl){
+            this.offers[i].qAvailable += parseInt(this.thirdFormGroup.value.thirdCtrl);
+            break;
+          }
       }
     }
     else alert("Invalid type! Try with Product or Plant!");
@@ -55,7 +70,11 @@ export class WorkerallproductsComponent implements OnInit {
 
   vrati(name){
     this.farmerService.deleteOffer(name).subscribe( () => {
-      location.reload();
+      for(let i=0; i<this.offers.length; i++)
+          if(this.offers[i].name === name){
+            this.offers.splice(i,1);
+            break;
+          }
     });
   }
 

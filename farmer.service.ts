@@ -90,12 +90,12 @@ export class FarmerService {
     if(a===1){
       this.http.get(`${this.uri}/farmersREQ/${username}`).subscribe( (pomFarmer: FarmerREQ) => {
         this.addFarmer(pomFarmer.first_name, pomFarmer.last_name,pomFarmer.username,pomFarmer.password,pomFarmer.confirm_password,pomFarmer.birth_date,pomFarmer.mobile,pomFarmer.place,pomFarmer.mail).subscribe( () => {     
-          this.deleteFarmerREQ(username).subscribe( () => {location.reload();});
+          this.deleteFarmerREQ(username).subscribe( () => {});
               });
       });
     }
     else {
-      this.deleteFarmerREQ(username).subscribe( () => {location.reload();});
+      this.deleteFarmerREQ(username).subscribe( () => {});
     }
   }
 
@@ -172,11 +172,8 @@ export class FarmerService {
   }
 
   updateNursery(username, name, a){
-    console.log(`${username}`);
-    console.log(`${name}`);
-    console.log(`${a}`);
 
-    return this.http.post(`${this.uri}/nurseries/update/${username}/${name}`,a).subscribe( () => { location.reload(); });
+    return this.http.post(`${this.uri}/nurseries/update/${username}/${name}`,a).subscribe( () => {});
   }
 
   updateNurseryNum(username, name, a){
@@ -208,8 +205,8 @@ export class FarmerService {
     return this.http.post(`${this.uri}/seedlings/update/${username}/${name}/${nurseryName}`,a).subscribe( () => {});
   }
 
-  deleteSeedling(nursery, x, y){
-    return this.http.get(`${this.uri}/seedlings/delete/${nursery}/${x}/${y}`);
+  deleteSeedling(nursery, x, y, user){
+    return this.http.get(`${this.uri}/seedlings/delete/${nursery}/${x}/${y}/${user}`);
   }
   // WARNINGS FROM HERE DOWN
 
@@ -258,11 +255,6 @@ export class FarmerService {
   getProductsForFarmerEnterprise(username, enterprise, name){
     return this.http.get(`${this.uri}/products/${username}/${enterprise}/${name}`);
   }
-
-  /*updateProducts(username, name, stor, a){
-    return this.http.post(`${this.uri}/products/update/${username}/${name}/${stor}`,a).subscribe( () => {
-    });
-  }*/
 
   updateProductss(username, name, stor, broj, a){
     return this.http.post(`${this.uri}/products/update/${username}/${name}/${stor}/${broj}`,a).subscribe( () => {

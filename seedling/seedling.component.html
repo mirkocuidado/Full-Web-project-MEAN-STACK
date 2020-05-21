@@ -31,6 +31,7 @@
 							<table class="levo1">
 								<tr>
 									<td *ngIf="hoveredSeedling"> Naziv sadnice: {{hoveredSeedling.name}} </td>
+									<td *ngIf="!hoveredSeedling"> Easy, you just added this one. </td>
 								</tr>
 								<tr>
 								<td *ngIf="hoveredSeedling"> Proizvodjac: {{hoveredSeedling.ManufName}} </td>
@@ -49,12 +50,12 @@
 								</tr>
 								<tr>
 									<td>
-										<select name="select" [(ngModel)]="product" id=""> 
+										<select *ngIf="hoveredSeedling" name="select" [(ngModel)]="product" id=""> 
 											<option value="" *ngFor="let p of preparati" [value]="p.name">{{p.name}} </option>
 										</select>
 									</td>
 									<td>
-										<button class="btn btn-success" (click)="addMe()"> ADD PRODUCT</button>
+										<button *ngIf="hoveredSeedling" class="btn btn-success" (click)="addMe()"> ADD PRODUCT</button>
 									</td>
 								</tr>
 							</table>

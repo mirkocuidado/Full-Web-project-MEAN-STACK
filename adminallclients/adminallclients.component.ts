@@ -31,13 +31,23 @@ export class AdminallclientsComponent implements OnInit {
   }
 
   remove_farmer(username){
-    this.farmerService.deleteFarmer(username).subscribe( () => {});
-    location.reload();
+    this.farmerService.deleteFarmer(username).subscribe( () => {
+      for(let i=0; i<this.farmers.length; i++)
+        if(this.farmers[i].username === username){
+          this.farmers.splice(i,1);
+          break;
+        }
+    });
   }
 
   remove_enterprise(username){
-    this.enterpriseService.deleteEnterprise(username).subscribe( () => {});;
-    location.reload();
+    this.enterpriseService.deleteEnterprise(username).subscribe( () => {
+      for(let i=0; i<this.enterprises.length; i++)
+        if(this.enterprises[i].username === username){
+          this.enterprises.splice(i,1);
+          break;
+        }
+    });;
   }
 
   edit_farmer(username){

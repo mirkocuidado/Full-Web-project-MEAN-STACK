@@ -77,7 +77,25 @@ export class SeedlingComponent implements OnInit {
       changeW.temperature = changeW.temperature + 1;
     }
 
+    this.temperature = changeW.temperature;
+    this.water = changeW.water;
+
     if(changeW.water<75 || changeW.temperature <12){
+
+      for(let i=0; i<this.warnings.length; i++)
+        if(this.warnings[i].nursery === this.nurseryName){
+          this.warnings.splice(i,1);
+          break;
+        }
+
+      const w = {
+        username: this.username,
+        nursery: this.nurseryName,
+        text: "Nursery "+this.nurseryName+" needs help!",
+        better: 0
+      };
+
+      this.warnings.push(w);
       this.farmerService.deleteWarning(this.username, this.nurseryName).subscribe(()=>{
         this.farmerService.addWarning(this.username, this.nurseryName).subscribe( ()=> {});
       });
@@ -85,6 +103,12 @@ export class SeedlingComponent implements OnInit {
 
     if(this.warnings.length!=0){
       if(changeW.water>=75 && changeW.temperature >=12){
+        for(let i=0; i<this.warnings.length; i++){
+          if(this.warnings[i].nursery === this.nurseryName){
+            this.warnings.splice(i,1);
+          }
+
+        }
         this.farmerService.deleteWarning(this.username, this.nurseryName).subscribe( () => {});
       }
     }
@@ -99,10 +123,12 @@ export class SeedlingComponent implements OnInit {
     this.farmerService.getProductForFarmer(this.username, this.nurseryForm.value.name).subscribe( (p:Product)=>{
       this.pom = p;
       this.farmerService.addSeedling(this.username, this.nurseryName, this.pom.enterprise , name, this.i, this.j, this.pom.speed).subscribe( ()=> { 
+        this.matrix[this.i][this.j]=1;
+        for(let i=0; i<this.products.length; i++) if(this.products[i].name===this.nurseryForm.value.name){ this.products[i].qHave -=1; break; }
         this.farmerService.updateNurseryNum(this.username, this.nurseryName, "NISTA BITNO");
         this.pom.qHave = this.pom.qHave - 1;
         this.farmerService.updateProductss(this.username, this.nurseryForm.value.name, this.nurseryName, -1, this.pom);
-        location.reload(); });
+      });
     });
   }
 
@@ -113,6 +139,7 @@ export class SeedlingComponent implements OnInit {
     for(let i=0; i<this.products.length; i++){
       if(this.products[i].name == this.product){
         this.chosen = this.products[i];
+        this.products[i].qHave -=1;
         break;
       }
     }
@@ -178,8 +205,8 @@ export class SeedlingComponent implements OnInit {
   }
 
   vadiMe(a,b):void{
-      this.farmerService.deleteSeedling(this.nurseryName, a , b).subscribe( ()=> {
-        location.reload();
+      this.farmerService.deleteSeedling(this.nurseryName, a , b, this.username).subscribe( ()=> {
+        this.matrix[a][b]=0;
       });
   }
 }

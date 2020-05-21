@@ -37,7 +37,18 @@ export class FarmerhomeComponent implements OnInit {
 
   submit(){
     this.farmerService.addNursery(this.nurseryForm.value.name, this.username, this.nurseryForm.value.place, this.nurseryForm.value.width, this.nurseryForm.value.length, this.nurseryForm.value.water, this.nurseryForm.value.temperature, "1").subscribe( () => {
-      location.reload();
+      const nurse = {
+        name: this.nurseryForm.value.name,
+        place: this.nurseryForm.value.place,
+        username: this.username,
+        water: this.nurseryForm.value.water,
+        temperature: this.nurseryForm.value.temperature,
+        width: this.nurseryForm.value.width,
+        length: this.nurseryForm.value.length,
+        placeTaken: 0,
+        flag : "1"
+      };
+      this.nurseries.push(nurse);
     });
   }
 

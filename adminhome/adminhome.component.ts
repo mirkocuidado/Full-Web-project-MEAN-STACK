@@ -31,10 +31,20 @@ export class AdminhomeComponent implements OnInit {
 
   add_enterprise(username, a){
     this.enterpriseService.getEnterpriseREQById(username, a);
+    for(let i=0; i<this.enterprises.length; i++)
+      if(this.enterprises[i].username === username){
+        this.enterprises.splice(i,1);
+        break;
+      }
   }
 
   add_farmer(username, a){
     this.farmerService.getFarmerREQById(username, a);
+    for(let i=0; i<this.farmers.length; i++)
+      if(this.farmers[i].username === username){
+        this.farmers.splice(i,1);
+        break;
+      }
   }
 
   ngOnInit(): void {

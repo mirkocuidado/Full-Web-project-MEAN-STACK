@@ -43,12 +43,12 @@ export class EnterpriseService {
     if(a===1){
       this.http.get(`${this.uri}/enterprisesREQ/${username}`).subscribe( (pomEnterprise: EnterpriseREQ) => {
         this.addEnterprise(pomEnterprise.name, pomEnterprise.username,pomEnterprise.username,pomEnterprise.password,pomEnterprise.confirm_password,pomEnterprise.foundation_date,pomEnterprise.mail,pomEnterprise.place).subscribe( () => { 
-                this.deleteEnterpriseREQ(username).subscribe( () => { location.reload(); });
+                this.deleteEnterpriseREQ(username).subscribe( () => {});
               });
       });
     }
     else {
-      this.deleteEnterpriseREQ(username).subscribe( () => {location.reload();});
+      this.deleteEnterpriseREQ(username).subscribe( () => {});
     }
   }
 

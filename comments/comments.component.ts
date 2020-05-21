@@ -30,13 +30,24 @@ export class CommentsComponent implements OnInit {
   addComment():void{
     this.farmerService.addComment(this.name, this.username, this.enterprise, this.com, this.grade).subscribe( ()=> {
 
+      const com = {
+        name: this.name,
+        username: this.username,
+        enterprise: this.enterprise,
+        text: this.com,
+        grade: this.grade
+      };
+
+      this.a = 0;
+
+      this.comments.push(com);
+
       this.farmerService.getProductsForFarmerEnterprise(this.username, this.enterprise, this.name).subscribe( (p: Product[]) =>{
         this.p = p;
         this.farmerService.updateProductsForComments(this.username,  this.name, this.p.storage, this.p);
       });
       
       this.farmerService.updateOffersGrade(this.enterprise, this.name, this.grade, this.p);
-      location.reload();
     });
   }
 
