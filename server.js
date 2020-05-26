@@ -901,7 +901,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                     }
                 });
 
-            }, 90000 /*req.params.time*1000*60*/);
+            }, 10000 /*req.params.time*1000*60*/);
 
             setTimeout( () => {
                 Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
@@ -922,7 +922,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                 });
 
             }});
-            }, 120000 /*(2*req.params.time)*1000*60)*/);
+            }, 12000 /*(2*req.params.time)*1000*60)*/);
         }
     });
 });

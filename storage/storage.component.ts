@@ -127,15 +127,15 @@ export class StorageComponent implements OnInit {
     
     let check = 0;
 
+    this.enterpriseService.addBusiness(this.username, items[0].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {});
+
     for(let i=0; i<items.length; i++){
       check=0;
       for(let j=0; j<this.products.length; j++){
         if(this.products[j].name === items[i].name && this.products[j].enterprise === items[i].enterprise && this.orders[a].storage === this.nurseryName){
           this.products[j].qHave += items[i].quantity;
           this.farmerService.updateProductsQ(this.username, items[i].name, items[i].quantity, this.nurseryName, items[i]);
-          this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
           this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => { this.niz.splice(a,1); this.cene.splice(a,1);});
-            });
             check = 1;
             break;
         }
@@ -167,13 +167,14 @@ export class StorageComponent implements OnInit {
                 storage: this.orders[a].storage
               };
               this.products.push(p);
-              this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
+              //this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
                 this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => { this.niz.splice(a,1); this.cene.splice(a,1); });
-              });
+              //});
             }
           );
         }
       }
+     
   }
 
 

@@ -27,10 +27,12 @@ export class BusinessComponent implements OnInit {
   t: any[] = [];
   m: any[] = [];
 
+  niz: Stats[] = [];
+
   @ViewChild('lineChart', {static: true}) private chartRef;
   chart : any;
     
-  ngOnInit(): void {
+  metoda():void{
     this.enterprise = localStorage.getItem("logged");
 
     this.enterpriseService.getBusiness(this.enterprise).subscribe( (pom: Business[]) => {
@@ -39,36 +41,40 @@ export class BusinessComponent implements OnInit {
       let today = new Date();
 
       for(let i=0; i<30; i++){
-        this.t.push(0);
         let priorDate = new Date().setDate(today.getDate()-i);
         let priorDateISO = new Date(priorDate).toISOString();
-        this.d.push(priorDateISO);
+        let a = priorDateISO.split("T");
+        let date = a[0];
+        let stat = {
+          date: date,
+          times: 0
+        };
+        this.niz.push(stat);
       }
-
-      var priorDatee = new Date().setDate(today.getDate()-30);
-      let pompom = new Date(priorDatee).toISOString();
-      let toto = new Date(today).toISOString();
-
+      
       for(let i=0; i<this.data.length; i++){
-        if(this.data[i].date <= toto && this.data[i].date>=pompom){
-          for(let j=0; j<this.data.length; j++){
-
-            let a = new Date(this.d[j]);
-            let b = new Date(this.data[i].date);
-
-            if(a.getMonth() === b.getMonth() && a.getDay() === b.getDay()){
-              this.t[j]++;
-              break;
-            }
+        let a = this.data[i].date.split("T");
+        let date = a[0];
+        for(let j=0; j<30; j++){
+          if(date === this.niz[j].date ){
+            this.niz[j].times += 1;
+            break;
           }
         }
       }
-
-      for(let i=0; i<this.d.length; i++){
-        let a = this.d[i].split("T");
-        let date = a[0];
-        this.m[i] = date;
+      
+      for(let i=0; i<this.niz.length; i++){
+        this.m.push(this.niz[i].date);
+        this.t.push(this.niz[i].times);
       }
+    });
+  }
+
+  ngOnInit(): void {
+    this.metoda();
+    this.enterprise = localStorage.getItem("logged");
+
+    this.enterpriseService.getBusiness(this.enterprise).subscribe( (pom: Business[]) => {
 
       this.chart = new Chart(this.chartRef.nativeElement,{
         type: 'bar',
