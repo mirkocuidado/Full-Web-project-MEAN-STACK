@@ -47,7 +47,7 @@ export class WorkerallproductsComponent implements OnInit {
             speed: this.fifthFormGroup.value.fifthCtrl,
             qAvailable : this.thirdFormGroup.value.thirdCtrl,
             grade: 0,
-            price: this.fourthFormGroup.value.fourthCtrl,
+            price: this.secondFormGroup.value.secondCtrl,
             numOfGrades: 0,
             tip: tip,
             flag: true

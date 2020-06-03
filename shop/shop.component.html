@@ -59,7 +59,7 @@
                 <td> {{proizvod.qAvailable}} </td>
                 <td *ngIf="proizvod.numOfGrades!=0"> {{ ( proizvod.grade/proizvod.numOfGrades) }} </td>
                 <td *ngIf="proizvod.numOfGrades==0"> 0 </td>
-                <td> <i class="fas fa-shopping-cart" (click)="add(proizvod.name, proizvod.price, enterprises[p].abb, proizvod.tip, proizvod.speed, proizvod.enterprise)"></i> </td>
+                <td *ngIf="proizvod.qAvailable!=0"> <i class="fas fa-shopping-cart" (click)="add(proizvod.name, proizvod.price, enterprises[p].abb, proizvod.tip, proizvod.speed, proizvod.enterprise)"></i> </td>
               </tr>
             </table>
           </div>
@@ -94,7 +94,7 @@
           <form method="POST">
               
               How many would you like? 
-              <input type="number" class="form-control" placeholder="Insert the quantity here" name="num" [(ngModel)]="num">
+              <input type="number" class="form-control" placeholder="Insert the quantity here" min="0" name="num" [(ngModel)]="num">
                       
               <button type="button" class="btn btn-success btnSubmit" (click)="submit()"> Add </button>
           </form>

@@ -53,32 +53,36 @@ export class FarmerService {
     }); 
   }
 
-  getFarmerById(username, password){ //send HTTP get request to the following URL
+  flag = 1;
+
+  getFarmerById(username, password):Number{ //send HTTP get request to the following URL
     
     this.http.get(`${this.uri}/admin/${username}`).subscribe( (pomAdmin: Admin) => {
       if( pomAdmin !== null && pomAdmin.password === password){
+        this.flag=0;
         this.router.navigate(["/adminhome"]);
       }
       else{
         this.http.get(`${this.uri}/farmers/${username}`).subscribe( (pomFarmer:Farmer) => {
           if( pomFarmer !== null && pomFarmer.password === password){
+            this.flag=0;
             this.router.navigate([`/farmerhome`]);
           }
           else{
             this.http.get(`${this.uri}/enterprises/${username}`).subscribe( (pomEnterprise:Enterprise) => {
               if( pomEnterprise !== null && pomEnterprise.password === password){
+                this.flag=0;
                 this.router.navigate([`/workerhome`]);
-              }
-              else{
-                console.log("Invalid parameters!");
-                this.router.navigate([""]);
               }
             });
           }
         }); 
       }
+      
     });
-
+    console.log(this.flag);
+    if(this.flag===0) return 2;
+    else return 1;
     
   }
 

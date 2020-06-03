@@ -32,8 +32,8 @@ setInterval( () => {
             console.log(err);
         else{
             nurse.forEach(element => {
-                //element.water = element.water - 1;
-                //element.temperature = element.temperature - 0.5; //SKLONITI KOMENTARE NA KRAJU
+                element.water = element.water - 1;
+                element.temperature = element.temperature - 0.5; //SKLONITI KOMENTARE NA KRAJU
 
                 Seedling.find( {OwnerUsername:element.username , NurseryName: element.name} , (err,seedling)=>{
                     if(err)
@@ -44,7 +44,7 @@ setInterval( () => {
 
                             seed.save()
                                 .then(seed => {
-                                    //console.log("YAY");
+                                    // bravo
                                 })
                                 .catch(err => {
                                     console.log(err);
@@ -55,8 +55,8 @@ setInterval( () => {
                 });
 
                 console.log(element.temperature);
-                if(element.temperature <= 12){ //treba 200 za vodu i 12 za temperaturu
-                    
+                if(element.temperature <= 12 || element.water<=200){ //treba 200 za vodu i 12 za temperaturu
+
                     Farmer.findOne({ username: element.username }, (err, farmer) => {
                         if (err)
                             console.log(err);
@@ -71,13 +71,13 @@ setInterval( () => {
                             
                             warning.save()
                                 .then(warning => {
-                                    //console.log("YAY");
+                                    console.log("YAY");
                                 })
                                 .catch(err => {
                                     console.log(err);
                             });
 
-                            /*let transporter = nodemailer.createTransport({
+                            let transporter = nodemailer.createTransport({
         
                                 service: 'gmail', 
                                 auth:{
@@ -95,15 +95,15 @@ setInterval( () => {
                                 subject: 'WARNING !!!',
                                 text: 'You need to take care of your nursery - ' + element.name + ' right away!'
                             };
-                        
+
                             transporter.sendMail(mailOptions, (err,info)=>{
                                 if(err){
-                                    return console.log("GRESKA!");
+                                    return console.log(err);
                                 }
                                 else{
                                     console.log(`SENT! ${info.response}`);
                                 }
-                            });*/
+                            });
                         
                         }
                             
@@ -868,7 +868,7 @@ router.route('/comments/add').post((req, res) => {
 // POSTMAN FROM HERE DOWN
 
 router.route('/postman/update/:username/:postman/:time/:date').post((req, res) => {
-    console.log("POSTMAN!");
+    console.log("KAMION KRENUO!");
     let a ="ORDER-" + `${req.params.username}`;
     Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
         if (!enter){
@@ -877,12 +877,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
         else {
 
             enter.postman = enter.postman+1;
-
             enter.save().then(enter => {}).catch(err => {console.log(err);});
-
-            console.log("SAVED?");
-
-            console.log(req.params.time);
 
             setTimeout( () => {
                 Order.findOne( {time: `${req.params.date}`, name:a}, (err, o) => {
@@ -891,9 +886,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                     }
                     else {
                         o.flag = 4;
-                        let d = new Date();
-                         console.log(d);
-                         console.log("A");
+                         console.log("KAMION STIGAO TAMO");
                         o.save().then(o => {
                         }).catch(err => {
                             console.log(err);
@@ -901,7 +894,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                     }
                 });
 
-            }, 10000 /*req.params.time*1000*60*/);
+            }, 30000 /*req.params.time*1000*60*/);
 
             setTimeout( () => {
                 Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
@@ -912,9 +905,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                 enter.postman = enter.postman - 1;
                 if(enter.postman<0) enter.postman=0;
 
-                let d = new Date();
-                console.log(d);
-                console.log("B");
+                console.log("KAMION VRACEN");
 
                 enter.save().then(enter => {
                 }).catch(err => {
@@ -922,7 +913,7 @@ router.route('/postman/update/:username/:postman/:time/:date').post((req, res) =
                 });
 
             }});
-            }, 12000 /*(2*req.params.time)*1000*60)*/);
+            }, 45000 /*(2*req.params.time)*1000*60)*/);
         }
     });
 });

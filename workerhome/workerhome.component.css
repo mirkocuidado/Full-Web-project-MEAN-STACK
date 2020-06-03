@@ -96,3 +96,7 @@ h1{
 	max-width: inherit;
 	max-height: 100vh;
 }
+
+.gold{
+	color: gold !important;
+}

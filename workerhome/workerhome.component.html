@@ -34,7 +34,7 @@
 		</div>
 
 		<div class="row row2">
-			<div class="col-sm-12 col-lg-6 pending">
+			<div class="col-sm-12 col-lg-12 pending">
 				<h1 (click)="sort()"> Pending orders </h1>
 				<table class="table">
 					<tr> 
@@ -43,10 +43,28 @@
 						<td> Amount </td>
 						<td> Name </td>
 						<td> Quantity</td>
+						<td> Status </td>
 						<td> Cancel </td>
 						<td> Accept </td>
 					</tr>
 					<tr *ngFor="let o of orders, let i = index">
+						<td *ngIf="o.flag === 3" > <span [class.gold]="o.flag===3"> {{o.name}} </span> </td>
+						<td *ngIf="o.flag === 3"> {{o.username}} </td>
+						<td *ngIf="o.flag === 3"> {{o.amount}}</td>
+						<td *ngIf="o.flag === 3">
+							<ul *ngFor=" let item of o.items">
+								<li> {{item.name}} </li>
+							</ul>
+						</td>
+						<td *ngIf="o.flag === 3">
+							<ul *ngFor=" let item of o.items">
+								<li> {{item.quantity}} </li>
+							</ul>
+						</td>
+						<td *ngIf="o.flag === 3" > <span [class.gold]="o.flag===3"> Priority </span> </td>
+						
+						<td *ngIf="o.flag === 3"> <button class="btn btn-danger" (click)="process_Order(0,i)"><i class="fas fa-times"> </i></button></td>
+						<td *ngIf="o.flag === 3" > <button class="btn btn-success" (click)="process_Order(1,i)"><i class="fas fa-check"> </i></button></td>
 						<td *ngIf="o.flag === 1"> {{o.name}} </td>
 						<td *ngIf="o.flag === 1"> {{o.username}} </td>
 						<td *ngIf="o.flag === 1"> {{o.amount}}</td>
@@ -60,47 +78,13 @@
 								<li> {{item.quantity}} </li>
 							</ul>
 						</td>
+						<td *ngIf="o.flag === 1" > Waiting </td>
 						<td *ngIf="o.flag == 1"> <button class="btn btn-danger" (click)="process_Order(0,i)"><i class="fas fa-times"> </i></button></td>
 						<td *ngIf="o.flag == 1" > <button class="btn btn-success" (click)="process_Order(1,i)"><i class="fas fa-check"> </i></button></td>
 					</tr>
 				</table>
 			</div>
-			<div class="col-sm-12 col-lg-6 priority">
-				<h1> Accepted orders </h1>
-				<table class="table">
-					<tr> 
-						<td> Name </td>
-						<td> For  </td>
-						<td> Amount </td>
-						<td> Name </td>
-						<td> Quantity</td>
-						<td> Cancel </td>
-					</tr>
-					<tr *ngFor="let o of orders">
-						<td *ngIf="o.flag == 3"> {{o.name}} </td>
-						<td *ngIf="o.flag == 3"> {{o.username}} </td>
-						<td *ngIf="o.flag == 3"> {{o.amount}}</td>
-						<td *ngIf="o.flag == 3">
-							<ul *ngFor=" let item of o.items">
-								<li> {{item.name}} </li>
-							</ul>
-						</td>
-						<td *ngIf="o.flag == 3">
-							<ul *ngFor=" let item of o.items">
-								<li> {{item.quantity}} </li>
-							</ul>
-						</td>
-						<td *ngIf="o.flag == 3"> <i class="fas fa-times xxx"> </i></td>
-					</tr>
-				</table>
-			</div>
 		</div>
 	</div>
-
-
-
-
-
-
 
 </body>

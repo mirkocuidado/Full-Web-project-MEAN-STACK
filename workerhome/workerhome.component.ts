@@ -59,6 +59,7 @@ export class WorkerhomeComponent implements OnInit {
         this.nizz[this.postman]=1;
         this.postman = this.postman + 1;
         
+        console.log("Sada, this.postman = " + this.postman);
         let b = this.orders[a].storage;
         this.farmerService.getNurseryByUsernameAndName(this.orders[a].username, b).subscribe( (pom: Nursery) => {
           this.matrix.getDistanceMatrix({
@@ -72,19 +73,19 @@ export class WorkerhomeComponent implements OnInit {
             else{
               
               let time = response.rows[0].elements[0].duration.value;
-              
+              console.log(time);
               
               this.farmerService.updateOrder(this.orders[a].time, this.username, this.orders[a]); //flag = 2
               this.enterpriseService.updatePostman(this.username, this.postman, time, this.nizz, this.orders[a].time);
-
             }
-          }
-          );
+          });
         });
       }
       else{
         this.enterpriseService.updateOrder(this.orders[a].time, this.username, this.orders[a]); // flag = 3
           this.orders[a].flag = 3;
+          this.orders.sort((bb,aa) => aa.flag - bb.flag);
+          alert("Now it's gold, so you know to send it next");
       }
     }
   }
@@ -106,6 +107,7 @@ export class WorkerhomeComponent implements OnInit {
 
     this.enterpriseService.getOrders(this.username).subscribe( (pom: Order[]) => {
       this.orders = pom;
+      this.orders.sort((b,a) => a.flag - b.flag);
       for(let i=0; i<this.orders.length; i++){
         this.niz.push(this.orders[i].items);
         this.cene.push(this.orders[i].amount);
@@ -115,50 +117,9 @@ export class WorkerhomeComponent implements OnInit {
         this.postman = pom.postman;
         for(let i=0; i<this.postman; i++)
           this.nizz[i]=1;
-
-          for(let i=0; i<this.orders.length; i++){
-            if(this.orders[i].flag===3){
-              this.orders[i].flag =2;
-              if(this.postman<5){
-                this.postman = this.postman + 1;
-                let b = this.orders[i].storage;
-                this.farmerService.getNurseryByUsernameAndName(this.orders[i].username, b).subscribe( (pom: Nursery) => {
-                  this.matrix.getDistanceMatrix({
-                    origins: [`${this.place}, Srbija`],
-                    destinations: [ `${pom.place}, Srbija`],
-                    travelMode: 'DRIVING',
-                    unitSystem: google.maps.UnitSystem.METRIC
-                  }, (response, status)=>{
-                    if(status!=='OK')
-                      console.log(status);
-                    else{
-                      console.log(response);
-                      
-                      let time = response.rows[0].elements[0].duration.value;
-                      
-                      
-                      this.farmerService.updateOrder(this.orders[i].time, this.username, this.orders[i]); //flag = 2
-                      this.enterpriseService.updatePostman(this.username, this.postman, time, this.nizz, this.orders[i].time);
-                    }
-                  }
-                  );
-                });
-              }
-            }
-          }
       });
-
-      
-      
     });
-    
-    
     this.toggle=0;
-
-    
-
-
-
   }
 
 }

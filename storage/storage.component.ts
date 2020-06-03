@@ -89,13 +89,26 @@ export class StorageComponent implements OnInit {
   username: String;
   nurseryName: String;
 
+  helperWarnings: Warning[] = [];
+
   ngOnInit(): void {
 
     this.username = localStorage.getItem("logged");
     this.nurseryName = localStorage.getItem("nursery");
 
     this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
-      this.warnings = pom;
+      this.helperWarnings = pom;
+      for(let i=0; i<this.helperWarnings.length; i++){ //samo jednom da se ispisu
+        let flag = 0;
+        for(let j=0;j<this.warnings.length; j++){
+          if(this.warnings[j].username === this.helperWarnings[i].username &&
+             this.warnings[j].nursery === this.helperWarnings[i].nursery){
+              flag = 1;
+              break;
+             }
+        }
+        if(flag===0){this.warnings.push(this.helperWarnings[i]); }
+      }
     });
 
     this.farmerService.getProductsForFarmer(this.username).subscribe( (pom: Product[]) => {
@@ -135,46 +148,45 @@ export class StorageComponent implements OnInit {
         if(this.products[j].name === items[i].name && this.products[j].enterprise === items[i].enterprise && this.orders[a].storage === this.nurseryName){
           this.products[j].qHave += items[i].quantity;
           this.farmerService.updateProductsQ(this.username, items[i].name, items[i].quantity, this.nurseryName, items[i]);
-          this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => { this.niz.splice(a,1); this.cene.splice(a,1);});
-            check = 1;
+          check = 1;
+          break;
+        }
+      }
+
+      if(check===0){
+        let given = 0;
+
+        for(let j=0; j<this.products2.length; j++){
+          if(this.products2[j].name === items[i].name && this.products2[j].enterprise === items[i].enterprise){
+            given = 1;
             break;
-        }
-      }
-
-        if(check===0){
-          let given = 0;
-
-          for(let j=0; j<this.products2.length; j++){
-            if(this.products2[j].name === items[i].name && this.products2[j].enterprise === items[i].enterprise){
-              given = 1;
-              break;
-            }
           }
-
-          this.farmerService.addProduct(items[i].name, items[i].enterprise, this.username, items[i].speed, items[i].quantity, items[i].price, items[i].tip, this.nurseryName, given).subscribe(
-            () => {
-              const p ={
-                name: items[i].name,
-                enterprise:items[i].enterprise,
-                ownerUsername: this.username,
-                speed: items[i].speed,
-                qHave: items[i].quantity,
-                qAvailable: 0,
-                grade:0,
-                price:items[i].price,
-                tip:items[i].tip,
-                given: given,
-                storage: this.orders[a].storage
-              };
-              this.products.push(p);
-              //this.enterpriseService.addBusiness(this.username, items[i].enterprise, this.orders[a].amount, this.orders[a].time).subscribe( () => {
-                this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => { this.niz.splice(a,1); this.cene.splice(a,1); });
-              //});
-            }
-          );
         }
+
+        this.farmerService.addProduct(items[i].name, items[i].enterprise, this.username, items[i].speed, items[i].quantity, items[i].price, items[i].tip, this.nurseryName, given).subscribe(
+          () => {
+            const p ={
+              name: items[i].name,
+              enterprise:items[i].enterprise,
+              ownerUsername: this.username,
+              speed: items[i].speed,
+              qHave: items[i].quantity,
+              qAvailable: 0,
+              grade:0,
+              price:items[i].price,
+              tip:items[i].tip,
+              given: given,
+              storage: this.orders[a].storage
+            };
+            this.products.push(p);
+              
+          }
+        );
       }
-     
+    }
+    
+    this.farmerService.deleteOrder(this.orders[a].time, this.orders[a].amount).subscribe( () => {this.niz.splice(a,1); this.cene.splice(a,1); });
+    this.orders.splice(a,1);
   }
 
 

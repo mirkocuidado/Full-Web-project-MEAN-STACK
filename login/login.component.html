@@ -24,6 +24,7 @@
                             <input type="password" class="form-control" placeholder="Password" formControlName="password">
                         </div>
                         <div class="form-group">
+                            <span *ngIf="msg!=''" id="msg"> {{msg}} </span>
                             <input type="submit" value="Login" (click)="login()" class="btn float-right login_btn">
                         </div>   
                     </form>

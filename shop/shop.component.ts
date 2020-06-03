@@ -50,6 +50,7 @@ export class ShopComponent implements OnInit {
   svi: any []= [];
 
   warnings: Warning[] = [];
+  helperWarnings: Warning[] = [];
 
   popuni():void{
     for(let i=0; i<this.products.length; i++){
@@ -86,9 +87,19 @@ export class ShopComponent implements OnInit {
     this.username = localStorage.getItem("logged");
     this.nurseryName = localStorage.getItem("nursery");
 
-    console.log(this.username);
     this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
-      this.warnings = pom;
+        this.helperWarnings = pom;
+        for(let i=0; i<this.helperWarnings.length; i++){ //samo jednom da se ispisu
+          let flag = 0;
+          for(let j=0;j<this.warnings.length; j++){
+            if(this.warnings[j].username === this.helperWarnings[i].username &&
+               this.warnings[j].nursery === this.helperWarnings[i].nursery){
+                flag = 1;
+                break;
+               }
+          }
+          if(flag===0){this.warnings.push(this.helperWarnings[i]); }
+        }
     });
     
     this.get();
@@ -109,21 +120,36 @@ export class ShopComponent implements OnInit {
     this.a = 0;
 
     let bla = this.orderList.pop();
+    let flagg = 0;
 
+    for(let i=0; i<this.products.length; i++){
+      if(this.products[i].name === bla.name && this.products[i].enterprise === bla.enterprise){
+        if(this.products[i].qAvailable - this.num <0) 
+          this.num = this.products[i].qAvailable;
+        flagg = i;
+        break;
+      }
+    }
+
+    
     for(let i =0; i<this.orderList.length; i++){
       if(this.orderList[i].name == this.s){
-        let a = this.num;
+        let a = this.num;          
         this.orderList[i].quantity += a;
         this.amount += a*this.orderList[i].price;
+        this.products[flagg].qAvailable -= this.num;
         localStorage.setItem("order", JSON.stringify(this.orderList));
         return;
       }
     }
-    
+
+    this.products[flagg].qAvailable -= this.num;
+
     bla.quantity = this.num;
     this.orderList.push(bla);
     this.amount += this.num * this.orderList[this.orderList.length-1].price;
     localStorage.setItem("order", JSON.stringify(this.orderList));
+    
   }
 
   add(aa,b,c,d,e,f):void{
@@ -142,10 +168,19 @@ export class ShopComponent implements OnInit {
     this.orderList.push(p);
 
     this.enterprisesForOrderList.push(f);
+    this.num = 0;
   }
 
   delete(a):void{
     this.amount -= this.orderList[a].quantity * this.orderList[a].price;
+
+    for(let i=0; i<this.products.length; i++){
+      if(this.products[i].name === this.orderList[a].name && this.products[i].enterprise === this.orderList[a].enterprise){ 
+        this.products[i].qAvailable+=this.orderList[a].quantity;
+        break;
+      }
+    }
+
     if(this.amount<0) this.amount=0;
     this.orderList.splice(a,1);
     localStorage.setItem("order", JSON.stringify(this.orderList));

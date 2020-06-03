@@ -52,12 +52,25 @@ export class FarmerhomeComponent implements OnInit {
     });
   }
 
+  helperWarnings: Warning[] = [];
+
   ngOnInit(): void {
     this.username = localStorage.getItem("logged");
     this.get();
 
     this.farmerService.getWarningsByUsername(this.username).subscribe( (pom: Warning[]) => {
-      this.warnings = pom;
+      this.helperWarnings = pom;
+      for(let i=0; i<this.helperWarnings.length; i++){ //samo jednom da se ispisu
+        let flag = 0;
+        for(let j=0;j<this.warnings.length; j++){
+          if(this.warnings[j].username === this.helperWarnings[i].username &&
+             this.warnings[j].nursery === this.helperWarnings[i].nursery){
+              flag = 1;
+              break;
+             }
+        }
+        if(flag===0){this.warnings.push(this.helperWarnings[i]); }
+      }
     });
   }
 

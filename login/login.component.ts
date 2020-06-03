@@ -19,17 +19,21 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required])
   });
 
+  msg: String;
+
   nope():void{
     alert("This is implemented on github, this version does not have it.");
   }
 
   ngOnInit(): void {
+    this.msg="";
   }
 
   login(){
     this.user.setLogged(this.farmerForm.value.username);
     localStorage.setItem("logged", this.farmerForm.value.username);
-    this.farmerService.getFarmerById(this.farmerForm.value.username, this.farmerForm.value.password);
+    let a = this.farmerService.getFarmerById(this.farmerForm.value.username, this.farmerForm.value.password);
+    if(a===1) this.msg="Invalid parameters!";
   }
 
 }
