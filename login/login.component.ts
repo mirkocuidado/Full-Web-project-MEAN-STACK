@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   });
 
   msg: String;
+  flag:Boolean;
 
   nope():void{
     alert("This is implemented on github, this version does not have it.");
@@ -32,8 +33,7 @@ export class LoginComponent implements OnInit {
   login(){
     this.user.setLogged(this.farmerForm.value.username);
     localStorage.setItem("logged", this.farmerForm.value.username);
-    let a = this.farmerService.getFarmerById(this.farmerForm.value.username, this.farmerForm.value.password);
-    if(a===1) this.msg="Invalid parameters!";
+    this.farmerService.getFarmerById(this.farmerForm.value.username, this.farmerForm.value.password, this.flag);
   }
 
 }
