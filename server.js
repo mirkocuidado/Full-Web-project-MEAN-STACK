@@ -449,7 +449,6 @@ router.route('/seedlings/update/:username/:name/:nurseryName').post((req, res) =
             
             seed.progress = req.body.progress;
 
-            console.log(seed.progress);
             seed.save().then(seed => {
                 res.json('Update done');
             }).catch(err => {
@@ -577,26 +576,6 @@ router.route('/products/add').post((req, res) => {
         });
 });
 
-/*router.route('/products/update/:username/:name/:stor').post((req, res) => {
-    console.log("AAAAAAAAAAA");
-    Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage: `${req.params.stor}`}, (err, product) => {
-        if (!product){
-            console.log(err);
-        }
-        else {
-
-            product.qHave = req.body.qHave;
-            product.given = req.body.given;
-
-            product.save().then(product => {
-                res.json('Update done');
-            }).catch(err => {
-                res.status(400).send('Update failed');
-            });
-        }
-    });
-});*/
-
 router.route('/products/update/:username/:name/:stor/:broj').post((req, res) => {
     Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage: `${req.params.stor}`}, (err, product) => {
         if (!product){
@@ -618,7 +597,6 @@ router.route('/products/update/:username/:name/:stor/:broj').post((req, res) => 
 router.route('/products/comments/comments/:username/:name/:storage').post((req, res) => {
     Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}`, storage:`${req.params.storage}`}, (err, product) => {
         if (!product){
-            console.log("AAA");
         }
         else {
 
@@ -634,9 +612,6 @@ router.route('/products/comments/comments/:username/:name/:storage').post((req, 
 });
 
 router.route('/products/updateee/:username/:name/:quantity/:stor').post((req, res) => {
-    console.log(req.params.username);
-    console.log(req.params.name);
-    console.log(req.params.quantity);
     Product.findOne( {ownerUsername:`${req.params.username}` , name: `${req.params.name}` , storage:`${req.params.stor}`}, (err, product) => {
         if (!product){
             console.log(err);
@@ -700,10 +675,7 @@ router.route('/offers/update/:enterprise/:name/:num').post((req, res) => {
             console.log(err);
         }
         else {
-
-            console.log(o.qAvailable);
             o.qAvailable -= req.params.num;
-            console.log(o.qAvailable);
 
             o.save().then(o => {
                 res.json('Update done');
@@ -777,15 +749,13 @@ router.route('/orders/delete/:time/:amount').get((req, res) => {
 });
 
 router.route('/orders/update/:time/:enterprise').post((req, res) => {
-    let a = "ORDER-"+req.params.enterprise;
-    Order.findOne( {time: req.params.time, name: a}, (err, o) => {
+    Order.findOne( {time: req.params.time}, (err, o) => {
         if (!o){
             console.log(err);
         }
         else {
             
             o.flag = 2;
-            console.log(req.params.time);
             o.save().then(o => {
                 res.json('Update done');
             }).catch(err => {
@@ -796,8 +766,7 @@ router.route('/orders/update/:time/:enterprise').post((req, res) => {
 });
 
 router.route('/orders/update/:time/:enterprise/1').post((req, res) => {
-    let a = "ORDER-"+req.params.enterprise;
-    Order.findOne( {time: req.params.time, name: a}, (err, o) => {
+    Order.findOne( {time: req.params.time}, (err, o) => {
         if (!o){
             console.log(err);
         }

@@ -85,7 +85,6 @@ export class WorkerhomeComponent implements OnInit {
         this.enterpriseService.updateOrder(this.orders[a].time, this.username, this.orders[a]); // flag = 3
           this.orders[a].flag = 3;
           this.orders.sort((bb,aa) => aa.flag - bb.flag);
-          alert("Now it's gold, so you know to send it next");
       }
     }
   }

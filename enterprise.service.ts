@@ -113,9 +113,7 @@ export class EnterpriseService {
 
   // POSTMAN FROM HERE DOWN
   updatePostman(username, postman, time, b, date){
-    return this.http.post(`${this.uri}/postman/update/${username}/${postman}/${time}/${date}`, b).subscribe( () => { 
-      location.reload();  
-    });
+    return this.http.post(`${this.uri}/postman/update/${username}/${postman}/${time}/${date}`, b).subscribe( () => {});
   }
 
   // BUSINESS FROM HERE DOWN
