@@ -111,7 +111,7 @@ setInterval( () => {
                 }
 
                 element.save().then(element => {
-                    
+                    console.log("USPESNO!" + element.username);
                 }).catch(err => {
                     console.log("ERROR!");
                 });
@@ -130,7 +130,6 @@ connection.once('open', () => {
 });
 
 router.route("/mail/:email/:nN").get( (req,res)=>{
-    console.log("HERE!");
     let transporter = nodemailer.createTransport({
         
         service: 'gmail', 
@@ -536,7 +535,6 @@ router.route('/warnings/:username/:nurs').get((req, res) => {
             res.json(w);
     });
 });
-
 
 router.route('/warnings/add').post((req, res) => {
     let warning = new Warning(req.body);

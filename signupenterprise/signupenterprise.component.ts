@@ -64,7 +64,7 @@ export class SignupenterpriseComponent implements OnInit {
       let reg2 = /\d+/;
       let reg3 = /[a-z]+/;
       let reg4 = /\w{8}/;
-      let mailCheck = /^\w+@\w+\.\w+$/;
+      let mailCheck = /^[\w\d\\.]+@\w+\.\w+$/;
       let passCheck2 = /[a-z]/i;
 
       if(this.enterpriseForm.value.password !== this.enterpriseForm.value.confirm_password){

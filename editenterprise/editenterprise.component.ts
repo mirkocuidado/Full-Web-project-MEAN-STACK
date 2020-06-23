@@ -3,6 +3,8 @@ import { EnterpriseService } from '../enterprise.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Enterprise} from '../../../../backend/models/Enterprise';
 import { UserService } from '../user.service';
+import { Farmer } from '../farmer.module';
+import { FarmerService } from '../farmer.service';
 @Component({
   selector: 'app-editenterprise',
   templateUrl: './editenterprise.component.html',
@@ -23,9 +25,12 @@ export class EditenterpriseComponent implements OnInit {
   place: string;
   mail: string;
 
-  constructor(private enterpriseService: EnterpriseService, private router: Router, private user: UserService) { }
+  msg: String;
+
+  constructor(private farmerService: FarmerService, private enterpriseService: EnterpriseService, private router: Router, private user: UserService) { }
 
   ngOnInit(): void {
+    this.msg = "";
     this.username1 = localStorage.getItem("edit");
     this.enterpriseService.getEnterpriseByUsername(this.username1).subscribe( (pomFarmer: Enterprise) => {
       this.name = pomFarmer.name;
@@ -39,12 +44,12 @@ export class EditenterpriseComponent implements OnInit {
   }
 
   update_enterprise(){
-
+    this.msg = "";
     this.flag2 = 0;
 
     this.enterpriseService.getEnterpriseByUsername(this.username2).subscribe( (a: Enterprise) => {
       if(a && this.username2 != this.username1){
-        alert("Username already taken.");
+        this.msg = "Username already taken.";
         this.flag2 = 1;
       }
     });
@@ -68,19 +73,19 @@ export class EditenterpriseComponent implements OnInit {
         let reg2 = /\d+/;
         let reg3 = /[a-z]+/;
         let reg4 = /\w{8}/;
-        let mailCheck = /^\w+@\w+\.\w+$/;
+        let mailCheck = /^[\w\d\\.]+@\w+\.\w+$/;
         let passCheck2 = /[a-z]/i;
 
         if(this.password !== this.confirm_password){
-          alert("Password does not match the confirmed one!");
+          this.msg ="Password does not match the confirmed one!";
         }
         else{
           if(!reg1.test(this.password) || !reg2.test(this.password) || !reg3.test(this.password) || !reg4.test(this.password) || !passCheck2.test(this.password[0])){
-            alert("Invalid password!");
+            this.msg ="Invalid password";
           }
           else{
             if(!mailCheck.test(this.mail)){
-              alert("Invalid e-mail address!");
+              this.msg ="Invalid e-mail address!";
             }
             else{
               this.enterpriseService.updateEnterprise(this.username1, ent);

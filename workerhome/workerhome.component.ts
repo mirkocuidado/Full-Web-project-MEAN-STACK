@@ -59,7 +59,6 @@ export class WorkerhomeComponent implements OnInit {
         this.nizz[this.postman]=1;
         this.postman = this.postman + 1;
         
-        console.log("Sada, this.postman = " + this.postman);
         let b = this.orders[a].storage;
         this.farmerService.getNurseryByUsernameAndName(this.orders[a].username, b).subscribe( (pom: Nursery) => {
           this.matrix.getDistanceMatrix({

@@ -134,6 +134,7 @@ export class SeedlingComponent implements OnInit {
         this.farmerService.updateNurseryNum(this.username, this.nurseryName, "NISTA BITNO");
         this.pom.qHave = this.pom.qHave - 1;
         this.farmerService.updateProductss(this.username, this.nurseryForm.value.name, this.nurseryName, -1, this.pom);
+        this.a=0;
       });
     });
   }

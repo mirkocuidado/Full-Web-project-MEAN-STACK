@@ -185,6 +185,7 @@ export class FarmerService {
   }
 
   deleteSeedling(nursery, x, y, user){
+    console.log("B");
     return this.http.get(`${this.uri}/seedlings/delete/${nursery}/${x}/${y}/${user}`);
   }
   // WARNINGS FROM HERE DOWN

@@ -18,18 +18,19 @@ export class PasswordchangeComponent implements OnInit {
 
   constructor(private farmerService: FarmerService, private enterpriseService: EnterpriseService) { }
 
-  ngOnInit(): void {
-  }
+  msg: String;
+
+  ngOnInit(): void { this.msg = "";}
 
   submit(){
-
+    this.msg="";
     this.farmerService.getFarmerByUsername(this.username).subscribe( (f:Farmer)=> {
       if(f===null) {
         this.enterpriseService.getEnterpriseByUsername(this.username).subscribe( (f:Enterprise) => {
-        if(f===null) alert("User doesn't exist!");
-        else if(this.oldpassword!=f.password) alert("Passwords don't match!");
-        else if(this.oldpassword === this.newpassword) alert("New password can't be the same as the previous one!");
-        else if(this.newpassword !== this.confirm_newpassword) alert("New and confirmed passwords must be the same!");
+        if(f===null) this.msg="User doesn't exist!";
+        else if(this.oldpassword!=f.password) this.msg="Passwords don't match!";
+        else if(this.oldpassword === this.newpassword) this.msg="Same password as the previous one!";
+        else if(this.newpassword !== this.confirm_newpassword) this.msg="Passwords must be the same!";
           else {
             let reg1 = /[A-Z]+/;
             let reg2 = /\d+/;
@@ -38,7 +39,7 @@ export class PasswordchangeComponent implements OnInit {
             let passCheck2 = /[a-z]/i;
   
             if(!reg1.test(this.newpassword) || !reg2.test(this.newpassword) || !reg3.test(this.newpassword) || !reg4.test(this.newpassword) || !passCheck2.test(this.newpassword[0])){
-              alert("Invalid new password!");
+              this.msg="Invalid new password!";
             }
             else {
               this.farmerService.getFarmerForPassword(this.username, this.oldpassword, this.newpassword, this.confirm_newpassword);
@@ -47,9 +48,9 @@ export class PasswordchangeComponent implements OnInit {
         });
       }
       else{
-        if(this.oldpassword!=f.password) alert("Passwords don't match!");
-        else if(this.oldpassword === this.newpassword) alert("New password can't be the same as the previous one!");
-        else if(this.newpassword !== this.confirm_newpassword) alert("New and confirmed passwords must be the same!");
+        if(this.oldpassword!=f.password) this.msg="Passwords don't match!";
+        else if(this.oldpassword === this.newpassword) this.msg="Same password as the previous one!";
+        else if(this.newpassword !== this.confirm_newpassword) this.msg="Passwords must be the same!";
           else {
             let reg1 = /[A-Z]+/;
             let reg2 = /\d+/;
@@ -58,7 +59,7 @@ export class PasswordchangeComponent implements OnInit {
             let passCheck2 = /[a-z]/i;
   
             if(!reg1.test(this.newpassword) || !reg2.test(this.newpassword) || !reg3.test(this.newpassword) || !reg4.test(this.newpassword) || !passCheck2.test(this.newpassword[0])){
-              alert("Invalid new password!");
+              this.msg="Invalid new password!";
             }
             else {
               this.farmerService.getFarmerForPassword(this.username, this.oldpassword, this.newpassword, this.confirm_newpassword);

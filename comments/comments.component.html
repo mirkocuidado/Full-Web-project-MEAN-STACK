@@ -27,7 +27,7 @@
         <div class="prName">
           <h1> {{name}} </h1>
         </div>
-        <div class="prOstalo" [class.ovaKlasa]='a===1'>
+        <div class="prOstalo" [class.ovaKlasa]='a===1' [class.prOstalo]='a===0'>
           <h2> Add a comment </h2>
   
           <form>
@@ -45,7 +45,7 @@
             </table>
           </form>
         </div>
-        <div [class.ovaKlasa]='a===0'>
+        <div [class.ovaKlasa]='a===0' [class.prOstalo]='a===1'>
           <h2> Comments not available </h2>
         </div>
        

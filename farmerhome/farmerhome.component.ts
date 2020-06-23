@@ -36,6 +36,7 @@ export class FarmerhomeComponent implements OnInit {
   }
 
   submit(){
+    if(this.nurseryForm.value.name=='' || this.nurseryForm.value.place=='') return;
     this.farmerService.addNursery(this.nurseryForm.value.name, this.username, this.nurseryForm.value.place, this.nurseryForm.value.width, this.nurseryForm.value.length, this.nurseryForm.value.water, this.nurseryForm.value.temperature, "1").subscribe( () => {
       const nurse = {
         name: this.nurseryForm.value.name,
@@ -75,7 +76,7 @@ export class FarmerhomeComponent implements OnInit {
   }
 
   logOut(){
-    this.user.setLogged("");
+    localStorage.setItem("logged", "");
   }
 
   postavi(a,b){
