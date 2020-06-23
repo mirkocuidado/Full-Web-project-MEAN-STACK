@@ -61,7 +61,7 @@ export class SignupfarmerComponent implements OnInit {
       let reg2 = /\d+/;
       let reg3 = /[a-z]+/;
       let reg4 = /\w{8}/;
-      let mailCheck = /^\w+@\w+\.\w+$/;
+      let mailCheck = /^[\w\d\\.]+@\w+\.\w+$/;
       let passCheck2 = /[a-z]/i;
       let phoneCheck = /06\d{8}/;
       

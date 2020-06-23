@@ -20,7 +20,8 @@ export class SeedlingComponent implements OnInit {
 
   username: String;
   nurseryName: String;
-  
+  mail:String;
+
   nursery: Nursery;
   seedlings: Seedling[] = [];
   
@@ -80,13 +81,15 @@ export class SeedlingComponent implements OnInit {
     this.temperature = changeW.temperature;
     this.water = changeW.water;
 
-    if(changeW.water<75 || changeW.temperature <12){
+    if(changeW.water<=75 || changeW.temperature <=12){
 
-      for(let i=0; i<this.warnings.length; i++)
+      for(let i=0; i<this.warnings.length;){
         if(this.warnings[i].nursery === this.nurseryName){
           this.warnings.splice(i,1);
-          break;
+          this.farmerService.deleteWarning(this.username, this.nurseryName).subscribe(()=>{});
         }
+        else i++;
+      }
 
       const w = {
         username: this.username,
@@ -94,11 +97,14 @@ export class SeedlingComponent implements OnInit {
         text: "Nursery "+this.nurseryName+" needs help!",
         better: 0
       };
+      console.log("MAIL!");
+      
+      if(changeW.temperature<12)
+        this.farmerService.sendMail(this.mail, this.nurseryName);
 
       this.warnings.push(w);
-      this.farmerService.deleteWarning(this.username, this.nurseryName).subscribe(()=>{
-        this.farmerService.addWarning(this.username, this.nurseryName).subscribe( ()=> {});
-      });
+      
+      this.farmerService.addWarning(this.username, this.nurseryName).subscribe( ()=> {});
     }
 
     if(this.warnings.length!=0){
@@ -136,23 +142,31 @@ export class SeedlingComponent implements OnInit {
   pomm: any;
 
   addMe(){
+    let flag = 0;
     for(let i=0; i<this.products.length; i++){
-      if(this.products[i].name == this.product){
+      if(this.products[i].name === this.product){
         this.chosen = this.products[i];
-        this.products[i].qHave -=1;
+        if(this.products[i].qHave===0){
+          flag = 1;
+          alert("No more!");
+        }
+        else this.products[i].qHave -=1;
         break;
       }
     }
 
-    this.p = this.chosen;
-    /*this.p.qHave = this.p.qHave - 1;*/
+    if(flag===0){
+      this.p = this.chosen;
+      /*this.p.qHave = this.p.qHave - 1;*/
 
-    this.pomm = this.hoveredSeedling;
-    this.pomm.progress = this.pomm.progress + this.p.speed;
+      this.pomm = this.hoveredSeedling;
+      this.pomm.progress = this.pomm.progress + this.p.speed;
 
-    this.farmerService.updateSeedling(this.username, this.hoveredSeedling.name, this.nurseryName, this.pomm);
+      this.farmerService.updateSeedling(this.username, this.hoveredSeedling.name, this.nurseryName, this.pomm);
 
-    this.farmerService.updateProductss(this.username, this.p.name, this.nurseryName, this.p, this.pomm);
+      this.farmerService.updateProductss(this.username, this.p.name, this.nurseryName, this.p, this.pomm);
+    }
+    this.product = null;
   }
 
   preparati: any[] = [];
@@ -162,6 +176,10 @@ export class SeedlingComponent implements OnInit {
     this.username = localStorage.getItem("logged");
     this.nurseryName = localStorage.getItem("nursery");
     
+    this.farmerService.getFarmerByUsername(this.username).subscribe( (f:Farmer) => {
+      this.mail = f.mail;
+    });
+
     this.farmerService.getNurseryByUsernameAndName(this.username, this.nurseryName).subscribe( (pom: Nursery) => {
       this.nursery = pom;
       this.temperature = pom.temperature;

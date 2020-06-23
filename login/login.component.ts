@@ -69,6 +69,7 @@ export class LoginComponent implements OnInit {
 
     if(flag===0){
       this.farmerService.getAdminLogIn(this.farmerForm.value.username,this.farmerForm.value.password);
+      flag = 3;
     }
 
 

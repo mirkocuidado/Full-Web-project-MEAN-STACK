@@ -129,6 +129,37 @@ connection.once('open', () => {
     console.log('MongoDB database connection established successfully!');
 });
 
+router.route("/mail/:email/:nN").get( (req,res)=>{
+    console.log("HERE!");
+    let transporter = nodemailer.createTransport({
+        
+        service: 'gmail', 
+        auth:{
+            user: 'probaproba383838@gmail.com',
+            pass: 'zelenasalata3'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+
+    let mailOptions = {
+        from: 'probaproba383838@gmail.com',
+        to: req.params.email,
+        subject: 'WARNING !!!',
+        text: 'You need to take care of your nursery - ' + req.params.nN + ' right away!'
+    };
+
+    transporter.sendMail(mailOptions, (err,info)=>{
+        if(err){
+            return console.log(err);
+        }
+        else{
+            console.log(`SENT! ${info.response}`);
+        }
+    });
+});
+
 router.route("/farmers").get( (req,res)=>{
     Farmer.find( (err, farmers) => {
         if(err){
@@ -837,7 +868,7 @@ router.route('/comments/add').post((req, res) => {
 // POSTMAN FROM HERE DOWN
 
 router.route('/postman/update/:username/:postman/:time/:date').post((req, res) => {
-    console.log("KAMION KRENUO!");
+    console.log("KAMION KRENUO! " + req.params.time);
     let a ="ORDER-" + `${req.params.username}`;
     Enterprise.findOne( {username: `${req.params.username}`}, (err, enter) => {
         if (!enter){

@@ -358,4 +358,10 @@ export class FarmerService {
 
     return this.http.post(`${this.uri}/comments/add` , com);
   }
+
+  //SEND MAIL
+  sendMail(mail,nurseryName){
+    return this.http.get(`${this.uri}/mail/${mail}/${nurseryName}`).subscribe( () => { });
+  }
+
 }

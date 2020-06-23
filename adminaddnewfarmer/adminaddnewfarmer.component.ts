@@ -82,7 +82,7 @@ export class AdminaddnewfarmerComponent implements OnInit {
           }
           else{
             this.farmerService.addFarmerREQ(this.farmerForm.value.first_name, this.farmerForm.value.last_name,this.farmerForm.value.username, this.farmerForm.value.password, this.farmerForm.value.confirm_password, this.farmerForm.value.date, this.farmerForm.value.place, this.farmerForm.value.mobile, this.farmerForm.value.mail).subscribe(()=>{
-              this.router.navigate([""]);
+              this.router.navigate(["adminhome"]);
             });
           }
         }
